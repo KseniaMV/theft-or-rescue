@@ -1,13 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+public enum Panels {LangaugePanel = 0, StartPanel, LoginPanel, InfoPanel, LoadingPanel, OptionsPanel }
 public class MainManager : MonoBehaviour
 {
-    public int NumberSelectedLanguage { get; private set; }
-    public int NumberSelectedAvatar { get; private set; }
-
     public Options options;
+    public EventManager eventManager;
+    public AllDataSave allDataSave;
+
+    [Header("StartPanel")]
+    [SerializeField] private GameObject[] _panels;
 
     private void Awake()
     {
@@ -15,18 +16,33 @@ public class MainManager : MonoBehaviour
             transform.parent.gameObject.SetActive(true);
 
         if (options == null)
-            options = GetComponent<Options>();
+            options = GetComponentInChildren<Options>();
+
+        if (eventManager == null)
+            eventManager = GetComponentInChildren<EventManager>();
+
+        if (allDataSave == null)
+            allDataSave = GetComponentInChildren<AllDataSave>();
+
+        for (int i = 0; i < _panels.Length; i++)
+            _panels[i].SetActive(false);
     }
-    public void SelectNumberLanguage(int number)
+    private void Start()
     {
-        NumberSelectedLanguage = number;
-        //save
-        //change languge
+        CheckSelectedLanguage();
     }
-    public void SelectNumberAvatar(int number)
+    private void CheckSelectedLanguage()
     {
-        NumberSelectedAvatar = number;
-        //save
-        //change avatars in other panels
+        if (AllDataSave.NumberLanguage == 0)
+            _panels[((int)Panels.LangaugePanel)].SetActive(true);
+        else
+            _panels[((int)Panels.StartPanel)].SetActive(true);
+    }
+    public void CheckSelectedAvatar(bool isSelected)
+    {
+        if(isSelected)
+            _panels[(int)Panels.InfoPanel].SetActive(true);
+        else
+            _panels[(int)Panels.LoginPanel].SetActive(true);
     }
 }
