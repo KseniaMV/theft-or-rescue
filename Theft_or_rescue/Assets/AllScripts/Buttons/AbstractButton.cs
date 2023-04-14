@@ -17,10 +17,26 @@ public abstract class AbstractButton : MonoBehaviour
     {
         mainManager.options.ClickAudio();
 
-        if(_oldPanel != null)
+        if (_oldPanel != null)
             _oldPanel.SetActive(false);
 
-        if(_newPanel != null)
+        if (_newPanel != null)
+        {
+            _newPanel.transform.SetSiblingIndex(transform.parent.childCount);
             _newPanel.SetActive(true);
+        }
+    }
+    public virtual void OpenNewPanel(GameObject newPanel)
+    {
+        mainManager.options.ClickAudio();
+
+        if (_oldPanel != null)
+            _oldPanel.SetActive(false);
+
+        if (newPanel != null)
+        {
+            newPanel.transform.SetSiblingIndex(transform.parent.childCount);
+            newPanel.SetActive(true);
+        }
     }
 }

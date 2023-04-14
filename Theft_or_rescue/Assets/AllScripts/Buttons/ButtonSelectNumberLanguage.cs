@@ -7,7 +7,7 @@ public class ButtonSelectNumberLanguage : AbstractButton, IPointerDownHandler
     [Range(1,10)][SerializeField] private int _numberLanguage;
     public void OnPointerDown(PointerEventData eventData)
     {
-        mainManager.SelectNumberLanguage(_numberLanguage);
+        mainManager.allDataSave.SelectNumberLanguage(_numberLanguage);
         base.OpenNewPanel();
     }
 }

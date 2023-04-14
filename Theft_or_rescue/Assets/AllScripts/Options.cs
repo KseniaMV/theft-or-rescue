@@ -27,6 +27,7 @@ public class Options : MonoBehaviour
     /// </summary>
     private void StartMusicOnCurrentScene()
     {
+        if(audioSourceMusicScene != null)
         audioSourceMusicScene.Play();
     }
     /// <summary>
