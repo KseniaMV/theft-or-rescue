@@ -7,6 +7,7 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
 
     public static int NumberLanguage { get; private set; }
     public static int NumberAvatar { get; private set; }
+    public static int NumberVictories { get; private set; }
 
     private void Awake()
     {
@@ -23,6 +24,7 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
     {
         savedData.numberLanguage = NumberLanguage;
         savedData.numberAvatart = NumberAvatar;
+        savedData.numberVictories = NumberVictories;
 
         storage.Save(savedData);
     }
@@ -33,6 +35,7 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
 
         NumberLanguage = savedData.numberLanguage;
         NumberAvatar = savedData.numberAvatart;
+        NumberVictories = savedData.numberVictories;
     }
     public void SelectNumberLanguage(int number)
     {
@@ -48,5 +51,8 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         storage.Save(savedData);
         //change avatars in other panels
     }
-
+    public void SaveNumberVictory(int number)
+    {
+        NumberVictories = number;
+    }
 }

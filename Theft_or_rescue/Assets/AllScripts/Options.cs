@@ -11,6 +11,7 @@ public class Options : MonoBehaviour
 
     [Header("Effects")]
     private bool effectsVolumeEnabled = true;
+    [SerializeField] private Slider _sliderMusic;
 
     [Header("UI Audio")]
     [SerializeField] private AudioSource clickButton;
@@ -21,6 +22,21 @@ public class Options : MonoBehaviour
     private void Start()
     {
         StartMusicOnCurrentScene();
+        LoadData();
+    }
+    private void LoadData()
+    {
+        valueVolumeMusic = PlayerPrefs.GetFloat("MusicVolume");
+        ChangeVolumeMusic(valueVolumeMusic);
+        _sliderMusic.value = valueVolumeMusic;
+
+        valueVolumeEffects = PlayerPrefs.GetFloat("EffectsVolume");
+        mixer.audioMixer.SetFloat("EffectsVolume", valueVolumeEffects);
+
+        if (valueVolumeEffects == 0)
+            effectsVolumeEnabled = true;
+        else
+            effectsVolumeEnabled = false;
     }
     /// <summary>
     /// запуск музыки на текущей сцене
@@ -69,6 +85,8 @@ public class Options : MonoBehaviour
     {
         mixer.audioMixer.SetFloat("MusicVolume", Mathf.Lerp(-80, 0, volume));
         valueVolumeMusic = volume;
+
+        PlayerPrefs.SetFloat("MusicVolume", valueVolumeMusic);
     }
     /// <summary>
     /// слайдер настройки громкости еффектов
@@ -87,13 +105,18 @@ public class Options : MonoBehaviour
         if (!effectsVolumeEnabled)
         { 
             mixer.audioMixer.SetFloat("EffectsVolume", valueVolumeEffects);
+            valueVolumeEffects = 0;
             effectsVolumeEnabled = true;
         }
         else
         { 
             mixer.audioMixer.SetFloat("EffectsVolume", -80);
+            valueVolumeEffects = -80;
             effectsVolumeEnabled = false;
         }
+
+        PlayerPrefs.SetFloat("EffectsVolume", valueVolumeEffects);
+        ClickAudio();
     }
     /// <summary>
     /// тумблер звук UI
