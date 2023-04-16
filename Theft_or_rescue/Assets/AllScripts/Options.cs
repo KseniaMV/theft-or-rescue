@@ -3,11 +3,10 @@ using UnityEngine.UI;
 using UnityEngine.Audio;
 public class Options : MonoBehaviour
 {
+    public static Options instance{ get; private set; }
+
     [SerializeField] private AudioMixerGroup mixer;
     [SerializeField] private AudioSource audioSourceMusicScene;
-
-    //[Header("Music")]
-    //private bool musicVolumeEnabled = true;
 
     [Header("Effects")]
     private bool effectsVolumeEnabled = true;
@@ -15,10 +14,16 @@ public class Options : MonoBehaviour
 
     [Header("UI Audio")]
     [SerializeField] private AudioSource clickButton;
-    //private bool uIVolumeEnabled = true;
 
     private float valueVolumeMusic;
     private float valueVolumeEffects;
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+    }
     private void Start()
     {
         StartMusicOnCurrentScene();
@@ -62,22 +67,6 @@ public class Options : MonoBehaviour
         Application.Quit();
     }
     /// <summary>
-    /// тумблер звука музыки
-    /// </summary>
-    //public void ToggleVolumeMusic()
-    //{
-    //    if (!musicVolumeEnabled)
-    //    {
-    //        mixer.audioMixer.SetFloat("MusicVolume", valueVolumeMusic);
-    //        musicVolumeEnabled = true;
-    //    }
-    //    else
-    //    {
-    //        mixer.audioMixer.SetFloat("MusicVolume", -80);
-    //        musicVolumeEnabled = false;
-    //    }
-    //}
-    /// <summary>
     ///  слайдер настройки громкости музыки
     /// </summary>
     /// <param name="volume"></param>
@@ -88,15 +77,6 @@ public class Options : MonoBehaviour
 
         PlayerPrefs.SetFloat("MusicVolume", valueVolumeMusic);
     }
-    /// <summary>
-    /// слайдер настройки громкости еффектов
-    /// </summary>
-    /// <param name="volume"></param>
-    //public void ChangeVolumeEffects(float volume)
-    //{
-    //    mixer.audioMixer.SetFloat("EffectsVolume", Mathf.Lerp(-80, 0, volume));
-    //    valueVolumeEffects = volume;
-    //}
     /// <summary>
     /// тумблер звука еффектов
     /// </summary>
@@ -118,20 +98,4 @@ public class Options : MonoBehaviour
         PlayerPrefs.SetFloat("EffectsVolume", valueVolumeEffects);
         ClickAudio();
     }
-    /// <summary>
-    /// тумблер звук UI
-    /// </summary>
-    //public void ToggleVolumeUI()
-    //{
-    //    if (!uIVolumeEnabled)
-    //    { 
-    //        mixer.audioMixer.SetFloat("UIVolume", 0);
-    //        uIVolumeEnabled = true;
-    //    }
-    //    else
-    //    { 
-    //        mixer.audioMixer.SetFloat("UIVolume", -80);
-    //        uIVolumeEnabled = false;
-    //    }
-    //}
 }

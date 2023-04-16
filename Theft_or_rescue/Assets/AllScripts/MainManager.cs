@@ -3,26 +3,37 @@ using UnityEngine;
 public enum Panels {LangaugePanel = 0, StartPanel, LoginPanel, InfoPanel, LoadingPanel, OptionsPanel, AchievementsPanel }
 public class MainManager : MonoBehaviour
 {
+    public static MainManager instance { get; private set; }
+
     public Options options;
     public EventManager eventManager;
     public AllDataSave allDataSave;
+    public LocalizationManager localizationManager;
 
     [Header("StartPanel")]
     [SerializeField] private GameObject[] _panels;
 
     private void Awake()
     {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+
         if (!transform.parent.gameObject.activeSelf)
             transform.parent.gameObject.SetActive(true);
 
         if (options == null)
-            options = GetComponentInChildren<Options>();
+            options = transform.parent.GetComponentInChildren<Options>();
 
         if (eventManager == null)
-            eventManager = GetComponentInChildren<EventManager>();
+            eventManager = transform.parent.GetComponentInChildren<EventManager>();
 
         if (allDataSave == null)
-            allDataSave = GetComponentInChildren<AllDataSave>();
+            allDataSave = transform.parent.GetComponentInChildren<AllDataSave>();
+
+        if (localizationManager == null)
+            localizationManager = transform.parent.GetComponentInChildren<LocalizationManager>();
 
         for (int i = 0; i < _panels.Length; i++)
             _panels[i].SetActive(false);

@@ -2,6 +2,8 @@
 
 public class AllDataSave : MonoBehaviour//в awake копирует данные из серил файла
 {
+    public static AllDataSave instance { get; private set; }
+
     private Storage storage;
     private SavedData savedData;
 
@@ -11,6 +13,11 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
 
     private void Awake()
     {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+
         storage = new Storage();
         savedData = new SavedData();
 
@@ -37,19 +44,11 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         NumberAvatar = savedData.numberAvatart;
         NumberVictories = savedData.numberVictories;
     }
-    public void SelectNumberLanguage(int number)
-    {
-        NumberLanguage = number;
-        savedData.numberLanguage = NumberLanguage;
-        storage.Save(savedData);
-        //change languge
-    }
     public void ConfirmSelectedNumberAvatar(int number)
     {
         NumberAvatar = number;
         savedData.numberAvatart = NumberAvatar;
         storage.Save(savedData);
-        //change avatars in other panels
     }
     public void SaveNumberVictory(int number)
     {
