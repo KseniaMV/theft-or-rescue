@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum Panels {LangaugePanel = 0, StartPanel, LoginPanel, InfoPanel, LoadingPanel, OptionsPanel }
+public enum Panels {LangaugePanel = 0, StartPanel, LoginPanel, InfoPanel, LoadingPanel, OptionsPanel, AchievementsPanel }
 public class MainManager : MonoBehaviour
 {
     public Options options;

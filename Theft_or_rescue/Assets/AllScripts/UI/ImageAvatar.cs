@@ -11,6 +11,6 @@ public class ImageAvatar : MonoBehaviour
     private void OnEnable()
     {
         if(AllDataSave.NumberAvatar != 0)
-            _imageAvatar.sprite = Resources.Load<SpriteRenderer>($"Avatar_{AllDataSave.NumberAvatar}").sprite;
+            _imageAvatar.sprite = Resources.Load<SpriteRenderer>($"Avatars/Avatar_{AllDataSave.NumberAvatar}").sprite;
     }
 }
