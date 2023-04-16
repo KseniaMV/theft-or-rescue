@@ -1,0 +1,44 @@
+﻿{
+  "items": [
+    {
+      "key": "ButtonLanguageRu",
+      "value": "Русский"
+    },
+    {
+      "key": "ButtonLanguageEn",
+      "value": "Английский"
+    },
+    {
+      "key": "ButtonPlay",
+      "value": "Далее"
+    },
+    {
+      "key": "ButtonSelectAvatar",
+      "value": "Выбрать"
+    },
+    {
+      "key": "ButtonStartGame",
+      "value": "Старт"
+    },
+    {
+      "key": "ButtonAchievements",
+      "value": "Достижения"
+    },
+    {
+      "key": "ButtonQuit",
+      "value": "Quit"
+    },
+    {
+      "key": "ToogleSounds",
+      "value": "Звуки"
+    },
+    {
+      "key": "SliderMusic",
+      "value": "Музыка"
+    },
+    {
+      "key": "ButtonChangeLanguage",
+      "value": "Сменить язык"
+    }
+  ]
+}

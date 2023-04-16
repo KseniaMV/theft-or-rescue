@@ -2,14 +2,22 @@
 
 public class AllDataSave : MonoBehaviour//в awake копирует данные из серил файла
 {
+    public static AllDataSave instance { get; private set; }
+
     private Storage storage;
     private SavedData savedData;
 
     public static int NumberLanguage { get; private set; }
     public static int NumberAvatar { get; private set; }
+    public static int NumberVictories { get; private set; }
 
     private void Awake()
     {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+
         storage = new Storage();
         savedData = new SavedData();
 
@@ -23,6 +31,7 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
     {
         savedData.numberLanguage = NumberLanguage;
         savedData.numberAvatart = NumberAvatar;
+        savedData.numberVictories = NumberVictories;
 
         storage.Save(savedData);
     }
@@ -33,20 +42,16 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
 
         NumberLanguage = savedData.numberLanguage;
         NumberAvatar = savedData.numberAvatart;
-    }
-    public void SelectNumberLanguage(int number)
-    {
-        NumberLanguage = number;
-        savedData.numberLanguage = NumberLanguage;
-        storage.Save(savedData);
-        //change languge
+        NumberVictories = savedData.numberVictories;
     }
     public void ConfirmSelectedNumberAvatar(int number)
     {
         NumberAvatar = number;
         savedData.numberAvatart = NumberAvatar;
         storage.Save(savedData);
-        //change avatars in other panels
     }
-
+    public void SaveNumberVictory(int number)
+    {
+        NumberVictories = number;
+    }
 }
