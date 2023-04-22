@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ToogleSoindEffects : MonoBehaviour, IPointerDownHandler
+public class ToogleSoindEffects : AbstractButton, IPointerDownHandler
 {
     [Header("Button Data")]
     [SerializeField] Sprite _activeSprite;
@@ -27,10 +27,12 @@ public class ToogleSoindEffects : MonoBehaviour, IPointerDownHandler
             _image.sprite = _notActiveSprite;
     }
     private void ChangeActiveToogle()
-    { 
-        if(_image.sprite == _activeSprite)
+    {
+        if (_image.sprite == _activeSprite)
             _image.sprite = _notActiveSprite;
         else if (_image.sprite == _notActiveSprite)
-            _image.sprite = _activeSprite; 
+            _image.sprite = _activeSprite;
+        
+        mainManager.options.ToggleVolumeEffects();
     }
 }

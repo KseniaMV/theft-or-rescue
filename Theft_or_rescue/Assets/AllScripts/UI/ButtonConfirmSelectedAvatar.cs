@@ -8,9 +8,9 @@ public class ButtonConfirmSelectedAvatar : AbstractButton, IPointerDownHandler
 {
     [Header("Button Data")]
     [SerializeField] private Button _button;
-    [SerializeField] private int _numberSelectedAvatar;
     [SerializeField] private GameObject _welcomePanel;
 
+    private int _numberSelectedAvatar;
     private bool _canPress;
     private void Awake()
     {
@@ -25,20 +25,18 @@ public class ButtonConfirmSelectedAvatar : AbstractButton, IPointerDownHandler
     }
     private void Start()
     {
-        StartCoroutine(OpenWelcomePanel());
+        if (AllDataSave.NumberAvatar != 0)
+            StartCoroutine(OpenWelcomePanel());
     }
     private IEnumerator OpenWelcomePanel()
     {
-        if (AllDataSave.NumberAvatar != 0)
-        { 
-            yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.5f);
 
-            _welcomePanel.SetActive(true);
+        _welcomePanel.SetActive(true);
 
-            yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(3f);
 
-            _welcomePanel.SetActive(false);
-        }
+        _welcomePanel.SetActive(false);
         StopCoroutine(OpenWelcomePanel());
     }
     public void SelectAvatar(int number)

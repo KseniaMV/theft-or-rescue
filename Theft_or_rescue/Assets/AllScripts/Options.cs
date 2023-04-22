@@ -83,15 +83,15 @@ public class Options : MonoBehaviour
     public void ToggleVolumeEffects()
     {
         if (!effectsVolumeEnabled)
-        { 
-            mixer.audioMixer.SetFloat("EffectsVolume", valueVolumeEffects);
+        {
             valueVolumeEffects = 0;
+            mixer.audioMixer.SetFloat("EffectsVolume", valueVolumeEffects);
             effectsVolumeEnabled = true;
         }
         else
-        { 
-            mixer.audioMixer.SetFloat("EffectsVolume", -80);
+        {
             valueVolumeEffects = -80;
+            mixer.audioMixer.SetFloat("EffectsVolume", valueVolumeEffects);
             effectsVolumeEnabled = false;
         }
 

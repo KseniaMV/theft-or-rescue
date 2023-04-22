@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public enum Panels {LangaugePanel = 0, StartPanel, LoginPanel, InfoPanel, LoadingPanel, OptionsPanel, AchievementsPanel }
 public class MainManager : MonoBehaviour
 {
@@ -9,6 +9,7 @@ public class MainManager : MonoBehaviour
     public EventManager eventManager;
     public AllDataSave allDataSave;
     public LocalizationManager localizationManager;
+    public SceneGameManager sceneGameManager;
 
     [Header("StartPanel")]
     [SerializeField] private GameObject[] _panels;
@@ -23,28 +24,33 @@ public class MainManager : MonoBehaviour
         if (!transform.parent.gameObject.activeSelf)
             transform.parent.gameObject.SetActive(true);
 
-        if (options == null)
+        if (options == null && transform.parent.GetComponentInChildren<Options>())
             options = transform.parent.GetComponentInChildren<Options>();
 
-        if (eventManager == null)
+        if (eventManager == null && transform.parent.GetComponentInChildren<EventManager>())
             eventManager = transform.parent.GetComponentInChildren<EventManager>();
 
-        if (allDataSave == null)
+        if (allDataSave == null && transform.parent.GetComponentInChildren<AllDataSave>())
             allDataSave = transform.parent.GetComponentInChildren<AllDataSave>();
 
-        if (localizationManager == null)
+        if (localizationManager == null && transform.parent.GetComponentInChildren<LocalizationManager>())
             localizationManager = transform.parent.GetComponentInChildren<LocalizationManager>();
 
+        if (sceneGameManager == null && transform.parent.GetComponentInChildren<SceneGameManager>())
+            sceneGameManager = transform.parent.GetComponentInChildren<SceneGameManager>();
+
         for (int i = 0; i < _panels.Length; i++)
-            _panels[i].SetActive(false);
+            if(_panels[i] != null)
+                _panels[i].SetActive(false);
     }
     private void Start()
     {
-        CheckSelectedLanguage();
+        if(SceneManager.GetActiveScene().name == "MainMenu")
+            CheckSelectedLanguage();
     }
     private void CheckSelectedLanguage()
     {
-        if (AllDataSave.NumberLanguage == 0)
+        if (!PlayerPrefs.HasKey("Language"))
             _panels[((int)Panels.LangaugePanel)].SetActive(true);
         else
             _panels[((int)Panels.StartPanel)].SetActive(true);
