@@ -2,74 +2,110 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum Actions { Theft, Rescue }
+public enum PanelsGameScene { MainPanel = 0, OprionsPanel, WarningPanel}
+public enum Actions { Theft = 1, Rescue }
 public class SceneGameManager : MonoBehaviour
 {
     [SerializeField] private MainManager _mainManager;
 
     [Header("Character")]
     [SerializeField] private SpriteRenderer _characterHolder;
+    private int _numCharacter;
 
     [Header("Thing")]
     [SerializeField] private SpriteRenderer _thingHolder;
+    private int _numThing;
 
     [Header("Background")]
     [SerializeField] private float _speed;
     [SerializeField] private MeshRenderer _meshBg;
+    private int _numBg;
 
     [Header("Game")]
     [SerializeField] private int _timeToWarning;
     [SerializeField] private int _timeToLose;
-    [SerializeField] private GameObject _warnningPanel;
     [SerializeField] private Text _textTimeToLose;
     [SerializeField] private Text _textCurrentWins;
 
     private Vector2 _meshOffsetBg;
     public bool isPause;
 
-    public int currentWins;
-    public int currentRightAction;
+    [SerializeField] private int _currentWins;
+    private int _currentRightAction;
+    private int _remainingTimeBeforeWarning;
+
+    [Header("test")]
+    public int rightAnswer;
 
     private void Awake()
     {
-        _warnningPanel.SetActive(false);
+        _mainManager.panels[(int)PanelsGameScene.WarningPanel].SetActive(false);
+        _mainManager.panels[(int)PanelsGameScene.MainPanel].SetActive(true);
 
         if (_mainManager == null)
             _mainManager = transform.parent.GetComponentInChildren<MainManager>();
-
     }
     private void Start()
     {
         _mainManager.eventManager.ButtonActionPressedEvent += SelectAction;
 
-        CreateNumberRightAction();
+        LoadCurrentWins();
 
-        CreateNewBackground();
-        CreateNewCharacter();
-        CreateNewThing();
+        if (_currentWins > 0)
+            _remainingTimeBeforeWarning = AllDataSave.RemainingTimeBeforeWarning;
+
+        CreateNumberRightActionOrLoad();
+
+        if(AllDataSave.NumberLoadedBackground > 0)
+            CreateNewBackgroundOrLoad(AllDataSave.NumberLoadedBackground);
+        else
+            CreateNewBackgroundOrLoad();
+
+        if (AllDataSave.NumberLoadedCharacter > 0)
+            CreateNewCharacter(AllDataSave.NumberLoadedCharacter);
+        else
+            CreateNewCharacter();
+
+        if (AllDataSave.NumberLoadedThing > 0)
+            CreateNewThing(AllDataSave.NumberLoadedThing);
+        else
+            CreateNewThing();
 
         _meshOffsetBg = _meshBg.sharedMaterial.mainTextureOffset;
         StartCoroutine(RunCharacter());
         StartCoroutine(TimeToWarning());
     }
-    private void CreateNumberRightAction()
+    private void LoadCurrentWins()//
     {
-        int randRightAction = Random.Range(0, 2);
-
-        currentRightAction = randRightAction;
+        _currentWins = AllDataSave.NumberCurrentWins;
+        _textCurrentWins.text = _currentWins + " / 10";
     }
-    public void AddCurrentWin()
+    private void CreateNumberRightActionOrLoad()//придумывание правильного ответа или загрузка
     {
-        if (currentWins < 10)
-            currentWins++;
-
-        _textCurrentWins.text = currentWins + " / 10";
-        _mainManager.allDataSave.SaveNumberVictory(currentWins);
-        //добавить победу
+        if (AllDataSave.CurrentRightAction == 0)
+        {
+            int randRightAction = Random.Range(1, 3);
+            _currentRightAction = randRightAction;
+        }
+        else
+            _currentRightAction = AllDataSave.CurrentRightAction;
+       
+        rightAnswer = _currentRightAction;//
     }
-    public bool IsPause()
+    public void AddCurrentWin()//добавление очка к текущим победам
     {
-        return isPause;
+        if (_currentWins < 10)
+            _currentWins++;
+        else
+            Win();
+
+        _textCurrentWins.text = _currentWins + " / 10";
+        _mainManager.allDataSave.SaveCurrentWins(_currentWins);
+        _mainManager.allDataSave.SaveNumberVictory(_currentWins);
+    }
+    public void Pause(bool pause)//срабатывает евентом Button при открытии панели опций
+    {
+        isPause = pause;
     }
     private IEnumerator RunCharacter()
     {
@@ -85,30 +121,54 @@ public class SceneGameManager : MonoBehaviour
         }
 
         StartCoroutine(RunCharacter());
-    }
-    private void CreateNewBackground()
+    }//движение заднего фона
+    private void CreateNewBackgroundOrLoad(int number = 0)
     {
-        int randBg = Random.Range(1, Resources.LoadAll<Material>("Background Materials").Length + 1);
-        _meshBg.material = Resources.Load<Material>($"Background Materials/Background_{randBg}");
-        _mainManager.allDataSave.SaveLoadedNumberCharacter(randBg);
+        if (number == 0)
+        {
+            _numBg = Random.Range(1, Resources.LoadAll<Material>("Background Materials").Length + 1);
+            _meshBg.material = Resources.Load<Material>($"Background Materials/Background_{_numBg}");
+        }
+        else
+        {
+            _numBg = number;
+            _meshBg.material = Resources.Load<Material>($"Background Materials/Background_{_numBg}");
+        }
     }
-    private void CreateNewCharacter()
+    private void CreateNewCharacter(int number = 0)
     {
-        int randChar = Random.Range(1, Resources.LoadAll<Sprite>("Characters").Length + 1);
-        _characterHolder.sprite = Resources.Load<Sprite>($"Characters/Character_{randChar}");
+        if (number == 0)
+        {
+            _numCharacter = Random.Range(1, Resources.LoadAll<Sprite>("Characters").Length + 1);
+            _characterHolder.sprite = Resources.Load<Sprite>($"Characters/Character_{_numCharacter}");
+        }
+        else
+        {
+            _numCharacter = number;
+            _characterHolder.sprite = Resources.Load<Sprite>($"Characters/Character_{_numCharacter}");
+        }
+    }
+    private void CreateNewThing(int number = 0)
+    {
+        if (number == 0)
+        {
+            _numThing = Random.Range(1, Resources.LoadAll<Sprite>("Things").Length + 1);
+            _thingHolder.sprite = Resources.Load<Sprite>($"Things/Thing_{_numThing}");
+        }
+        else
+        {
+            _numThing = number;
+            _thingHolder.sprite = Resources.Load<Sprite>($"Things/Thing_{_numThing}");
+        }
+    }
+    private IEnumerator TimeToWarning()//таймер до показа панели предупреждения о поражении
+    {
+        int timer = 0;
 
-        _mainManager.allDataSave.SaveLoadedNumberCharacter(randChar);
-    }
-    private void CreateNewThing()
-    {
-        int randThing = Random.Range(1, Resources.LoadAll<Sprite>("Things").Length + 1);
-        _thingHolder.sprite = Resources.Load<Sprite>($"Things/Thing_{randThing}");
-
-        _mainManager.allDataSave.SaveLoadedNumberThing(randThing);
-    }
-    private IEnumerator TimeToWarning()
-    {
-        int timer = _timeToWarning;
+        if (_remainingTimeBeforeWarning == 0)
+            timer = _timeToWarning;
+        else
+            timer = _remainingTimeBeforeWarning;
 
         while (timer > 0)
         {
@@ -117,7 +177,13 @@ public class SceneGameManager : MonoBehaviour
         }
         if (timer <= 0)
         {
-            _warnningPanel.SetActive(true);
+            if (isPause)
+            {
+                _mainManager.panels[(int)PanelsGameScene.OprionsPanel].SetActive(false);
+                _mainManager.panels[(int)PanelsGameScene.MainPanel].SetActive(true);
+            }
+
+            _mainManager.panels[(int)PanelsGameScene.WarningPanel].SetActive(true);
             StartCoroutine(TimeToLose());
         }
     }
@@ -134,56 +200,60 @@ public class SceneGameManager : MonoBehaviour
         }
         if (timer <= 0)
             Lose();
-    }
+    }//таймер панели предупреждения о пиражении
     public void StopTimers()
     {
         StopCoroutine(RunCharacter());
         StopCoroutine(TimeToWarning());
         StopCoroutine(TimeToLose());
     }
-    private void SelectAction(int number)
+    private void SelectAction(int number)//срабатывает ивентом при выборе действия
     {
-        Debug.Log($"select answer = {number}");
         StopTimers();
-        CreateNumberRightAction();
 
-        if (currentRightAction == number)
+        if (_currentRightAction == number)
             CorrectAnswer();
         else
             Lose();
+        
+        CreateNumberRightActionOrLoad();
+
+        _remainingTimeBeforeWarning = 0;
+        _mainManager.allDataSave.SaveRemainingTimeBeforeWarning(_remainingTimeBeforeWarning);
     }
-    private void Lose()
+    private void Lose()//при неверном ответе
     {
         Debug.Log($"you lose!");
-        currentWins = 0;
+        _currentWins = 0;
+        _mainManager.allDataSave.SaveCurrentWins(_currentWins);
         StopCoroutine(TimeToLose());
     }
-    private void CorrectAnswer()
+    private void CorrectAnswer()//при верном ответе
     {
         AddCurrentWin();
-        CreateNewBackground();
+        _mainManager.allDataSave.SaveTotalWins();
+
+        CreateNewBackgroundOrLoad();
         CreateNewCharacter();
         CreateNewThing();
+
         StartCoroutine(RunCharacter());
         StartCoroutine(TimeToWarning());
     }
-    private void Win()
+    private void Win()//при всех правильных ответах
     {
-        currentWins = 0;
+        _currentWins = 0;
+        _mainManager.allDataSave.SaveCurrentWins(_currentWins);
     }
-#if UNITY_EDITOR
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-            CreateNewBackground();
-        if (Input.GetKeyDown(KeyCode.S))
-            CreateNewCharacter();
-        if (Input.GetKeyDown(KeyCode.D))
-            CreateNewThing();
-    }
-#endif
     private void OnDestroy()
     {
         _mainManager.eventManager.ButtonActionPressedEvent -= SelectAction;
+    }
+    private void OnApplicationQuit()//сохранение фона, перса, вещи при закрытии игры
+    {
+        _mainManager.allDataSave.SaveCurrentRightAction(_currentRightAction);
+        _mainManager.allDataSave.SaveLoadedNumberBackground(_numBg);
+        _mainManager.allDataSave.SaveLoadedNumberCharacter(_numCharacter);
+        _mainManager.allDataSave.SaveLoadedNumberThing(_numThing);
     }
 }
