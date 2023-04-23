@@ -7,7 +7,6 @@ public abstract class AbstractButton : MonoBehaviour
     [SerializeField] private GameObject[] _newPanels;
 
     public MainManager mainManager;
-
     private void OnEnable()
     {
         if (mainManager == null)
@@ -20,7 +19,6 @@ public abstract class AbstractButton : MonoBehaviour
         if (_oldPanels != null)
             for (int i = 0; i < _oldPanels.Length; i++)
                 _oldPanels[i].SetActive(false);
-
 
         if (_newPanels != null)
             for (int i = 0; i < _newPanels.Length; i++)

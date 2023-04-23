@@ -16,9 +16,11 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
     public static int NumberTotalWins { get; private set; }
     public static int RemainingTimeBeforeWarning {get; private set;}
     public static int CurrentRightAction { get; private set; }
+    public static bool SecondChance { get; private set; }
 
     [Header("test")]
     public int numVictories, numBg, numChar, numThing, numCurWins, numTotalWins, remainingTime, currentRightAction;
+    public bool seconChance;
 
     private void Awake()
     {
@@ -47,6 +49,7 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         savedData.numberTotalWins = NumberTotalWins;
         savedData.remainingTimeBeforeWarning = RemainingTimeBeforeWarning;
         savedData.currentRightAction = CurrentRightAction;
+        savedData.secondChance = SecondChance;
 
         storage.Save(savedData);
     }
@@ -64,6 +67,7 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         numTotalWins = NumberTotalWins = savedData.numberTotalWins;//
         remainingTime = RemainingTimeBeforeWarning = savedData.remainingTimeBeforeWarning;//
         currentRightAction = CurrentRightAction = savedData.currentRightAction;//
+        seconChance = SecondChance = savedData.secondChance;//
     }
     public void ConfirmSelectedNumberAvatar(int number)
     {
@@ -125,5 +129,12 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         savedData.currentRightAction = CurrentRightAction;
         storage.Save(savedData);
         currentRightAction = CurrentRightAction;//
+    }
+    public void SaveSecondChance(bool chance )
+    {
+        SecondChance = chance;
+        savedData.secondChance = SecondChance;
+        storage.Save(savedData);
+        seconChance = SecondChance;//
     }
 }

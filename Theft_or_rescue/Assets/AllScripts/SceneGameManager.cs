@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum PanelsGameScene { MainPanel = 0, OprionsPanel, WarningPanel}
+public enum PanelsGameScene { MainPanel = 0, OprionsPanel, WarningPanel, LosePanel, BgAndCharacterHolder}
 public enum Actions { Theft = 1, Rescue }
 public class SceneGameManager : MonoBehaviour
 {
@@ -28,8 +28,8 @@ public class SceneGameManager : MonoBehaviour
     [SerializeField] private Text _textCurrentWins;
 
     private Vector2 _meshOffsetBg;
-    public bool isPause;
-
+    //public bool isPause;
+    private bool _secondChance;
     [SerializeField] private int _currentWins;
     private int _currentRightAction;
     private int _remainingTimeBeforeWarning;
@@ -41,6 +41,7 @@ public class SceneGameManager : MonoBehaviour
     {
         _mainManager.panels[(int)PanelsGameScene.WarningPanel].SetActive(false);
         _mainManager.panels[(int)PanelsGameScene.MainPanel].SetActive(true);
+        _mainManager.panels[(int)PanelsGameScene.BgAndCharacterHolder].SetActive(true);
 
         if (_mainManager == null)
             _mainManager = transform.parent.GetComponentInChildren<MainManager>();
@@ -56,7 +57,7 @@ public class SceneGameManager : MonoBehaviour
 
         CreateNumberRightActionOrLoad();
 
-        if(AllDataSave.NumberLoadedBackground > 0)
+        if (AllDataSave.NumberLoadedBackground > 0)
             CreateNewBackgroundOrLoad(AllDataSave.NumberLoadedBackground);
         else
             CreateNewBackgroundOrLoad();
@@ -70,6 +71,8 @@ public class SceneGameManager : MonoBehaviour
             CreateNewThing(AllDataSave.NumberLoadedThing);
         else
             CreateNewThing();
+
+        _secondChance = AllDataSave.SecondChance;
 
         _meshOffsetBg = _meshBg.sharedMaterial.mainTextureOffset;
         StartCoroutine(RunCharacter());
@@ -89,7 +92,7 @@ public class SceneGameManager : MonoBehaviour
         }
         else
             _currentRightAction = AllDataSave.CurrentRightAction;
-       
+
         rightAnswer = _currentRightAction;//
     }
     public void AddCurrentWin()//добавление очка к текущим победам
@@ -103,25 +106,17 @@ public class SceneGameManager : MonoBehaviour
         _mainManager.allDataSave.SaveCurrentWins(_currentWins);
         _mainManager.allDataSave.SaveNumberVictory(_currentWins);
     }
-    public void Pause(bool pause)//срабатывает евентом Button при открытии панели опций
+    private IEnumerator RunCharacter()//движение заднего фона
     {
-        isPause = pause;
-    }
-    private IEnumerator RunCharacter()
-    {
-        if (isPause)
-            yield return null;
-        else
-        { 
+        while(true)
+        {
             var x = Mathf.Repeat(Time.time * _speed, 1);
             var offset = new Vector2(x, _meshOffsetBg.y);
 
             _meshBg.sharedMaterial.mainTextureOffset = offset;
             yield return null;
         }
-
-        StartCoroutine(RunCharacter());
-    }//движение заднего фона
+    }
     private void CreateNewBackgroundOrLoad(int number = 0)
     {
         if (number == 0)
@@ -177,12 +172,6 @@ public class SceneGameManager : MonoBehaviour
         }
         if (timer <= 0)
         {
-            if (isPause)
-            {
-                _mainManager.panels[(int)PanelsGameScene.OprionsPanel].SetActive(false);
-                _mainManager.panels[(int)PanelsGameScene.MainPanel].SetActive(true);
-            }
-
             _mainManager.panels[(int)PanelsGameScene.WarningPanel].SetActive(true);
             StartCoroutine(TimeToLose());
         }
@@ -199,7 +188,7 @@ public class SceneGameManager : MonoBehaviour
             _textTimeToLose.text = timer.ToString();
         }
         if (timer <= 0)
-            Lose();
+            WrongAnswer();
     }//таймер панели предупреждения о пиражении
     public void StopTimers()
     {
@@ -214,19 +203,48 @@ public class SceneGameManager : MonoBehaviour
         if (_currentRightAction == number)
             CorrectAnswer();
         else
-            Lose();
-        
+            WrongAnswer();
+
         CreateNumberRightActionOrLoad();
 
         _remainingTimeBeforeWarning = 0;
         _mainManager.allDataSave.SaveRemainingTimeBeforeWarning(_remainingTimeBeforeWarning);
     }
-    private void Lose()//при неверном ответе
+    private void WrongAnswer()//при неверном ответе
     {
+        if (!_secondChance)
+        {
+            _mainManager.panels[(int)PanelsGameScene.BgAndCharacterHolder].SetActive(false);
+            _mainManager.panels[(int)PanelsGameScene.LosePanel].SetActive(true);
+        }
+        else
+            ReturnToMainMenu();
+
+        _secondChance = true;
         Debug.Log($"you lose!");
+        StopCoroutine(TimeToLose());
+    }
+    public void ContinueGame()//воспользоваться 2м шансом
+    {
+        _mainManager.panels[(int)PanelsGameScene.BgAndCharacterHolder].SetActive(true);
+        _mainManager.panels[(int)PanelsGameScene.LosePanel].SetActive(false);
+
+        CreateNewBackgroundOrLoad();
+        CreateNewCharacter();
+        CreateNewThing();
+        StartCoroutine(RunCharacter());
+        StartCoroutine(TimeToWarning());
+    }
+    private void Win()//угадал 10 / 10
+    {
+        ReturnToMainMenu();
+    }
+    public void ReturnToMainMenu()//полное поражение
+    {
         _currentWins = 0;
         _mainManager.allDataSave.SaveCurrentWins(_currentWins);
-        StopCoroutine(TimeToLose());
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
     private void CorrectAnswer()//при верном ответе
     {
@@ -240,17 +258,15 @@ public class SceneGameManager : MonoBehaviour
         StartCoroutine(RunCharacter());
         StartCoroutine(TimeToWarning());
     }
-    private void Win()//при всех правильных ответах
-    {
-        _currentWins = 0;
-        _mainManager.allDataSave.SaveCurrentWins(_currentWins);
-    }
     private void OnDestroy()
     {
         _mainManager.eventManager.ButtonActionPressedEvent -= SelectAction;
     }
     private void OnApplicationQuit()//сохранение фона, перса, вещи при закрытии игры
     {
+        if (_secondChance)
+            _mainManager.allDataSave.SaveSecondChance(false);
+
         _mainManager.allDataSave.SaveCurrentRightAction(_currentRightAction);
         _mainManager.allDataSave.SaveLoadedNumberBackground(_numBg);
         _mainManager.allDataSave.SaveLoadedNumberCharacter(_numCharacter);

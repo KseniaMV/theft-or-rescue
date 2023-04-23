@@ -39,9 +39,9 @@ public class MainManager : MonoBehaviour
         if (sceneGameManager == null && transform.parent.GetComponentInChildren<SceneGameManager>())
             sceneGameManager = transform.parent.GetComponentInChildren<SceneGameManager>();
 
-        for (int i = 0; i < panels.Length; i++)
-            if(panels[i] != null)
-                panels[i].SetActive(false);
+        //for (int i = 0; i < panels.Length; i++)
+        //    if(panels[i] != null)
+        //        panels[i].SetActive(false);
     }
     private void Start()
     {
