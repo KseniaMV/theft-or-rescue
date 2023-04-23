@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public enum Panels {LangaugePanel = 0, StartPanel, LoginPanel, InfoPanel, LoadingPanel, OptionsPanel, AchievementsPanel }
+public enum PanelsMainMenuScene {LangaugePanel = 0, StartPanel, LoginPanel, InfoPanel, OptionsPanel, AchievementsPanel }
 public class MainManager : MonoBehaviour
 {
     public static MainManager instance { get; private set; }
@@ -12,7 +12,7 @@ public class MainManager : MonoBehaviour
     public SceneGameManager sceneGameManager;
 
     [Header("StartPanel")]
-    [SerializeField] private GameObject[] _panels;
+    public GameObject[] panels;
 
     private void Awake()
     {
@@ -39,9 +39,9 @@ public class MainManager : MonoBehaviour
         if (sceneGameManager == null && transform.parent.GetComponentInChildren<SceneGameManager>())
             sceneGameManager = transform.parent.GetComponentInChildren<SceneGameManager>();
 
-        for (int i = 0; i < _panels.Length; i++)
-            if(_panels[i] != null)
-                _panels[i].SetActive(false);
+        for (int i = 0; i < panels.Length; i++)
+            if(panels[i] != null)
+                panels[i].SetActive(false);
     }
     private void Start()
     {
@@ -51,15 +51,15 @@ public class MainManager : MonoBehaviour
     private void CheckSelectedLanguage()
     {
         if (!PlayerPrefs.HasKey("Language"))
-            _panels[((int)Panels.LangaugePanel)].SetActive(true);
+            panels[((int)PanelsMainMenuScene.LangaugePanel)].SetActive(true);
         else
-            _panels[((int)Panels.StartPanel)].SetActive(true);
+            panels[((int)PanelsMainMenuScene.StartPanel)].SetActive(true);
     }
     public void CheckSelectedAvatar(bool isSelected)
     {
         if(isSelected)
-            _panels[(int)Panels.InfoPanel].SetActive(true);
+            panels[(int)PanelsMainMenuScene.InfoPanel].SetActive(true);
         else
-            _panels[(int)Panels.LoginPanel].SetActive(true);
+            panels[(int)PanelsMainMenuScene.LoginPanel].SetActive(true);
     }
 }

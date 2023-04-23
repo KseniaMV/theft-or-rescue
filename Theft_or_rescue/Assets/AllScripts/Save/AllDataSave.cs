@@ -12,6 +12,13 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
     public static int NumberLoadedBackground { get; private set; }
     public static int NumberLoadedCharacter { get; private set; }
     public static int NumberLoadedThing { get; private set; }
+    public static int NumberCurrentWins { get; private set; }
+    public static int NumberTotalWins { get; private set; }
+    public static int RemainingTimeBeforeWarning {get; private set;}
+    public static int CurrentRightAction { get; private set; }
+
+    [Header("test")]
+    public int numVictories, numBg, numChar, numThing, numCurWins, numTotalWins, remainingTime, currentRightAction;
 
     private void Awake()
     {
@@ -36,6 +43,10 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         savedData.numberLoadedBackground = NumberLoadedBackground;
         savedData.numberLoadedCharacter = NumberLoadedCharacter;
         savedData.numberLoadedThing = NumberLoadedThing;
+        savedData.numberCurrentWins = NumberCurrentWins;
+        savedData.numberTotalWins = NumberTotalWins;
+        savedData.remainingTimeBeforeWarning = RemainingTimeBeforeWarning;
+        savedData.currentRightAction = CurrentRightAction;
 
         storage.Save(savedData);
     }
@@ -45,10 +56,14 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         savedData = (SavedData)storage.Load(new SavedData());
 
         NumberAvatar = savedData.numberAvatart;
-        NumberVictories = savedData.numberVictories;
-        NumberLoadedBackground = savedData.numberLoadedBackground;
-        NumberLoadedCharacter = savedData.numberLoadedCharacter;
-        NumberLoadedThing = savedData.numberLoadedThing;
+        numVictories = NumberVictories = savedData.numberVictories;//
+        numBg =  NumberLoadedBackground = savedData.numberLoadedBackground;//
+        numChar = NumberLoadedCharacter = savedData.numberLoadedCharacter;//
+        numThing = NumberLoadedThing = savedData.numberLoadedThing;//
+        numCurWins = NumberCurrentWins = savedData.numberCurrentWins;//
+        numTotalWins = NumberTotalWins = savedData.numberTotalWins;//
+        remainingTime = RemainingTimeBeforeWarning = savedData.remainingTimeBeforeWarning;//
+        currentRightAction = CurrentRightAction = savedData.currentRightAction;//
     }
     public void ConfirmSelectedNumberAvatar(int number)
     {
@@ -59,23 +74,56 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
     public void SaveNumberVictory(int number)
     {
         NumberVictories = number;
+
+        numVictories = NumberVictories;//
     }
     public void SaveLoadedNumberBackground(int number)
     {
         NumberLoadedBackground = number;
         savedData.numberLoadedBackground = NumberLoadedBackground;
         storage.Save(savedData);
+        numBg = NumberLoadedBackground;//
     }
     public void SaveLoadedNumberCharacter(int number)
     {
         NumberLoadedCharacter = number;
         savedData.numberLoadedCharacter = NumberLoadedCharacter;
         storage.Save(savedData);
+        numChar = NumberLoadedCharacter;//
     }
     public void SaveLoadedNumberThing(int number)
     {
         NumberLoadedThing = number;
         savedData.numberLoadedThing = NumberLoadedThing;
         storage.Save(savedData);
+        numThing = NumberLoadedThing;//
+    }
+    public void SaveCurrentWins(int number)
+    {
+        NumberCurrentWins = number;
+        savedData.numberCurrentWins = NumberCurrentWins;
+        storage.Save(savedData);
+        numCurWins = NumberCurrentWins;//
+    }
+    public void SaveTotalWins()
+    {
+        NumberTotalWins++;
+        savedData.numberTotalWins = NumberTotalWins;
+        storage.Save(savedData);
+        numTotalWins = NumberTotalWins;//
+    }
+    public void SaveRemainingTimeBeforeWarning(int value)
+    {
+        RemainingTimeBeforeWarning = value;
+        savedData.remainingTimeBeforeWarning = RemainingTimeBeforeWarning;
+        storage.Save(savedData);
+        remainingTime = RemainingTimeBeforeWarning;//
+    }
+    public void SaveCurrentRightAction(int value)
+    {
+        CurrentRightAction = value;
+        savedData.currentRightAction = CurrentRightAction;
+        storage.Save(savedData);
+        currentRightAction = CurrentRightAction;//
     }
 }

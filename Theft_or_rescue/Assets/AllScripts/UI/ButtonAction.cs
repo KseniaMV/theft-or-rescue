@@ -9,6 +9,5 @@ public class ButtonAction : AbstractButton, IPointerDownHandler
     {
         mainManager.options.ClickAudio();
         mainManager.eventManager.ButtonActionPressed((int)_actions);
-        //добавить смену обстановки
     }
 }
