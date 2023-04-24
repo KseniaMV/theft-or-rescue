@@ -1956,11 +1956,11 @@ MonoBehaviour:
   _thingHolder: {fileID: 2004001855}
   _speed: 0.1
   _meshBg: {fileID: 1955535559}
-  _timeToWarning: 10
+  _timeToWarning: 60
   _timeToLose: 10
   _textTimeToLose: {fileID: 311311971}
   _textCurrentWins: {fileID: 2002046740}
-  _currentWins: 0
+  _remainingNumberAttempts: 0
   rightAnswer: 0
 --- !u!1 &1955535557
 GameObject:
