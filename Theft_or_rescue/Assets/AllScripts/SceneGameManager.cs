@@ -28,11 +28,12 @@ public class SceneGameManager : MonoBehaviour
     [SerializeField] private Text _textCurrentWins;
 
     private Vector2 _meshOffsetBg;
-    //public bool isPause;
     private bool _secondChance;
-    [SerializeField] private int _currentWins;
+    private int _currentWins;
     private int _currentRightAction;
     private int _remainingTimeBeforeWarning;
+    private const int MAX_NUMBER_ACTIONS = 10;
+    public int _remainingNumberAttempts;
 
     [Header("test")]
     public int rightAnswer;
@@ -81,7 +82,8 @@ public class SceneGameManager : MonoBehaviour
     private void LoadCurrentWins()//
     {
         _currentWins = AllDataSave.NumberCurrentWins;
-        _textCurrentWins.text = _currentWins + " / 10";
+        _remainingNumberAttempts = MAX_NUMBER_ACTIONS - _currentWins;
+        _textCurrentWins.text = $"{_currentWins} / {MAX_NUMBER_ACTIONS}";
     }
     private void CreateNumberRightActionOrLoad()//придумывание правильного ответа или загрузка
     {
@@ -100,9 +102,9 @@ public class SceneGameManager : MonoBehaviour
         if (_currentWins < 10)
             _currentWins++;
         else
-            Win();
+            SumResults();
 
-        _textCurrentWins.text = _currentWins + " / 10";
+        _textCurrentWins.text = $"{_currentWins} / {MAX_NUMBER_ACTIONS}";
         _mainManager.allDataSave.SaveCurrentWins(_currentWins);
         _mainManager.allDataSave.SaveNumberVictory(_currentWins);
     }
@@ -176,7 +178,7 @@ public class SceneGameManager : MonoBehaviour
             StartCoroutine(TimeToLose());
         }
     }
-    private IEnumerator TimeToLose()
+    private IEnumerator TimeToLose()//таймер панели предупреждения о пиражении
     {
         int timer = _timeToLose;
         StopCoroutine(TimeToWarning());
@@ -188,8 +190,8 @@ public class SceneGameManager : MonoBehaviour
             _textTimeToLose.text = timer.ToString();
         }
         if (timer <= 0)
-            WrongAnswer();
-    }//таймер панели предупреждения о пиражении
+            TimeIsUp();
+    }
     public void StopTimers()
     {
         StopCoroutine(RunCharacter());
@@ -200,19 +202,27 @@ public class SceneGameManager : MonoBehaviour
     {
         StopTimers();
 
-        if (_currentRightAction == number)
-            CorrectAnswer();
-        else
-            WrongAnswer();
+        if (_remainingNumberAttempts > 1)
+        {
+            if (_currentRightAction == number)
+                CorrectAnswer();
 
+            _remainingNumberAttempts--;
+        }
+        else
+            SumResults();
+
+        _mainManager.allDataSave.SaveCurrentRightAction(0);
         CreateNumberRightActionOrLoad();
 
         _remainingTimeBeforeWarning = 0;
         _mainManager.allDataSave.SaveRemainingTimeBeforeWarning(_remainingTimeBeforeWarning);
     }
-    private void WrongAnswer()//при неверном ответе
+    private void TimeIsUp()//открывает меню с предложением продолжить или выйти
     {
-        if (!_secondChance)
+        StopCoroutine(TimeToLose());
+
+        if (!_secondChance && _currentWins < MAX_NUMBER_ACTIONS)
         {
             _mainManager.panels[(int)PanelsGameScene.BgAndCharacterHolder].SetActive(false);
             _mainManager.panels[(int)PanelsGameScene.LosePanel].SetActive(true);
@@ -221,13 +231,13 @@ public class SceneGameManager : MonoBehaviour
             ReturnToMainMenu();
 
         _secondChance = true;
-        Debug.Log($"you lose!");
-        StopCoroutine(TimeToLose());
+        Debug.Log($"you done!");
     }
     public void ContinueGame()//воспользоваться 2м шансом
     {
         _mainManager.panels[(int)PanelsGameScene.BgAndCharacterHolder].SetActive(true);
         _mainManager.panels[(int)PanelsGameScene.LosePanel].SetActive(false);
+        _remainingNumberAttempts = MAX_NUMBER_ACTIONS - _currentWins;
 
         CreateNewBackgroundOrLoad();
         CreateNewCharacter();
@@ -235,9 +245,9 @@ public class SceneGameManager : MonoBehaviour
         StartCoroutine(RunCharacter());
         StartCoroutine(TimeToWarning());
     }
-    private void Win()//угадал 10 / 10
+    private void SumResults()
     {
-        ReturnToMainMenu();
+        TimeIsUp();
     }
     public void ReturnToMainMenu()//полное поражение
     {
