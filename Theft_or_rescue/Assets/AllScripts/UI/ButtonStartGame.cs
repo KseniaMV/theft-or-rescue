@@ -1,9 +1,7 @@
 using System.Collections;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class ButtonStartGame : AbstractButton, IPointerDownHandler
 {
     [SerializeField] private Image _image;
@@ -29,7 +27,7 @@ public class ButtonStartGame : AbstractButton, IPointerDownHandler
         _image.transform.parent.gameObject.SetActive(true);
         float time = 0;
         float alfa = 0;
-
+       
         while (time < _fadeDuration)
         {
             time += Time.deltaTime;
@@ -38,6 +36,6 @@ public class ButtonStartGame : AbstractButton, IPointerDownHandler
             yield return null;
         }
         if (time >= _fadeDuration)
-            SceneManager.LoadScene("Game");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
     }
 }

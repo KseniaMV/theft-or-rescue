@@ -10,4 +10,5 @@ public class SavedData
     public int numberTotalWins;
     public int remainingTimeBeforeWarning;
     public int currentRightAction;
+    public bool secondChance;
 }

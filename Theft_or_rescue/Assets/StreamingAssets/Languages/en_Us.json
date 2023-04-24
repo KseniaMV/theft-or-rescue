@@ -39,6 +39,18 @@
     {
       "key": "ButtonChangeLanguage",
       "value": "Change language"
+    },
+    {
+      "key": "PlayAgain",
+      "value": "Play some more?"
+    },
+    {
+      "key": "Yes",
+      "value": "Yes"
+    },
+    {
+      "key": "Yes",
+      "value": "No"
     }
   ]
 }

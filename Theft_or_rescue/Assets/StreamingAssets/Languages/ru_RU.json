@@ -39,6 +39,18 @@
     {
       "key": "ButtonChangeLanguage",
       "value": "Сменить язык"
+    },
+    {
+      "key": "PlayAgain",
+      "value": "Сыграть ещё?"
+    },
+    {
+      "key": "Yes",
+      "value": "Yes"
+    },
+    {
+      "key": "No",
+      "value": "No"
     }
   ]
 }
