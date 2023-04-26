@@ -112,10 +112,11 @@ public class SceneGameManager : MonoBehaviour
     {
         while(true)
         {
-            var x = Mathf.Repeat(Time.time * _speed, 1);
+            float x = Mathf.Repeat(Time.time * _speed, 1);
             var offset = new Vector2(x, _meshOffsetBg.y);
 
             _meshBg.sharedMaterial.mainTextureOffset = offset;
+
             yield return null;
         }
     }
