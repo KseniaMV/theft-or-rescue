@@ -28,12 +28,12 @@ public class SceneGameManager : MonoBehaviour
     [SerializeField] private Text _textCurrentWins;
 
     private Vector2 _meshOffsetBg;
-    private bool _secondChance;
-    private int _currentWins;
-    private int _currentRightAction;
-    private int _remainingTimeBeforeWarning;
+    public int _numberAttempts;//колво попыток
+    private int _currentWins;//колво правильных ответов
+    private int _currentRightAction;//тест, правильный ответ
+    private int _remainingTimeBeforeWarning;//оставшееся время ожидания
     private const int MAX_NUMBER_ACTIONS = 10;
-    public int _remainingNumberAttempts;
+    public int _remainingNumberAttempts;//оставшееся колво попыток для сохранения
 
     [Header("test")]
     public int rightAnswer;
@@ -73,7 +73,10 @@ public class SceneGameManager : MonoBehaviour
         else
             CreateNewThing();
 
-        _secondChance = AllDataSave.SecondChance;
+        if (AllDataSave.NumberAttempts == 0)
+            _numberAttempts = 1;
+        else
+            _numberAttempts = AllDataSave.NumberAttempts;
 
         _meshOffsetBg = _meshBg.sharedMaterial.mainTextureOffset;
         StartCoroutine(RunCharacter());
@@ -223,7 +226,7 @@ public class SceneGameManager : MonoBehaviour
     {
         StopCoroutine(TimeToLose());
 
-        if (!_secondChance && _currentWins < MAX_NUMBER_ACTIONS)
+        if (_numberAttempts == 1 && _currentWins < MAX_NUMBER_ACTIONS)
         {
             _mainManager.panels[(int)PanelsGameScene.BgAndCharacterHolder].SetActive(false);
             _mainManager.panels[(int)PanelsGameScene.LosePanel].SetActive(true);
@@ -231,7 +234,7 @@ public class SceneGameManager : MonoBehaviour
         else
             ReturnToMainMenu();
 
-        _secondChance = true;
+        _numberAttempts = 2;
         Debug.Log($"you done!");
     }
     public void ContinueGame()//воспользоваться 2м шансом
@@ -248,6 +251,8 @@ public class SceneGameManager : MonoBehaviour
     }
     private void SumResults()
     {
+        Debug.Log($"numAttemps = {_numberAttempts}, _currentWins = {_currentWins}");
+        _mainManager.achievementsManager.CheckAndAddAchievement(_numberAttempts, _currentWins);
         TimeIsUp();
     }
     public void ReturnToMainMenu()//полное поражение
@@ -275,8 +280,8 @@ public class SceneGameManager : MonoBehaviour
     }
     private void OnApplicationQuit()//сохранение фона, перса, вещи при закрытии игры
     {
-        if (_secondChance)
-            _mainManager.allDataSave.SaveSecondChance(false);
+        if (_numberAttempts == 2)
+            _mainManager.allDataSave.SaveSecondChance(1);
 
         _mainManager.allDataSave.SaveCurrentRightAction(_currentRightAction);
         _mainManager.allDataSave.SaveLoadedNumberBackground(_numBg);
