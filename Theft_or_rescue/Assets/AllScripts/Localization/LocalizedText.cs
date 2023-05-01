@@ -3,16 +3,16 @@ using UnityEngine.UI;
 
 public class LocalizedText : MonoBehaviour
 {
-    [SerializeField] private string key;
+    public string key;
+    public Text localizedText;
     [SerializeField] private LocalizationManager localizationManager;
-    private Text text;
     private void Start()
     {
         if (localizationManager == null)
             localizationManager = GameObject.FindGameObjectWithTag("MainManager").GetComponent<MainManager>().localizationManager;
 
-        if (text == null)
-            text = GetComponent<Text>();
+        if (localizedText == null)
+            localizedText = GetComponent<Text>();
 
         localizationManager.ChangeLangTextEvent += UpdateText;
 
@@ -25,10 +25,10 @@ public class LocalizedText : MonoBehaviour
         if (localizationManager == null)
             localizationManager = GameObject.FindGameObjectWithTag("MainManager").GetComponent<MainManager>().localizationManager;
 
-        if (text == null)
-            text = GetComponent<Text>();
+        if (localizedText == null)
+            localizedText = GetComponent<Text>();
 
-        text.text = localizationManager.GetLocalizedValue(key);
+        localizedText.text = localizationManager.GetLocalizedValue(key);
     }
     private void OnDestroy()
     {

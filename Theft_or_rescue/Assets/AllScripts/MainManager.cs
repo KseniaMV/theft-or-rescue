@@ -10,6 +10,7 @@ public class MainManager : MonoBehaviour
     public AllDataSave allDataSave;
     public LocalizationManager localizationManager;
     public SceneGameManager sceneGameManager;
+    public AchievementsManager achievementsManager;
 
     [Header("StartPanel")]
     public GameObject[] panels;
@@ -39,6 +40,8 @@ public class MainManager : MonoBehaviour
         if (sceneGameManager == null && transform.parent.GetComponentInChildren<SceneGameManager>())
             sceneGameManager = transform.parent.GetComponentInChildren<SceneGameManager>();
 
+        if (achievementsManager == null && transform.parent.GetComponentInChildren<AchievementsManager>())
+            achievementsManager = transform.parent.GetComponentInChildren<AchievementsManager>();
         //for (int i = 0; i < panels.Length; i++)
         //    if(panels[i] != null)
         //        panels[i].SetActive(false);

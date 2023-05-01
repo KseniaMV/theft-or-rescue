@@ -14,13 +14,14 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
     public static int NumberLoadedThing { get; private set; }
     public static int NumberCurrentWins { get; private set; }
     public static int NumberTotalWins { get; private set; }
-    public static int RemainingTimeBeforeWarning {get; private set;}
+    public static int RemainingTimeBeforeWarning { get; private set; }
     public static int CurrentRightAction { get; private set; }
-    public static bool SecondChance { get; private set; }
+    public static int NumberAttempts { get; private set; }
+    public static string GoldenAchievements { get; private set; }
+    public static string SilverAchievements { get; private set; }
 
     [Header("test")]
-    public int numVictories, numBg, numChar, numThing, numCurWins, numTotalWins, remainingTime, currentRightAction;
-    public bool seconChance;
+    public int numVictories, numBg, numChar, numThing, numCurWins, numTotalWins, remainingTime, currentRightAction, seconChance;
 
     private void Awake()
     {
@@ -49,7 +50,9 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         savedData.numberTotalWins = NumberTotalWins;
         savedData.remainingTimeBeforeWarning = RemainingTimeBeforeWarning;
         savedData.currentRightAction = CurrentRightAction;
-        savedData.secondChance = SecondChance;
+        savedData.numberAttempts = NumberAttempts;
+        savedData.goldenAchievements = GoldenAchievements;
+        savedData.silverAchievements = SilverAchievements;
 
         storage.Save(savedData);
     }
@@ -67,7 +70,9 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         numTotalWins = NumberTotalWins = savedData.numberTotalWins;//
         remainingTime = RemainingTimeBeforeWarning = savedData.remainingTimeBeforeWarning;//
         currentRightAction = CurrentRightAction = savedData.currentRightAction;//
-        seconChance = SecondChance = savedData.secondChance;//
+        seconChance = NumberAttempts = savedData.numberAttempts;//
+        GoldenAchievements = savedData.goldenAchievements;
+        SilverAchievements = savedData.silverAchievements;
     }
     public void ConfirmSelectedNumberAvatar(int number)
     {
@@ -130,11 +135,23 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         storage.Save(savedData);
         currentRightAction = CurrentRightAction;//
     }
-    public void SaveSecondChance(bool chance )
+    public void SaveSecondChance(int chance )
     {
-        SecondChance = chance;
-        savedData.secondChance = SecondChance;
+        NumberAttempts = chance;
+        savedData.numberAttempts = NumberAttempts;
         storage.Save(savedData);
-        seconChance = SecondChance;//
+        seconChance = NumberAttempts;//
+    }
+    public void SaveGoldenAchievement(string achievement)
+    {
+        GoldenAchievements = achievement;
+        savedData.goldenAchievements = GoldenAchievements;
+        storage.Save(savedData);
+    }
+    public void SaveSilverAchievement(string achievement)
+    {
+        SilverAchievements = achievement;
+        savedData.silverAchievements = SilverAchievements;
+        storage.Save(savedData);
     }
 }
