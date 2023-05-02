@@ -6,13 +6,12 @@ public class AchievementsManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] _panels;
     [SerializeField] private MainManager _mainManager;
-    [SerializeField] private bool _isGameScene;
     public DescriptionAchevment descriptionAchevment;
     private int _dataAchievement;
     private bool _dataIsExists;
-    private const string NULL_ACHEVEMENT = "00000000000";
-    public string GoldenAchievements;// { get; private set; }
-    public string SilverAchievements;// { get; private set; }
+    private const string NULL_ACHEVEMENT = "00000000000";//равен колву достижений 1го типа
+    private string _goldenAchievements;
+    private string _silverAchievements;
    
     public void OpenPanel(bool isOpen, AchievementPanels panel)
     {
@@ -21,10 +20,7 @@ public class AchievementsManager : MonoBehaviour
     }
     private void Start()
     {
-        //if (_descriptionAchevment == null)
-        //    _mainManager.panels[(int)PanelsMainMenuScene.AchievementsPanel].GetComponent<DescriptionAchevment>();
-
-        Invoke("LoadOrCreateDataAchievements", .2f);
+        LoadOrCreateDataAchievements();
     }
     private void OnEnable()
     {
@@ -38,27 +34,27 @@ public class AchievementsManager : MonoBehaviour
 
         if (AllDataSave.GoldenAchievements == null)
         {
-            GoldenAchievements = NULL_ACHEVEMENT;
-            _mainManager.allDataSave.SaveGoldenAchievement(GoldenAchievements);
+            _goldenAchievements = NULL_ACHEVEMENT;
+            _mainManager.allDataSave.SaveGoldenAchievement(_goldenAchievements);
         }
         else
         {
-            GoldenAchievements = AllDataSave.GoldenAchievements;
+            _goldenAchievements = AllDataSave.GoldenAchievements;
             isGoldAchiev = true;
         }
 
         if (AllDataSave.SilverAchievements == null)
         {
-            SilverAchievements = NULL_ACHEVEMENT;
-            _mainManager.allDataSave.SaveSilverAchievement(SilverAchievements);
+            _silverAchievements = NULL_ACHEVEMENT;
+            _mainManager.allDataSave.SaveSilverAchievement(_silverAchievements);
         }
         else
-        {
-            SilverAchievements = AllDataSave.SilverAchievements;
+        { 
+            _silverAchievements = AllDataSave.SilverAchievements;
             isSilverAchev = true;
         }
 
-        if (isGoldAchiev && isSilverAchev && !_isGameScene)
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu" & !isGoldAchiev && !isSilverAchev)
             OpenPanel(true, (int)AchievementPanels.NoAchievementsPanel);
 
         _dataIsExists = true;
@@ -70,17 +66,17 @@ public class AchievementsManager : MonoBehaviour
 
         if (type == TypeAchievement.Gold)
         {
-            data = GoldenAchievements.ToCharArray();
+            data = _goldenAchievements.ToCharArray();
             data[number] = openAchievement;
-            GoldenAchievements = new string(data);
-            _mainManager.allDataSave.SaveGoldenAchievement(GoldenAchievements);
+            _goldenAchievements = new string(data);
+            _mainManager.allDataSave.SaveGoldenAchievement(_goldenAchievements);
         }
         else if (type == TypeAchievement.Silver)
         {
-            data = SilverAchievements.ToCharArray();
+            data = _silverAchievements.ToCharArray();
             data[number] = openAchievement;
-            SilverAchievements = new string(data);
-            _mainManager.allDataSave.SaveSilverAchievement(SilverAchievements);
+            _silverAchievements = new string(data);
+            _mainManager.allDataSave.SaveSilverAchievement(_silverAchievements);
         }
     }
     private void CheckAchiev(TypeAchievement type, int checkNumAchiev)
@@ -88,9 +84,9 @@ public class AchievementsManager : MonoBehaviour
         char[] dataAchievements = null;
 
         if (type == TypeAchievement.Gold)
-            dataAchievements = GoldenAchievements.ToCharArray();
+            dataAchievements = _goldenAchievements.ToCharArray();
         else if (type == TypeAchievement.Silver)
-            dataAchievements = SilverAchievements.ToCharArray();
+            dataAchievements = _silverAchievements.ToCharArray();
 
         _dataAchievement = int.Parse(dataAchievements[checkNumAchiev].ToString());
     }

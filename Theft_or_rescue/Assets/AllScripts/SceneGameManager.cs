@@ -235,7 +235,6 @@ public class SceneGameManager : MonoBehaviour
             ReturnToMainMenu();
 
         _numberAttempts = 2;
-        Debug.Log($"you done!");
     }
     public void ContinueGame()//воспользоваться 2м шансом
     {
@@ -251,7 +250,6 @@ public class SceneGameManager : MonoBehaviour
     }
     private void SumResults()
     {
-        Debug.Log($"numAttemps = {_numberAttempts}, _currentWins = {_currentWins}");
         _mainManager.achievementsManager.CheckAndAddAchievement(_numberAttempts, _currentWins);
         TimeIsUp();
     }
