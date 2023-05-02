@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,13 +9,12 @@ public class DescriptionAchevment : MonoBehaviour
     [SerializeField] private Text _textLittlePanel;
     [SerializeField] private Text _textBigPanel;
 
-    //[SerializeField] private ButtonAchievement[] _buttonAchievements;
     [SerializeField] private ButtonAchievement[] _goldButtons;
     [SerializeField] private ButtonAchievement[] _silverButtons;
 
     [SerializeField] private MainManager _mainManager;
 
-    public bool _dataIsExists;
+    private bool _dataIsExists;
 
     private void Awake()
     {
@@ -32,58 +30,49 @@ public class DescriptionAchevment : MonoBehaviour
         if (_textBigPanel == null)
             _textBigPanel = transform.Find("Big Modal Panel").GetComponentInChildren<Text>();
 
-        //if(_buttonAchievements.Length == 0)
-        //_buttonAchievements = GetComponentsInChildren<ButtonAchievement>();
+        ButtonAchievement[] buttonAchievements = null; 
 
-        StartCoroutine(Getda());
-        //CheckOpenedAchievements();
+        if (_goldButtons.Length == 0)
+        {
+            _goldButtons = new ButtonAchievement[Resources.LoadAll<ButtonAchievement>("Achievements/Gold").Length];
+            buttonAchievements = transform.Find("Scroll View/Viewport/Content/Achievements Holder").GetComponentsInChildren<ButtonAchievement>();
+
+            int j = 0;
+            for (int i = 0; i < buttonAchievements.Length; i++)
+            {
+                if (buttonAchievements[i].type == TypeAchievement.Gold)
+                {
+                    _goldButtons[j] = buttonAchievements[i];
+                    j++;
+                }
+            }
+        }
+
+        if (_silverButtons.Length == 0)
+        {
+            _silverButtons = new ButtonAchievement[Resources.LoadAll<ButtonAchievement>("Achievements/Silver").Length];
+            buttonAchievements = transform.Find("Scroll View/Viewport/Content/Achievements Holder").GetComponentsInChildren<ButtonAchievement>();
+
+            int j = 0;
+            for (int i = 0; i < buttonAchievements.Length; i++)
+            {
+                if (buttonAchievements[i].type == TypeAchievement.Silver)
+                {
+                    _silverButtons[j] = buttonAchievements[i];
+                    j++;
+                }
+            }
+        }
     }
-    //private IEnumerator GetData()
-    //{
-    //    yield return new WaitForSeconds(.1f);
-
-    //                        //переделать!!
-
-
-    //    //_goldButtons = new Button[Resources.LoadAll<Button>("Achievements/Gold").Length];
-    //    //_silverButtons = new Button[Resources.LoadAll<Button>("Achievements/Silver").Length];
-
-    //    //for (int i = 0; i < _buttonAchievements.Length; i++)
-    //    //{
-    //    //    int j = 0;
-    //    //    if (_buttonAchievements[i].type == TypeAchievement.Gold)
-    //    //    {
-    //    //        _goldButtons[j] = _buttonAchievements[i].gameObject.GetComponent<Button>();
-    //    //        j++;
-    //    //    }
-    //    //}
-
-    //    //for (int i = 0; i < _buttonAchievements.Length; i++)
-    //    //{
-    //    //    int j = 0;
-    //    //    if (_buttonAchievements[i].type == TypeAchievement.Silver)
-    //    //    {
-    //    //        _silverButtons[j] = _buttonAchievements[j].gameObject.GetComponent<Button>();
-    //    //        j++;
-    //    //    }
-    //    //}
-
-    //    CheckOpenedAchievements();
-    //    StopCoroutine(GetData());
-    //}
-    //private void Start()
-    //{
-    //    StartCoroutine(GetData());
-    //}
+    private void Start()
+    {
+        //Invoke("CheckOpenedAchievements", .1f);
+        CheckOpenedAchievements();
+    }
     private void OnEnable()
     {
         if (_dataIsExists)
             CheckOpenedAchievements();
-    }
-    private IEnumerator Getda()
-    {
-        yield return null;
-        CheckOpenedAchievements();
     }
     private void CheckOpenedAchievements()
     {
