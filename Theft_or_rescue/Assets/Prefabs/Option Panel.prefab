@@ -386,6 +386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: ButtonQuit
+  localizedText: {fileID: 0}
   localizationManager: {fileID: 0}
 --- !u!1 &8904903204129503875
 GameObject:
@@ -735,6 +736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: ToogleSounds
+  localizedText: {fileID: 0}
   localizationManager: {fileID: 0}
 --- !u!1 &8904903204483227790
 GameObject:
@@ -830,6 +832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: ButtonChangeLanguage
+  localizedText: {fileID: 0}
   localizationManager: {fileID: 0}
 --- !u!1 &8904903204889567948
 GameObject:
@@ -1199,6 +1202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: SliderMusic
+  localizedText: {fileID: 0}
   localizationManager: {fileID: 0}
 --- !u!1 &8904903205140113855
 GameObject:
@@ -1351,8 +1355,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -150, y: -150}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchoredPosition: {x: 150, y: -150}
+  m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8904903205395388433
 CanvasRenderer:

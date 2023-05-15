@@ -7,7 +7,7 @@ public class ButtonAction : AbstractButton, IPointerDownHandler
     [SerializeField] private Actions _actions;
     public void OnPointerDown(PointerEventData eventData)
     {
-        mainManager.options.ClickAudio();
+        mainManager.options.ClickAudio(true);
         mainManager.eventManager.ButtonActionPressed((int)_actions);
     }
 }
