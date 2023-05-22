@@ -32,30 +32,32 @@ public class AchievementsManager : MonoBehaviour
         bool isGoldAchiev = false;
         bool isSilverAchev = false;
 
-        if (AllDataSave.GoldenAchievements == null)
+        if (_mainManager.allDataSave.GoldenAchievements == null)
         {
             _goldenAchievements = NULL_ACHEVEMENT;
             _mainManager.allDataSave.SaveGoldenAchievement(_goldenAchievements);
         }
         else
         {
-            _goldenAchievements = AllDataSave.GoldenAchievements;
+            _goldenAchievements = _mainManager.allDataSave.GoldenAchievements;
             isGoldAchiev = true;
         }
 
-        if (AllDataSave.SilverAchievements == null)
+        if (_mainManager.allDataSave.SilverAchievements == null)
         {
             _silverAchievements = NULL_ACHEVEMENT;
             _mainManager.allDataSave.SaveSilverAchievement(_silverAchievements);
         }
         else
         { 
-            _silverAchievements = AllDataSave.SilverAchievements;
+            _silverAchievements = _mainManager.allDataSave.SilverAchievements;
             isSilverAchev = true;
         }
 
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu" & !isGoldAchiev && !isSilverAchev)
             OpenPanel(true, (int)AchievementPanels.NoAchievementsPanel);
+        else if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
+            OpenPanel(false, (int)AchievementPanels.NoAchievementsPanel);
 
         _dataIsExists = true;
     }
@@ -63,12 +65,14 @@ public class AchievementsManager : MonoBehaviour
     {
         char[] data = null;
         char openAchievement = '1';
+        int numTypeLastAchiev = 0;
 
         if (type == TypeAchievement.Gold)
         {
             data = _goldenAchievements.ToCharArray();
             data[number] = openAchievement;
             _goldenAchievements = new string(data);
+            numTypeLastAchiev = 1;
             _mainManager.allDataSave.SaveGoldenAchievement(_goldenAchievements);
         }
         else if (type == TypeAchievement.Silver)
@@ -76,8 +80,11 @@ public class AchievementsManager : MonoBehaviour
             data = _silverAchievements.ToCharArray();
             data[number] = openAchievement;
             _silverAchievements = new string(data);
+            numTypeLastAchiev = 2;
             _mainManager.allDataSave.SaveSilverAchievement(_silverAchievements);
         }
+
+        SaveLastAchievement(numTypeLastAchiev, number);
     }
     private void CheckAchiev(TypeAchievement type, int checkNumAchiev)
     {
@@ -103,5 +110,9 @@ public class AchievementsManager : MonoBehaviour
 
         if (_dataAchievement == 0)
             RewriteDataAchievementAndSave(type, numberAchievement);
+    }
+    private void SaveLastAchievement(int type, int number)
+    {
+        _mainManager.allDataSave.SaveLastAcvievement($"{type}_{number}");
     }
 }

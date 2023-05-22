@@ -30,7 +30,7 @@ public class ButtonSelectAvatar : AbstractButton, IPointerDownHandler
     }
     private void CheckSelectingThisAvatar()
     {
-        if (AllDataSave.NumberAvatar == _numberAvatar)
+        if (mainManager.allDataSave.NumberAvatar == _numberAvatar)
             _imageSelectedAvatar.gameObject.SetActive(true);
     }
     private void CloseOtherSelectImageAvatar()

@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - MainManager
+  - FadeScreen
   layers:
   - Default
   - TransparentFX

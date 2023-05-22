@@ -66,7 +66,6 @@ public class DescriptionAchevment : MonoBehaviour
     }
     private void Start()
     {
-        //Invoke("CheckOpenedAchievements", .1f);
         CheckOpenedAchievements();
     }
     private void OnEnable()
@@ -76,28 +75,28 @@ public class DescriptionAchevment : MonoBehaviour
     }
     private void CheckOpenedAchievements()
     {
-        for (int i = 0; i < AllDataSave.GoldenAchievements.Length; i++)
+        for (int i = 0; i < _mainManager.allDataSave.GoldenAchievements.Length; i++)
         {
-            if (AllDataSave.GoldenAchievements[i] == '0')
+            if (_mainManager.allDataSave.GoldenAchievements[i] == '0')
             {
                 _goldButtons[i].button.interactable = false;
                 _goldButtons[i].enabled = false;
             }
-            else if (AllDataSave.GoldenAchievements[i] == '1')
+            else if (_mainManager.allDataSave.GoldenAchievements[i] == '1')
             {
                 _goldButtons[i].button.interactable = true;
                 _goldButtons[i].enabled = true;
             }
         }
 
-        for (int i = 0; i < AllDataSave.SilverAchievements.Length; i++)
+        for (int i = 0; i < _mainManager.allDataSave.SilverAchievements.Length; i++)
         {
-            if (AllDataSave.SilverAchievements[i] == '0')
+            if (_mainManager.allDataSave.SilverAchievements[i] == '0')
             {
                 _silverButtons[i].button.interactable = false;
                 _silverButtons[i].enabled = false;
             }
-            else if (AllDataSave.SilverAchievements[i] == '1')
+            else if (_mainManager.allDataSave.SilverAchievements[i] == '1')
             {
                 _silverButtons[i].button.interactable = true;
                 _silverButtons[i].enabled = true;

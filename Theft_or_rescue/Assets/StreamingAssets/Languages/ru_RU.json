@@ -1,14 +1,6 @@
 ﻿{
   "items": [
     {
-      "key": "ButtonLanguageRu",
-      "value": "Русский"
-    },
-    {
-      "key": "ButtonLanguageEn",
-      "value": "Английский"
-    },
-    {
       "key": "ButtonPlay",
       "value": "Далее"
     },
@@ -147,6 +139,14 @@
     {
       "key": "WelcomeBack",
       "value": "C возвращением!"
+    },
+    {
+      "key": "Level",
+      "value": "Уровень"
+    },
+    {
+      "key": "Result",
+      "value": "Результат"
     }
   ]
 }

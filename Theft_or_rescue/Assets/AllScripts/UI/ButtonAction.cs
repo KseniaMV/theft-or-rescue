@@ -4,10 +4,10 @@ using UnityEngine.EventSystems;
 public class ButtonAction : AbstractButton, IPointerDownHandler
 {
     [Header("Button Data")]
-    [SerializeField] private Actions _actions;
+    [SerializeField] private bool _answer;      //thief = false; resc = true;
     public void OnPointerDown(PointerEventData eventData)
     {
         mainManager.options.ClickAudio(true);
-        mainManager.eventManager.ButtonActionPressed((int)_actions);
+        mainManager.eventManager.ButtonActionPressed(_answer);
     }
 }

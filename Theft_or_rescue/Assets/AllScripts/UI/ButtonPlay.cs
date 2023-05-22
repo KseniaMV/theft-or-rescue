@@ -9,7 +9,7 @@ public class ButtonPlay : AbstractButton, IPointerDownHandler
     }
     public void CheckSelectedAvatar()
     {
-        if (AllDataSave.NumberAvatar == 0)
+        if (mainManager.allDataSave.NumberAvatar == 0)
             mainManager.CheckSelectedAvatar(false);
         else
             mainManager.CheckSelectedAvatar(true);

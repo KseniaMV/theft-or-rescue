@@ -1,14 +1,6 @@
 ﻿{
   "items": [
     {
-      "key": "ButtonLanguageRu",
-      "value": "Russian"
-    },
-    {
-      "key": "ButtonLanguageEn",
-      "value": "English"
-    },
-    {
       "key": "ButtonPlay",
       "value": "Play"
     },
@@ -58,95 +50,103 @@
     },
     {
       "key": "Gold_0",
-      "value": "No achievemets!"
+      "value": "Something went wrong... Maybe it's time to try other games."
     },
     {
       "key": "Gold_1",
-      "value": "Угадал! Но это была всего лишь случайность.(ENGLISH)"
+      "value": "You got it! But it was just pure luck."
     },
     {
       "key": "Gold_2",
-      "value": "Поздравляем, ты угадал дважды! А теперь попробуй еще раз, только уже правильно.(ENGLISH)"
+      "value": "Congratulations, you guessed twice! Now try again, but this time, get it right."
     },
     {
       "key": "Gold_3",
-      "value": "Мы просто будем делать вид, что ты старался.(ENGLISH)"
+      "value": "We'll just pretend you tried really hard."
     },
     {
       "key": "Gold_4",
-      "value": "Ты действительно уверен, что хочешь получить это достижение?(ENGLISH)"
+      "value": "Are you really sure you want to achieve this?"
     },
     {
       "key": "Gold_5",
-      "value": "Одно слово - посредственность.(ENGLISH)"
+      "value": "One word - mediocrity."
     },
     {
       "key": "Gold_6",
-      "value": "Чуть лучше, чем середнячок.(ENGLISH)"
+      "value": "Slightly better than average."
     },
     {
       "key": "Gold_7",
-      "value": "Тебе везет. Но это не имеет значения, ведь ты все равно не сможешь получить последнее достижение.(ENGLISH)"
+      "value": "You're lucky. But it doesn't matter because you still won't be able to get the final achievement."
     },
     {
       "key": "Gold_8",
-      "value": "Вот это да, ты угадал восемь раз! Но тортик мы тебе все равно не дадим.(ENGLISH)"
+      "value": "Wow, you guessed eight times! But we still won't give you a cake."
     },
     {
       "key": "Gold_9",
-      "value": "Ты в шаге от невероятной славы! Но не забывай, что удача может покинуть тебя в любой момент.(ENGLISH)"
+      "value": "You're one step away from incredible glory! But don't forget that luck can abandon you at any moment."
     },
     {
       "key": "Gold_10",
-      "value": "О-о-о, ты настоящий везунчик! Но не радуйся, ведь есть еще множество других игр, которые покажут тебе, что это не так.(ENGLISH)"
+      "value": "Oh, you're a real lucky one! But don't celebrate just yet, as there are plenty of other games that will show you otherwise."
     },
     {
       "key": "Silver_0",
-      "value": "Все ради достижения... Ведь так?(ENGLISH)"
+      "value": "All for the sake of an achievement... Right?"
     },
     {
       "key": "Silver_1",
-      "value": "Отличная память, так держать!(ENGLISH)"
+      "value": "Excellent memory, keep it up!"
     },
     {
       "key": "Silver_2",
-      "value": "Мы просто надеемся, что это не пятая попытка.(ENGLISH)"
+      "value": "We just hope it's not your fifth attempt."
     },
     {
       "key": "Silver_3",
-      "value": "Генератор случайных нажатий справился бы лучше.(ENGLISH)"
+      "value": "A random button press generator would do better."
     },
     {
       "key": "Silver_4",
-      "value": "Видимо, сегодня не твой день. Может, попробуешь угадать, какой ответ будет неправильным?(ENGLISH)"
+      "value": "Seems like it's not your day. Maybe try guessing which answer will be incorrect?,"
     },
     {
       "key": "Silver_5",
-      "value": "На полпути к успеху, осталось запомнить еще столько же.(ENGLISH)"
+      "value": "Halfway to success, just remember the same amount again."
     },
     {
       "key": "Silver_6",
-      "value": "Запоминать сложно, понимаем.(ENGLISH)"
+      "value": "It's hard to memorize, we understand."
     },
     {
       "key": "Silver_7",
-      "value": "Ты, наверное, уже начинаешь чувствовать себя победителем?(ENGLISH)"
+      "value": "You're probably starting to feel like a winner, aren't you?"
     },
     {
       "key": "Silver_8",
-      "value": "Еще 2, и день прошёл не зря.(ENGLISH)"
+      "value": "Just two more, and the day won't be wasted."
     },
     {
       "key": "Silver_9",
-      "value": "Какая это попытка, девятая?(ENGLISH)"
+      "value": "What attempt is this, nine?"
     },
     {
       "key": "Silver_10",
-      "value": "Невероятно! Ты смог угадать все ответы! Возможно, тебе стоит рассмотреть карьеру в играх на удачу. Впрочем, лучше не стоит.(ENGLISH)"
+      "value": "Incredible! You managed to guess all the answers! Perhaps you should consider a career in games of chance. Well, on second thought, maybe not."
     },
     {
       "key": "WelcomeBack",
       "value": "Welcome back!"
+    },
+    {
+      "key": "Level",
+      "value": "Level"
+    },
+    {
+      "key": "Result",
+      "value": "Result"
     }
   ]
 }
