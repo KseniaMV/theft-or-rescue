@@ -25,7 +25,7 @@ public class ButtonConfirmSelectedAvatar : AbstractButton, IPointerDownHandler
     }
     private void Start()
     {
-        if (AllDataSave.NumberAvatar != 0)
+        if (mainManager.allDataSave.NumberAvatar != 0)
             StartCoroutine(OpenWelcomePanel());
     }
     private IEnumerator OpenWelcomePanel()

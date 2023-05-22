@@ -1,41 +1,27 @@
-using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine;
-using UnityEngine.UI;
 public class ButtonStartGame : AbstractButton, IPointerDownHandler
 {
-    [SerializeField] private Image _image;
-    [SerializeField] private float _fadeDuration;
+    [Header("ButtonData")]
+    [SerializeField] private bool _createNewLevelData;
+    [SerializeField] private FadeScreen _fadeScreen;
     private void OnEnable()
     {
-        if (_image == null)
-            _image = transform.parent.Find("Fade Screen Panel").GetComponentInChildren<Image>();
-
-        _image.transform.parent.gameObject.SetActive(false);
+        if (_fadeScreen == null)
+            _fadeScreen = GameObject.FindGameObjectWithTag("FadeScreen").GetComponent<FadeScreen>();
     }
     public void OnPointerDown(PointerEventData eventData)
     {
         mainManager.options.ClickAudio();
 
+        if(_createNewLevelData)
+            mainManager.CreateDataLevel();
+        else
+            mainManager.allDataSave.NullAdnSaveLevelData();
+
         mainManager.allDataSave.SaveAll();
 
-        if (AllDataSave.NumberAvatar != 0)
-            StartCoroutine(FadeScreen());
-    }
-    private IEnumerator FadeScreen()
-    {
-        _image.transform.parent.gameObject.SetActive(true);
-        float time = 0;
-        float alfa = 0;
-       
-        while (time < _fadeDuration)
-        {
-            time += Time.deltaTime;
-            alfa = time / _fadeDuration;
-            _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, alfa);
-            yield return null;
-        }
-        if (time >= _fadeDuration)
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+        if (mainManager.allDataSave.NumberAvatar != 0)
+            _fadeScreen.StatFadeScreen();
     }
 }

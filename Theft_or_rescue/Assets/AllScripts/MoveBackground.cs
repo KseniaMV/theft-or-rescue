@@ -9,6 +9,7 @@ public class MoveBackground : MonoBehaviour
 
     private float[] _startPosBgsX;
     private float _widthImage;
+    private Coroutine _runBackground;
 
     private void Awake()
     {
@@ -30,11 +31,12 @@ public class MoveBackground : MonoBehaviour
             _images[i].sprite = sprite;
 
         StartBeginning();
-        StartCoroutine(Moving());
+
+        _runBackground = Coroutines.StartRoutine(Moving());
     }
     private void StartBeginning()
     {
-        StopCoroutine(Moving());
+        Coroutines.StopRoutine(_runBackground);
 
         for (int i = 0; i < _bgs.Length; i++)
             _bgs[i].localPosition = new Vector2(_startPosBgsX[i], _bgs[i].localPosition.y);

@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public enum PanelsMainMenuScene {LangaugePanel = 0, StartPanel, LoginPanel, InfoPanel, OptionsPanel, AchievementsPanel }
+public enum PanelsMainMenuScene {LangaugePanel = 0, StartPanel, LoginPanel, InfoPanel, OptionsPanel, AchievementsPanel, InfoObtainedAchievement }
 public class MainManager : MonoBehaviour
 {
     public static MainManager instance { get; private set; }
@@ -42,21 +42,29 @@ public class MainManager : MonoBehaviour
 
         if (achievementsManager == null && transform.parent.GetComponentInChildren<AchievementsManager>())
             achievementsManager = transform.parent.GetComponentInChildren<AchievementsManager>();
-        //for (int i = 0; i < panels.Length; i++)
-        //    if(panels[i] != null)
-        //        panels[i].SetActive(false);
     }
     private void Start()
     {
-        if(SceneManager.GetActiveScene().name == "MainMenu")
+        if (SceneManager.GetActiveScene().name == "MainMenu")
+        {
             CheckSelectedLanguage();
+            CheckObtainedAchievement();
+        }
+    }
+    private void CheckObtainedAchievement()
+    {
+        if (allDataSave.Answers != null)
+        {
+            panels[(int)PanelsMainMenuScene.AchievementsPanel].SetActive(true);
+            panels[(int)PanelsMainMenuScene.InfoObtainedAchievement].SetActive(true);
+        }
+        else
+            panels[((int)PanelsMainMenuScene.StartPanel)].SetActive(true);
     }
     private void CheckSelectedLanguage()
     {
         if (!PlayerPrefs.HasKey("Language"))
             panels[((int)PanelsMainMenuScene.LangaugePanel)].SetActive(true);
-        else
-            panels[((int)PanelsMainMenuScene.StartPanel)].SetActive(true);
     }
     public void CheckSelectedAvatar(bool isSelected)
     {
@@ -64,5 +72,61 @@ public class MainManager : MonoBehaviour
             panels[(int)PanelsMainMenuScene.InfoPanel].SetActive(true);
         else
             panels[(int)PanelsMainMenuScene.LoginPanel].SetActive(true);
+    }
+    public void CreateDataLevel()
+    {
+        int[] characters = new int[10];
+        int[] things = new int[10];
+        bool[] answers = new bool[10];
+
+        CreateDataLevelCharacters(characters);
+        CreateDataLevelAnswers(answers);
+        CreateDataLevelThings(things);
+
+        allDataSave.SaveDataLevel(characters, things, answers, GetNumberBackground());
+    }
+    private int GetNumberBackground()
+    {
+        int numBg = Random.Range(1, Resources.LoadAll<Sprite>("Background Sprites").Length + 1);
+
+        return numBg;
+    }
+    private int[] CreateDataLevelCharacters(int[] characters)
+    {
+        Sprite[] sprites = Resources.LoadAll<Sprite>("Characters");
+
+        for (int i = 0; i < characters.Length; i++)
+        {
+            int rand = Random.Range(1, sprites.Length +1);
+            characters[i] = rand;
+        }
+
+        return characters;
+    }
+    private int[] CreateDataLevelThings(int[] things)
+    {
+        Sprite[] sprites = Resources.LoadAll<Sprite>("Things");
+
+        for (int i = 0; i < things.Length; i++)
+        {
+            int rand = Random.Range(1, sprites.Length + 1);
+            things[i] = rand;
+        }
+
+        return things;
+    }
+    private bool[] CreateDataLevelAnswers(bool[] answers)
+    {
+        for (int i = 0; i < answers.Length; i++)
+        {
+            int rand = Random.Range(0, 2);
+
+            if (rand == 0)
+                answers[i] = true;
+            else
+                answers[i] = false;
+        }
+
+        return answers;
     }
 }

@@ -8,11 +8,11 @@ public class ButtonAchievement : AbstractButton, IPointerDownHandler
     [Header("Button Data")]
     public Button button;
     public TypeAchievement type;
+    public string _keyForTranslate;
+    public Sprite _spriteAchievement;
 
     [SerializeField] private AchievementPanels _openPanel;
-    [SerializeField] private string _keyForTranslate;
     [SerializeField] private Image _imageAchievement;
-    [SerializeField] private Sprite _spriteAchievement;
     [SerializeField] private Image _imageOpenedAchievement;
 
     private void Awake()
