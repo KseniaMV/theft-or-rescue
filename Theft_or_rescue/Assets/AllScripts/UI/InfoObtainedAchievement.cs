@@ -7,11 +7,9 @@ public class InfoObtainedAchievement : MonoBehaviour
 
     [Header("Level")]
     [SerializeField] private Text _textValueLevel;
-    [SerializeField] private int _numLevel;
 
     [Header("Level")]
     [SerializeField] private Text _textValueResult;
-    [SerializeField] private int _numResult;
 
     [Header("Phrase")]
     [SerializeField] private Transform _phrase;
@@ -43,6 +41,7 @@ public class InfoObtainedAchievement : MonoBehaviour
     private void CheckLastAchievement()
     {
         ButtonAchievement buttonAchievement = null;
+        LocalizedText localText = _phrase.gameObject.AddComponent<LocalizedText>();
 
         if (_allDataSave.LastAchievement != null)
         {
@@ -55,16 +54,10 @@ public class InfoObtainedAchievement : MonoBehaviour
 
             _textValueResult.text = $"{_allDataSave.NumberCurrentWins} / 10";
             _textValueLevel.text = $"{_allDataSave.NumberCompletedGames + 1}";
-            LocalizedText localText = _phrase.gameObject.AddComponent<LocalizedText>();
             localText.key = buttonAchievement._keyForTranslate;
             _imageAchievement.sprite = buttonAchievement._spriteAchievement;
         }
-    }
-    public void ButtonNo()
-    {
-        _allDataSave.AddAndSaveNumberCompletedGames();
-        _allDataSave.NullAdnSaveLevelData();
-
-        Debug.Log("level data is null");
+        else
+            localText.key = "NoAchievemets";
     }
 }

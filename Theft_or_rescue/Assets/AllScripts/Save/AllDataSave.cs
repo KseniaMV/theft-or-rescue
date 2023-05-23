@@ -12,7 +12,7 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
     public int NumberTotalWins;
     public int NumberCurrentTotalWins;
     public int RemainingTimeBeforeWarning;
-    public int NumberAttempts;
+    public int NumberChance;
     public string GoldenAchievements;
     public string SilverAchievements;
     public int[] Characters;
@@ -47,7 +47,7 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         savedData.numberTotalWins = NumberTotalWins;
         savedData.numberCurrentTotalWins = NumberCurrentTotalWins;
         savedData.remainingTimeBeforeWarning = RemainingTimeBeforeWarning;
-        savedData.numberAttempts = NumberAttempts;
+        savedData.numberChance = NumberChance;
         savedData.goldenAchievements = GoldenAchievements;
         savedData.silverAchievements = SilverAchievements;
         savedData.characters = Characters;
@@ -61,16 +61,20 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
 
         storage.Save(savedData);
     }
-    public void NullAdnSaveLevelData()
-    {
+    public void NullAndSaveArraysData()
+    { 
         Characters = null;
         Answers = null;
         Things = null;
+    }
+    public void NullAdnSaveLevelData()
+    {
         SaveCurrentTotalWins(0);
         SaveLastAcvievement(null);
         SaveCurrentWins(0);
         SaveCurrentWins(0);
         RemainingNumberAttempts = 0;
+        NumberChance = 0;
         RemainingTimeBeforeWarning = 0;
     }
     public void LoadAll()
@@ -82,7 +86,7 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         NumberTotalWins = savedData.numberTotalWins;
         NumberCurrentTotalWins = savedData.numberCurrentTotalWins;
         RemainingTimeBeforeWarning = savedData.remainingTimeBeforeWarning;
-        NumberAttempts = savedData.numberAttempts;
+        NumberChance = savedData.numberChance;
         GoldenAchievements = savedData.goldenAchievements;
         SilverAchievements = savedData.silverAchievements;
 
@@ -164,8 +168,8 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
     }
     public void SaveSecondChance(int chance )
     {
-        NumberAttempts = chance;
-        savedData.numberAttempts = NumberAttempts;
+        NumberChance = chance;
+        savedData.numberChance = NumberChance;
         storage.Save(savedData);
     }
     public void SaveGoldenAchievement(string achievement)

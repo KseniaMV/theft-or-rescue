@@ -115,4 +115,32 @@ public class AchievementsManager : MonoBehaviour
     {
         _mainManager.allDataSave.SaveLastAcvievement($"{type}_{number}");
     }
+    public void UndoLactAchievement()
+    {
+        string info = _mainManager.allDataSave.LastAchievement;
+
+        string typeInfo = info.Split("_")[0];
+        int type = int.Parse(typeInfo);
+        string numInfo = info.Split("_")[1];
+        int num = int.Parse(numInfo);
+
+        if (type == 1)
+        {
+            string line = _mainManager.allDataSave.GoldenAchievements;
+            char[] achievements = line.ToCharArray();
+            achievements[num] = '0';
+            line = new string(achievements);
+            _mainManager.allDataSave.SaveGoldenAchievement(line);
+        }
+        else if (type == 2)
+        {
+            string line = _mainManager.allDataSave.SilverAchievements;
+            char[] achievements = line.ToCharArray();
+            achievements[num] = '0';
+            line = new string(achievements);
+            _mainManager.allDataSave.SaveSilverAchievement(line);
+        }
+
+        _mainManager.allDataSave.SaveLastAcvievement(null);
+    }
 }

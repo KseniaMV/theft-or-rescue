@@ -56,10 +56,10 @@ public class SceneGameManager : MonoBehaviour
         GetRemainingNumberAttempts();
         UpdateTextVins();
 
-        if (_mainManager.allDataSave.NumberAttempts == 0)
+        if (_mainManager.allDataSave.NumberChance == 0)
             _numberChance = 1;
         else
-            _numberChance = _mainManager.allDataSave.NumberAttempts;
+            _numberChance = _mainManager.allDataSave.NumberChance;
 
         GetNumberAnswer();
 
@@ -223,8 +223,6 @@ public class SceneGameManager : MonoBehaviour
     public void ReturnToMainMenu()//вызывается кнопкой
     {
         _mainManager.achievementsManager.CheckAndAddAchievement(_numberChance, _numCurrentWins);
-        //_numCurrentWins = 0;
-        //_mainManager.allDataSave.SaveCurrentWins(_numCurrentWins);
         _numAnswer = 0;
         _numberChance = 1;
         SaveData();
