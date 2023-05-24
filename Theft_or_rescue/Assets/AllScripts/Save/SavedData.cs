@@ -3,11 +3,11 @@ public class SavedData
 {
     public int numberAvatart;
     public int numberVictories;
-    public int numberCurrentWins;//равильные ответы в текущей игре
+    public int numberCurrentWins;
     public int numberTotalWins;
     public int numberCurrentTotalWins;
     public int remainingTimeBeforeWarning;
-    public int numberAttempts;
+    public int numberChance;
     public string goldenAchievements;
     public string silverAchievements;
     public int[] characters;
