@@ -61,6 +61,19 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
 
         storage.Save(savedData);
     }
+
+#if UNITY_EDITOR
+    [ContextMenu("Delete data")]
+    public void DeleteData()
+    {
+        PlayerPrefs.DeleteAll();
+
+        storage = new Storage();
+        storage.DeleteData();
+
+        Debug.Log("Данные удалены!");
+    }
+#endif
     public void NullAndSaveArraysData()
     { 
         Characters = null;

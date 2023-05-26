@@ -39,4 +39,11 @@ public class Storage
         formatter.Serialize(file, saveData);
         file.Close();
     }
+    public void DeleteData()
+    {
+        string path = Application.persistentDataPath + "/saves/GameSave.save";
+
+        if (File.Exists(path))
+            File.Delete(path);
+    }
 }
