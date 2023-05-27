@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ public class SceneGameManager : MonoBehaviour
     [SerializeField] private MainManager _mainManager;
 
     [Header("Character")]
-    [SerializeField] private SpriteRenderer _characterHolder;
+    [SerializeField] private Animator _characterHolder;
 
     [Header("Thing")]
     [SerializeField] private SpriteRenderer _thingHolder;
@@ -20,7 +21,7 @@ public class SceneGameManager : MonoBehaviour
     [SerializeField] private Text _textTimeToLose;
     [SerializeField] private Text _textCurrentWins;
     [SerializeField] private int _numAnswer;//количетво ответов
-    [SerializeField] private Sprite[] _characters;
+    [SerializeField] private AnimatorController[] _characters;
     [SerializeField] private Sprite[] _things;
     [SerializeField] private bool[] _answers;
     private const int _timeToWarning = 60;//время до предупреждения
@@ -102,12 +103,12 @@ public class SceneGameManager : MonoBehaviour
     }
     private void GetDataLevel()
     {
-        _characters = new Sprite[_mainManager.allDataSave.Characters.Length];
+        _characters = new AnimatorController[_mainManager.allDataSave.Characters.Length];
         _answers = new bool[_mainManager.allDataSave.Answers.Length];
         _things = new Sprite[_mainManager.allDataSave.Things.Length];
 
         for (int i = 0; i < _characters.Length; i++)
-            _characters[i] = Resources.Load<Sprite>($"Characters/Character_{_mainManager.allDataSave.Characters[i]}");
+            _characters[i] = Resources.Load<AnimatorController>($"Characters/Character_{_mainManager.allDataSave.Characters[i]}");
 
         for (int i = 0; i < _things.Length; i++)
             _things[i] = Resources.Load<Sprite>($"Things/Thing_{_mainManager.allDataSave.Things[i]}");
@@ -135,7 +136,15 @@ public class SceneGameManager : MonoBehaviour
     }
     private void CreateCharacter()
     {
-        _characterHolder.sprite = _characters[_numAnswer];
+        //_characterHolder.sprite = _characters[_numAnswer];
+
+        _characterHolder.runtimeAnimatorController = _characters[_numAnswer];
+
+        //Debug.Log(_characters[_numAnswer]);
+        //_characterHolder = _characters[_numAnswer];
+        //GameObject character = _characters[_numAnswer];
+        //character.transform.parent = _characterHolder;
+
     }
     private void CreateThing()
     {
