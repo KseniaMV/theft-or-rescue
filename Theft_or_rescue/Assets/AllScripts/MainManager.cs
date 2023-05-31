@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public enum PanelsMainMenuScene {LangaugePanel = 0, StartPanel, LoginPanel, InfoPanel, OptionsPanel, AchievementsPanel, InfoObtainedAchievement }
+using UnityEditor.Animations;
+public enum PanelsMainMenuScene {LangaugePanel = 0, StartPanel, LoginPanel, InfoPanel, OptionsPanel, AchievementsPanel }
 public class MainManager : MonoBehaviour
 {
     public static MainManager instance { get; private set; }
@@ -53,12 +54,12 @@ public class MainManager : MonoBehaviour
     }
     private void CheckObtainedAchievement()
     {
-        if (allDataSave.Answers != null)
-        {
-            panels[(int)PanelsMainMenuScene.AchievementsPanel].SetActive(true);
-            panels[(int)PanelsMainMenuScene.InfoObtainedAchievement].SetActive(true);
-        }
-        else
+        //if (allDataSave.Answers != null)
+        //{
+        //    panels[(int)PanelsMainMenuScene.AchievementsPanel].SetActive(true);
+        //    //panels[(int)PanelsMainMenuScene.InfoObtainedAchievement].SetActive(true);
+        //}
+        //else
             panels[((int)PanelsMainMenuScene.StartPanel)].SetActive(true);
     }
     private void CheckSelectedLanguage()
@@ -93,7 +94,7 @@ public class MainManager : MonoBehaviour
     }
     private int[] CreateDataLevelCharacters(int[] characters)
     {
-        Sprite[] sprites = Resources.LoadAll<Sprite>("Characters");
+        AnimatorController[] sprites = Resources.LoadAll<AnimatorController>("Characters");
 
         for (int i = 0; i < characters.Length; i++)
         {

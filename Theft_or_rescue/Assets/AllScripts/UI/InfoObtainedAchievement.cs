@@ -17,6 +17,8 @@ public class InfoObtainedAchievement : MonoBehaviour
     [Header("ImageAchievement")]
     [SerializeField] private Image _imageAchievement;
 
+    [SerializeField] private SceneGameManager _sceneGameManager;
+
     private void Awake()
     {
         if (_textValueLevel == null)
@@ -34,25 +36,19 @@ public class InfoObtainedAchievement : MonoBehaviour
         if (_allDataSave == null)
             _allDataSave = GameObject.FindGameObjectWithTag("MainManager").GetComponentInChildren<AllDataSave>();
     }
-    private void Start()
-    {
-        CheckLastAchievement();
-    }
-    private void CheckLastAchievement()
+    public void CheckLastAchievement(int numChance, int numWins)
     {
         ButtonAchievement buttonAchievement = null;
         LocalizedText localText = _phrase.gameObject.AddComponent<LocalizedText>();
 
-        if (_allDataSave.LastAchievement != null)
+        if (_allDataSave.LastAchievement == null)
         {
-            string[] info = _allDataSave.LastAchievement.Split("_");
+            if (numChance == 1)
+                buttonAchievement = Resources.Load<ButtonAchievement>($"Achievements/Gold/GoldAchievement_{1}");
+            else if (numChance == 2)
+                buttonAchievement = Resources.Load<ButtonAchievement>($"Achievements/Silver/SilverAchievement_{1}");
 
-            if (info[0] == "1")
-                buttonAchievement = Resources.Load<ButtonAchievement>($"Achievements/Gold/GoldAchievement_{info[1]}");
-            else if (info[0] == "2")
-                buttonAchievement = Resources.Load<ButtonAchievement>($"Achievements/Silver/SilverAchievement_{info[1]}");
-
-            _textValueResult.text = $"{_allDataSave.NumberCurrentWins} / 10";
+            _textValueResult.text = $"{numWins} / 10";
             _textValueLevel.text = $"{_allDataSave.NumberCompletedGames + 1}";
             localText.key = buttonAchievement._keyForTranslate;
             _imageAchievement.sprite = buttonAchievement._spriteAchievement;

@@ -7,6 +7,7 @@ public enum PanelsGameScene { MainPanel = 0, OprionsPanel, WarningPanel, LosePan
 public class SceneGameManager : MonoBehaviour
 {
     [SerializeField] private MainManager _mainManager;
+    [SerializeField] private InfoObtainedAchievement _obtainedAchievement;
 
     [Header("Character")]
     [SerializeField] private Animator _characterHolder;
@@ -18,24 +19,26 @@ public class SceneGameManager : MonoBehaviour
     [SerializeField] private MoveBackground _moveBackground;
 
     [Header("Game")]
+    private const int _timeToWarning = 60;//время до предупреждения
+    private const int _timeToLose = 10;//время до проигрыша
+
     [SerializeField] private Text _textTimeToLose;
     [SerializeField] private Text _textCurrentWins;
-    [SerializeField] private int _numAnswer;//количетво ответов
+    [SerializeField] public int _numAnswer;//количетво ответов
     [SerializeField] private AnimatorController[] _characters;
     [SerializeField] private Sprite[] _things;
     [SerializeField] private bool[] _answers;
-    private const int _timeToWarning = 60;//время до предупреждения
-    private const int _timeToLose = 10;//время до проигрыша
     [SerializeField] private int _numberCurrentTotalWins;
-
-    [SerializeField] private int _numberChance;//колво попыток
-    [SerializeField] private int _numCurrentWins;//колво правильных ответов
     [SerializeField] private int _remainingTimeBeforeWarning;//оставшееся время ожидания
     [SerializeField] private int _remainingNumberAttempts;//оставшееся колво попыток для сохранения
+    public int NumberChance { get; private set; }//колво попыток
+    public int NumCurrentWins { get; private set; }//колво правильных ответов
 
     [Header("Coroutines")]
     private Coroutine _timerToLose;
     private Coroutine _timerToWarning;
+    private Coroutine _timerNextAnswer;
+    public bool _canNextAnswer = true;
 
     private void Awake()
     {
@@ -48,9 +51,10 @@ public class SceneGameManager : MonoBehaviour
     }
     private void Start()
     {
+        _canNextAnswer = true;
         _mainManager.eventManager.ButtonActionPressedEvent += SelectAction;
 
-        _numCurrentWins = _mainManager.allDataSave.NumberCurrentWins;
+        NumCurrentWins = _mainManager.allDataSave.NumberCurrentWins;
 
         GetRemainingTimeBeforeWarning();
         GetNumberCurrentTotalWins();
@@ -58,9 +62,9 @@ public class SceneGameManager : MonoBehaviour
         UpdateTextVins();
 
         if (_mainManager.allDataSave.NumberChance == 0)
-            _numberChance = 1;
+            NumberChance = 1;
         else
-            _numberChance = _mainManager.allDataSave.NumberChance;
+            NumberChance = _mainManager.allDataSave.NumberChance;
 
         GetNumberAnswer();
 
@@ -85,7 +89,7 @@ public class SceneGameManager : MonoBehaviour
     }
     private void UpdateTextVins()
     {
-        _textCurrentWins.text = $"{_numCurrentWins} / 10";
+        _textCurrentWins.text = $"{NumCurrentWins} / 10";
     }
     private int GetRemainingNumberAttempts()
     {
@@ -99,6 +103,10 @@ public class SceneGameManager : MonoBehaviour
     private int GetNumberAnswer()
     {
         _numAnswer = _mainManager.allDataSave.NumberAnswer;
+
+        if (_numAnswer >= 9)
+            _numAnswer = 0;
+
         return _numAnswer;
     }
     private void GetDataLevel()
@@ -120,15 +128,31 @@ public class SceneGameManager : MonoBehaviour
         CreateCharacter();
         CreateThing();
     }
+    private IEnumerator DelayNextAnswer(bool isLose)
+    {
+        _canNextAnswer = false;
+
+        if (isLose)
+            _characterHolder.SetTrigger("Win");
+        else
+            _characterHolder.SetTrigger("Lose");
+
+        float animationDuration = _characterHolder.GetCurrentAnimatorClipInfo(0).Length;
+
+        yield return new WaitForSeconds(animationDuration);
+        _canNextAnswer = true;
+
+        Coroutines.StopRoutine(_timerNextAnswer);
+    }
     public void AddCurrentWin()//добавление очка к текущим победам
     {
         if (_remainingNumberAttempts > 0)
-            _numCurrentWins++;
+            NumCurrentWins++;
         else
-            PlayArain();
+            PlayAgain();
 
-        _textCurrentWins.text = $"{_numCurrentWins} / 10";
-        _mainManager.allDataSave.SaveCurrentWins(_numCurrentWins);
+        _textCurrentWins.text = $"{NumCurrentWins} / 10";
+        _mainManager.allDataSave.SaveCurrentWins(NumCurrentWins);
     }
     private void CreateBackground(int numBg)
     {
@@ -136,15 +160,8 @@ public class SceneGameManager : MonoBehaviour
     }
     private void CreateCharacter()
     {
-        //_characterHolder.sprite = _characters[_numAnswer];
-
         _characterHolder.runtimeAnimatorController = _characters[_numAnswer];
-
-        //Debug.Log(_characters[_numAnswer]);
-        //_characterHolder = _characters[_numAnswer];
-        //GameObject character = _characters[_numAnswer];
-        //character.transform.parent = _characterHolder;
-
+        Debug.Log($"имя персонажа  {_characterHolder.runtimeAnimatorController.name}");
     }
     private void CreateThing()
     {
@@ -178,7 +195,7 @@ public class SceneGameManager : MonoBehaviour
             _textTimeToLose.text = timer.ToString();
 
             if (timer <= 0)
-                PlayArain();
+                PlayAgain();
         }
     }
     public void StopTimers()
@@ -189,57 +206,42 @@ public class SceneGameManager : MonoBehaviour
     }
     private void SelectAction(bool value)//срабатывает ивентом при выборе действия
     {
-        StopTimers();
-        _timerToWarning = Coroutines.StartRoutine(TimeToWarning());
-        _remainingTimeBeforeWarning = _timeToWarning;
-       
-        if (_remainingNumberAttempts > 0 && _numCurrentWins < 10)
+        if (_canNextAnswer)
         {
-            if (_answers[_numAnswer] == value)
-                CorrectAnswer();
+            StopTimers();
+            _timerToWarning = Coroutines.StartRoutine(TimeToWarning());
+            _remainingTimeBeforeWarning = _timeToWarning;
 
-            _remainingNumberAttempts--;
-            _numAnswer++;
+            if (_remainingNumberAttempts > 0 && NumCurrentWins < 10)
+            {
+                if (_answers[_numAnswer] == value)
+                    CorrectAnswer();
+                else
+                    _timerNextAnswer = Coroutines.StartRoutine((DelayNextAnswer(false)));
+
+                _remainingNumberAttempts--;
+                _numAnswer++;
+            }
+            if (_remainingNumberAttempts == 0)
+                PlayAgain();
         }
-        if (_remainingNumberAttempts == 0)
-            PlayArain();
     }
-    private void PlayArain()
+    private void PlayAgain()
     {
         StopTimers();
 
+        _obtainedAchievement.CheckLastAchievement(NumberChance, NumCurrentWins);
         _mainManager.panels[(int)PanelsGameScene.CharacterPanel].SetActive(false);
         _mainManager.panels[(int)PanelsGameScene.LosePanel].SetActive(true);
     }
-    public void ContinueGame()//воспользоваться 2м шансом
+    public void AddChance()
     {
-        _mainManager.panels[(int)PanelsGameScene.CharacterPanel].SetActive(true);
-        _mainManager.panels[(int)PanelsGameScene.LosePanel].SetActive(false);
-        _remainingNumberAttempts = 10;
-        _remainingTimeBeforeWarning = 60;
-        _numCurrentWins = 0;
-        _mainManager.allDataSave.SaveCurrentWins(_numCurrentWins);
-        _numAnswer = 0;
-        _numberChance = 2;
-        _numberCurrentTotalWins = 0;
-
-        UpdateTextVins();
-        CreateCharacter();
-        CreateThing();
-
-        _timerToWarning = Coroutines.StartRoutine(TimeToWarning());
-    }
-    public void ReturnToMainMenu()//вызывается кнопкой
-    {
-        _mainManager.achievementsManager.CheckAndAddAchievement(_numberChance, _numCurrentWins);
-        _numAnswer = 0;
-        _numberChance = 1;
-        SaveData();
-
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        NumberChance = 2;
+        _mainManager.allDataSave.SaveSecondChance(NumberChance);
     }
     private void CorrectAnswer()//при верном ответе
     {
+        _timerNextAnswer = Coroutines.StartRoutine((DelayNextAnswer(true)));
         AddCurrentWin();
         _numberCurrentTotalWins++;
         CreateCharacter();
@@ -255,7 +257,7 @@ public class SceneGameManager : MonoBehaviour
     }
     private void SaveData()
     {
-        _mainManager.allDataSave.SaveSecondChance(_numberChance);
+        _mainManager.allDataSave.SaveSecondChance(NumberChance);
         _mainManager.allDataSave.SaveRemainingTimeBeforeWarning(_remainingTimeBeforeWarning);
         _mainManager.allDataSave.SaveNumberAnswer(_numAnswer);
         _mainManager.allDataSave.SaveCurrentTotalWins(_numberCurrentTotalWins);

@@ -3,7 +3,7 @@ using UnityEngine;
 public class ButtonStartGame : AbstractButton, IPointerDownHandler
 {
     [Header("ButtonData")]
-    [SerializeField] private bool _createNewLevelData;
+    [SerializeField] private bool _isGameScene;
     [SerializeField] private FadeScreen _fadeScreen;
     [SerializeField] private AchievementsManager _achievementsManager;
     private void Awake()
@@ -11,26 +11,20 @@ public class ButtonStartGame : AbstractButton, IPointerDownHandler
         if (_fadeScreen == null)
             _fadeScreen = GameObject.FindGameObjectWithTag("FadeScreen").GetComponent<FadeScreen>();
 
-        if (_createNewLevelData == false)
+        if (_achievementsManager == false)
             _achievementsManager = GameObject.FindGameObjectWithTag("MainManager").transform.parent.GetComponentInChildren<AchievementsManager>();
     }
     public void OnPointerDown(PointerEventData eventData)
     {
         mainManager.options.ClickAudio();
-
-        if (_createNewLevelData)
-        {
-            mainManager.allDataSave.NullAndSaveArraysData();
-            mainManager.allDataSave.NullAdnSaveLevelData();
-            mainManager.CreateDataLevel();
-        }
-        else
-        {
-            _achievementsManager.UndoLactAchievement();
-            mainManager.allDataSave.NullAdnSaveLevelData();
-        }
-
+        mainManager.allDataSave.NullAndSaveArraysData();
+        mainManager.allDataSave.NullAndSaveLevelData();
+        _achievementsManager.UndoLactAchievement();
+        mainManager.CreateDataLevel();
         mainManager.allDataSave.SaveAll();
+
+        if (_isGameScene)
+            mainManager.sceneGameManager.AddChance();
 
         if (mainManager.allDataSave.NumberAvatar != 0)
             _fadeScreen.StatFadeScreen();
