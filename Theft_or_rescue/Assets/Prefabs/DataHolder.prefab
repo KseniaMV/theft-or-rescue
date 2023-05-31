@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   options: {fileID: 6346974514014362542}
   eventManager: {fileID: 6346974513086714811}
-  allDataSave: {fileID: 6346974514207925796}
+  allDataSave: {fileID: 0}
   localizationManager: {fileID: 6346974514578442449}
   sceneGameManager: {fileID: 0}
   achievementsManager: {fileID: 5828966168936190800}
@@ -403,15 +403,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5added370f0dec6429cfdce0e8eeec8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numVictories: 0
-  numBg: 0
-  numChar: 0
-  numThing: 0
-  numCurWins: 0
-  numTotalWins: 0
-  remainingTime: 0
-  currentRightAction: 0
-  seconChance: 0
+  NumberAvatar: 11
+  NumberCurrentWins: 0
+  NumberTotalWins: 0
+  NumberCurrentTotalWins: 0
+  RemainingTimeBeforeWarning: 0
+  NumberChance: 0
+  GoldenAchievements: 
+  SilverAchievements: 
+  Characters: 
+  Things: 
+  Answers: 
+  NumberBackground: 0
+  NumberAnswer: 0
+  RemainingNumberAttempts: 0
+  LastAchievement: 
+  NumberCompletedGames: 0
 --- !u!1 &6346974514438765894
 GameObject:
   m_ObjectHideFlags: 0

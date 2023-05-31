@@ -80,7 +80,7 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         Answers = null;
         Things = null;
     }
-    public void NullAdnSaveLevelData()
+    public void NullAndSaveLevelData()
     {
         SaveCurrentTotalWins(0);
         SaveLastAcvievement(null);
