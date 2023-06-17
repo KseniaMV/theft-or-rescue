@@ -8523,7 +8523,7 @@ MonoBehaviour:
   _oldPanels: []
   _newPanels: []
   mainManager: {fileID: 820894456}
-  _createNewLevelData: 1
+  _isGameScene: 0
   _fadeScreen: {fileID: 1346069019}
   _achievementsManager: {fileID: 956268665}
 --- !u!1 &1817246527
