@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor.Animations;
 public enum PanelsMainMenuScene {LangaugePanel = 0, StartPanel, LoginPanel, InfoPanel, OptionsPanel, AchievementsPanel }
 public class MainManager : MonoBehaviour
 {
@@ -84,6 +83,7 @@ public class MainManager : MonoBehaviour
         CreateDataLevelAnswers(answers);
         CreateDataLevelThings(things);
 
+        allDataSave.SaveNumberAnswer(0);
         allDataSave.SaveDataLevel(characters, things, answers, GetNumberBackground());
     }
     private int GetNumberBackground()
@@ -94,7 +94,7 @@ public class MainManager : MonoBehaviour
     }
     private int[] CreateDataLevelCharacters(int[] characters)
     {
-        AnimatorController[] sprites = Resources.LoadAll<AnimatorController>("Characters");
+        GameObject[] sprites = Resources.LoadAll<GameObject>("Characters");
 
         for (int i = 0; i < characters.Length; i++)
         {

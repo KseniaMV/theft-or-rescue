@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,10 +9,13 @@ public class SceneGameManager : MonoBehaviour
     [SerializeField] private InfoObtainedAchievement _obtainedAchievement;
 
     [Header("Character")]
-    [SerializeField] private Animator _characterHolder;
+    [SerializeField] private Transform _characterHolder;
+    [SerializeField] private Animator _characterAnimator;
+    [SerializeField] private GameObject[] _characters;
 
     [Header("Thing")]
     [SerializeField] private SpriteRenderer _thingHolder;
+    [SerializeField] private Sprite[] _things;
 
     [Header("Background")]
     [SerializeField] private MoveBackground _moveBackground;
@@ -25,8 +27,6 @@ public class SceneGameManager : MonoBehaviour
     [SerializeField] private Text _textTimeToLose;
     [SerializeField] private Text _textCurrentWins;
     [SerializeField] public int _numAnswer;//количетво ответов
-    [SerializeField] private AnimatorController[] _characters;
-    [SerializeField] private Sprite[] _things;
     [SerializeField] private bool[] _answers;
     [SerializeField] private int _numberCurrentTotalWins;
     [SerializeField] private int _remainingTimeBeforeWarning;//оставшееся время ожидания
@@ -111,12 +111,12 @@ public class SceneGameManager : MonoBehaviour
     }
     private void GetDataLevel()
     {
-        _characters = new AnimatorController[_mainManager.allDataSave.Characters.Length];
+        _characters = new GameObject[_mainManager.allDataSave.Characters.Length];
         _answers = new bool[_mainManager.allDataSave.Answers.Length];
         _things = new Sprite[_mainManager.allDataSave.Things.Length];
 
         for (int i = 0; i < _characters.Length; i++)
-            _characters[i] = Resources.Load<AnimatorController>($"Characters/Character_{_mainManager.allDataSave.Characters[i]}");
+            _characters[i] = Resources.Load<GameObject>($"Characters/Character_{_mainManager.allDataSave.Characters[i]}");
 
         for (int i = 0; i < _things.Length; i++)
             _things[i] = Resources.Load<Sprite>($"Things/Thing_{_mainManager.allDataSave.Things[i]}");
@@ -125,22 +125,23 @@ public class SceneGameManager : MonoBehaviour
             _answers[i] = _mainManager.allDataSave.Answers[i];
 
         CreateBackground(_mainManager.allDataSave.NumberBackground);
-        CreateCharacter();
-        CreateThing();
+        CreateCharacters();
     }
+
     private IEnumerator DelayNextAnswer(bool isLose)
     {
         _canNextAnswer = false;
 
         if (isLose)
-            _characterHolder.SetTrigger("Win");
+            _characterAnimator.SetTrigger("Win");
         else
-            _characterHolder.SetTrigger("Lose");
+            _characterAnimator.SetTrigger("Lose");
 
-        float animationDuration = _characterHolder.GetCurrentAnimatorClipInfo(0).Length;
+        float animationDuration = _characterAnimator.GetCurrentAnimatorStateInfo(0).length;
 
-        yield return new WaitForSeconds(animationDuration);
+        yield return new WaitForSeconds(animationDuration + 2);
         _canNextAnswer = true;
+        SelectCharacter();
 
         Coroutines.StopRoutine(_timerNextAnswer);
     }
@@ -158,13 +159,33 @@ public class SceneGameManager : MonoBehaviour
     {
         _moveBackground.GetImagesAndStartMoving(Resources.Load<Sprite>($"Background Sprites/bg_{numBg}"));
     }
-    private void CreateCharacter()
+    private void SelectCharacter()
     {
-        _characterHolder.runtimeAnimatorController = _characters[_numAnswer];
-        Debug.Log($"имя персонажа  {_characterHolder.runtimeAnimatorController.name}");
+        _characterHolder.GetChild(_numAnswer - 1).gameObject.SetActive(false);
+        
+        _characterAnimator = null;
+
+        if (_numAnswer < _characters.Length)
+        {
+            _characterHolder.GetChild(_numAnswer).gameObject.SetActive(true);
+            _characterAnimator = _characterHolder.GetChild(_numAnswer).GetComponent<Animator>();
+        }
     }
-    private void CreateThing()
+    private void CreateCharacters()
     {
+        for (int i = 0; i < _characters.Length; i++)
+        {
+            var character = Instantiate(_characters[i], _characterHolder);
+            CreateThing(character.transform);
+
+            if (i > 0)
+                character.SetActive(false);
+        }
+        _characterAnimator = _characterHolder.GetChild(_numAnswer).GetComponent<Animator>();
+    }
+    private void CreateThing(Transform character)
+    {
+        _thingHolder = character.GetComponentInChildren<ThingComponent>().GetComponent<SpriteRenderer>();
         _thingHolder.sprite = _things[_numAnswer];
     }
     private IEnumerator TimeToWarning()//таймер до показа панели предупреждения о поражении
@@ -244,8 +265,7 @@ public class SceneGameManager : MonoBehaviour
         _timerNextAnswer = Coroutines.StartRoutine((DelayNextAnswer(true)));
         AddCurrentWin();
         _numberCurrentTotalWins++;
-        CreateCharacter();
-        CreateThing();
+        //CreateCharacter();
     }
     private void OnDestroy()
     {
