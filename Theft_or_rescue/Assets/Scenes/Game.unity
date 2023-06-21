@@ -1652,8 +1652,9 @@ MonoBehaviour:
   _mainManager: {fileID: 136456871}
   _obtainedAchievement: {fileID: 1575195220}
   _characterHolder: {fileID: 947823604}
-  _characterAnimator: {fileID: 0}
   _characters: []
+  _character: {fileID: 0}
+  _canSelectNextCharacter: 0
   _thingHolder: {fileID: 0}
   _things: []
   _moveBackground: {fileID: 57580711}

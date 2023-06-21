@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   options: {fileID: 6346974514014362542}
   eventManager: {fileID: 6346974513086714811}
-  allDataSave: {fileID: 0}
+  allDataSave: {fileID: 6346974514207925796}
   localizationManager: {fileID: 6346974514578442449}
   sceneGameManager: {fileID: 0}
   achievementsManager: {fileID: 5828966168936190800}

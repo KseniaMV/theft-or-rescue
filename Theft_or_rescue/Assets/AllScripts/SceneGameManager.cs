@@ -10,8 +10,8 @@ public class SceneGameManager : MonoBehaviour
 
     [Header("Character")]
     [SerializeField] private Transform _characterHolder;
-    [SerializeField] private Animator _characterAnimator;
     [SerializeField] private GameObject[] _characters;
+    [SerializeField] private Character _character;
 
     [Header("Thing")]
     [SerializeField] private SpriteRenderer _thingHolder;
@@ -130,16 +130,12 @@ public class SceneGameManager : MonoBehaviour
 
     private IEnumerator DelayNextAnswer(bool isLose)
     {
+        _character.Run(false);
         _canNextAnswer = false;
-
-        if (isLose)
-            _characterAnimator.SetTrigger("Win");
-        else
-            _characterAnimator.SetTrigger("Lose");
-
-        float animationDuration = _characterAnimator.GetCurrentAnimatorStateInfo(0).length;
-
-        yield return new WaitForSeconds(animationDuration + 2);
+        _mainManager.eventManager.ButtonsActionInteractable(false);
+        _character.StartAnim(isLose);
+        yield return new WaitForSeconds(3);
+        _mainManager.eventManager.ButtonsActionInteractable(true);
         _canNextAnswer = true;
         SelectCharacter();
 
@@ -162,13 +158,14 @@ public class SceneGameManager : MonoBehaviour
     private void SelectCharacter()
     {
         _characterHolder.GetChild(_numAnswer - 1).gameObject.SetActive(false);
-        
-        _characterAnimator = null;
+        _character = null;
 
         if (_numAnswer < _characters.Length)
         {
             _characterHolder.GetChild(_numAnswer).gameObject.SetActive(true);
-            _characterAnimator = _characterHolder.GetChild(_numAnswer).GetComponent<Animator>();
+            _character = _characterHolder.GetChild(_numAnswer).GetComponent<Character>();
+            _character.Run(true);
+            _character.animator = _characterHolder.GetChild(_numAnswer).GetComponent<Animator>();
         }
     }
     private void CreateCharacters()
@@ -181,7 +178,8 @@ public class SceneGameManager : MonoBehaviour
             if (i > 0)
                 character.SetActive(false);
         }
-        _characterAnimator = _characterHolder.GetChild(_numAnswer).GetComponent<Animator>();
+        _character = _characterHolder.GetChild(_numAnswer).GetComponent<Character>();
+        _character.Run(true);
     }
     private void CreateThing(Transform character)
     {
@@ -265,7 +263,6 @@ public class SceneGameManager : MonoBehaviour
         _timerNextAnswer = Coroutines.StartRoutine((DelayNextAnswer(true)));
         AddCurrentWin();
         _numberCurrentTotalWins++;
-        //CreateCharacter();
     }
     private void OnDestroy()
     {
