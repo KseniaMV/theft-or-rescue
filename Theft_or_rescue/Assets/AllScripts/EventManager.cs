@@ -6,6 +6,7 @@ public class EventManager : MonoBehaviour
     public static EventManager instance { get; private set; }
     public Action ButtonSelectAvatarPressedEvent;
     public Action<bool> ButtonActionPressedEvent;
+    public Action<bool> ButtonsActionInteractableEvent;
     private void Awake()
     {
         if (instance == null)
@@ -20,5 +21,9 @@ public class EventManager : MonoBehaviour
     public void ButtonActionPressed(bool value)
     {
         ButtonActionPressedEvent?.Invoke(value);
+    }
+    public void ButtonsActionInteractable(bool interactable)
+    {
+        ButtonsActionInteractableEvent?.Invoke(interactable);
     }
 }
