@@ -453,6 +453,8 @@ MonoBehaviour:
   _newPanels: []
   mainManager: {fileID: 136456871}
   _answer: 0
+  _button: {fileID: 0}
+  _mainManager: {fileID: 0}
 --- !u!1 &311311970
 GameObject:
   m_ObjectHideFlags: 0
@@ -1594,6 +1596,8 @@ MonoBehaviour:
   _newPanels: []
   mainManager: {fileID: 136456871}
   _answer: 1
+  _button: {fileID: 0}
+  _mainManager: {fileID: 0}
 --- !u!114 &1894307509 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6346974514207925796, guid: 53559e0b88403a14c8b1c7451c962577, type: 3}
@@ -1654,7 +1658,6 @@ MonoBehaviour:
   _characterHolder: {fileID: 947823604}
   _characters: []
   _character: {fileID: 0}
-  _canSelectNextCharacter: 0
   _thingHolder: {fileID: 0}
   _things: []
   _moveBackground: {fileID: 57580711}

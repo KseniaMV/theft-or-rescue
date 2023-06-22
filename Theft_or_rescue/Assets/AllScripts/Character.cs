@@ -1,21 +1,34 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(AudioSource))]
 public class Character : MonoBehaviour
 {
     [Range(0f, .1f)] [SerializeField] private float _runSpeed;
     [Range(0f, .1f)] [SerializeField] private float _stopSpeed;
-
+    [Space(5)]
+    [SerializeField] private DisappearanceTypes _disappearanceTypes;
+    [SerializeField] private ParticleSystem _particleSystem;
+    [SerializeField] private Transform _particleSystemPosition;
+    [Space(5)]
     public Animator animator;
+    [SerializeField] private AudioClip _winAudio;
+    [SerializeField] private AudioClip _loseAudio;
+    [SerializeField] private AudioSource _audioSource;
 
     private Vector2 _startPosition;
     private Coroutine _timerStartRunning;
     private Coroutine _timerStopRunnig;
-
+    private bool _canDisappearance;
+    private enum DisappearanceTypes { RunLeft = 1, RunRight, Disappearance = 3}
     private void Awake()
     {
         if (animator == null)
             animator = GetComponent<Animator>();
+
+        if (_audioSource == null)
+            _audioSource = GetComponent<AudioSource>();
 
         _startPosition = transform.position;
     }
@@ -32,21 +45,59 @@ public class Character : MonoBehaviour
             Coroutines.StopRoutine(_timerStartRunning);
         }
     }
-    public void StartAnim(bool lose)
+    private void PlayAudio(bool win)
+    {
+        if (_audioSource != null)
+        {
+            if (win)
+                _audioSource.clip = _winAudio;
+            else
+                _audioSource.clip = _loseAudio;
+
+            _audioSource.Play();
+        }
+    }
+    public void StartAnimAndAudio(bool lose)
     {
         if (lose)
+        {
+            PlayAudio(lose);
             animator.SetTrigger("Win");
+        }
         else
+        {
+            PlayAudio(lose);
             animator.SetTrigger("Lose");
+        }
     }
     public void Run(bool start)
     {
-        if(start)
+        if (start)
             _timerStartRunning = Coroutines.StartRoutine(StartRunning());
         else
-            _timerStopRunnig = Coroutines.StartRoutine(StopRunning());
+        {
+
+            switch (_disappearanceTypes)
+            {
+                case DisappearanceTypes.RunLeft:
+                    _timerStopRunnig = Coroutines.StartRoutine(StopRunningLeft());
+                    break;
+
+                case DisappearanceTypes.RunRight:
+                    _timerStopRunnig = Coroutines.StartRoutine(StopRunningRight());
+                    break;
+
+                case DisappearanceTypes.Disappearance:
+                    _canDisappearance = true;
+                    break;
+
+                default:
+                    _canDisappearance = true;
+                    break;
+            }
+        }
     }
-    private IEnumerator StopRunning()
+    private IEnumerator StopRunningLeft()
     {
         while (transform.position.x > _startPosition.x)
         {
@@ -59,5 +110,29 @@ public class Character : MonoBehaviour
             gameObject.SetActive(false);
             Coroutines.StopRoutine(_timerStopRunnig);
         }
+    }
+    private IEnumerator StopRunningRight()
+    {
+        while (transform.position.x < Mathf.Abs(_startPosition.x))
+        {
+            transform.Translate(Vector2.right * _runSpeed);
+            yield return null;
+        }
+
+        if (transform.position.x >= Mathf.Abs(_startPosition.x))
+        {
+            gameObject.SetActive(false);
+            Coroutines.StopRoutine(_timerStopRunnig);
+        }
+    }
+    private void  DisappearanceAnimEvent()
+    {
+        if (_particleSystem != null && _canDisappearance)
+        {
+            var exp = Instantiate(_particleSystem, _particleSystemPosition);
+            exp.transform.parent = null;
+            exp.Play();
+        }
+        gameObject.SetActive(false);
     }
 }
