@@ -133,7 +133,7 @@ public class SceneGameManager : MonoBehaviour
         _character.Run(false);
         _canNextAnswer = false;
         _mainManager.eventManager.ButtonsActionInteractable(false);
-        _character.StartAnim(isLose);
+        _character.StartAnimAndAudio(isLose);
         yield return new WaitForSeconds(3);
         _mainManager.eventManager.ButtonsActionInteractable(true);
         _canNextAnswer = true;
