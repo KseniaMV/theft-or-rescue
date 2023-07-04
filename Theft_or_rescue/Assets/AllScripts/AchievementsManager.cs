@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public enum TypeAchievement { Null, Gold, Silver }
-public enum AchievementPanels { NoAchievementsPanel, LittlePanel, BigPanel}
+public enum AchievementPanels { LittlePanel, BigPanel}
 public class AchievementsManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] _panels;
@@ -29,19 +29,13 @@ public class AchievementsManager : MonoBehaviour
     }
     private void LoadOrCreateDataAchievements()
     {
-        bool isGoldAchiev = false;
-        bool isSilverAchev = false;
-
         if (_mainManager.allDataSave.GoldenAchievements == null)
         {
             _goldenAchievements = NULL_ACHEVEMENT;
             _mainManager.allDataSave.SaveGoldenAchievement(_goldenAchievements);
         }
         else
-        {
             _goldenAchievements = _mainManager.allDataSave.GoldenAchievements;
-            isGoldAchiev = true;
-        }
 
         if (_mainManager.allDataSave.SilverAchievements == null)
         {
@@ -49,15 +43,7 @@ public class AchievementsManager : MonoBehaviour
             _mainManager.allDataSave.SaveSilverAchievement(_silverAchievements);
         }
         else
-        { 
             _silverAchievements = _mainManager.allDataSave.SilverAchievements;
-            isSilverAchev = true;
-        }
-
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu" & !isGoldAchiev && !isSilverAchev)
-            OpenPanel(true, (int)AchievementPanels.NoAchievementsPanel);
-        else if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
-            OpenPanel(false, (int)AchievementPanels.NoAchievementsPanel);
 
         _dataIsExists = true;
     }
@@ -117,7 +103,7 @@ public class AchievementsManager : MonoBehaviour
     }
     public void UndoLactAchievement()
     {
-        string info = _mainManager.allDataSave.LastAchievement;
+        string info = _mainManager.allDataSave.LastCurrentAchievement;
 
         if (info != null)
         {

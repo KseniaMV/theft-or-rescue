@@ -16,6 +16,7 @@ public class SavedData
     public int numberBackground;
     public int numberAnswer;
     public int remainingNumberAttempts;
-    public string lastAchievement;
+    public string lastCurrentAchievement;
     public int numberCompletedGames;
+    public string nameTotalLastAchievement;
 }

@@ -3,8 +3,8 @@ using UnityEngine;
 public abstract class AbstractButton : MonoBehaviour
 {
     [Header("Abstract Data")]
-    [SerializeField] private GameObject[] _oldPanels;
-    [SerializeField] private GameObject[] _newPanels;
+    public GameObject[] oldPanels;
+    public GameObject[] newPanels;
 
     public MainManager mainManager;
     private void OnEnable()
@@ -16,24 +16,24 @@ public abstract class AbstractButton : MonoBehaviour
     {
         mainManager.options.ClickAudio();
 
-        if (_oldPanels != null)
-            for (int i = 0; i < _oldPanels.Length; i++)
-                _oldPanels[i].SetActive(false);
+        if (oldPanels != null)
+            for (int i = 0; i < oldPanels.Length; i++)
+                oldPanels[i].SetActive(false);
 
-        if (_newPanels != null)
-            for (int i = 0; i < _newPanels.Length; i++)
+        if (newPanels != null)
+            for (int i = 0; i < newPanels.Length; i++)
             {
-                _newPanels[i].transform.SetSiblingIndex(transform.parent.childCount);
-                _newPanels[i].SetActive(true);
+                newPanels[i].transform.SetSiblingIndex(transform.parent.childCount);
+                newPanels[i].SetActive(true);
             }
     }
     public virtual void OpenNewPanel(GameObject newPanel)
     {
         mainManager.options.ClickAudio();
 
-        if (_oldPanels != null)
-            for (int i = 0; i < _oldPanels.Length; i++)
-                _oldPanels[i].SetActive(false);
+        if (oldPanels != null)
+            for (int i = 0; i < oldPanels.Length; i++)
+                oldPanels[i].SetActive(false);
 
         if (newPanel != null)
         {

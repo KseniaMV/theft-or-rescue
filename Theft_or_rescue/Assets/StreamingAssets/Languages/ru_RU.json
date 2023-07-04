@@ -30,7 +30,7 @@
     },
     {
       "key": "ButtonChangeLanguage",
-      "value": "Сменить язык"
+      "value": "Русский"
     },
     {
       "key": "PlayAgain",
@@ -46,7 +46,7 @@
     },
     {
       "key": "NoAchievemets",
-      "value": "Нет достижений!"
+      "value": "Достижение закрыто!"
     },
     {
       "key": "Gold_0",

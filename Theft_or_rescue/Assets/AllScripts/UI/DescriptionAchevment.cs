@@ -79,28 +79,47 @@ public class DescriptionAchevment : MonoBehaviour
         {
             if (_mainManager.allDataSave.GoldenAchievements[i] == '0')
             {
-                _goldButtons[i].button.interactable = false;
-                _goldButtons[i].enabled = false;
+                //_goldButtons[i].button.interactable = false;
+                //_goldButtons[i].enabled = false;
+                _goldButtons[i].AchievementClosed(true);
+                _goldButtons[i].puplicKeyForTranslate = "NoAchievemets";
+                _goldButtons[i].GetClosedAchievementSprite();
             }
             else if (_mainManager.allDataSave.GoldenAchievements[i] == '1')
             {
-                _goldButtons[i].button.interactable = true;
-                _goldButtons[i].enabled = true;
+                _goldButtons[i].AchievementClosed(false);
+                _goldButtons[i].GetClosedAchievementSprite();
+                _goldButtons[i].GetCurrentAchievementSprite();
             }
+            //else if (_mainManager.allDataSave.GoldenAchievements[i] == '1')
+            //{
+            //    //_goldButtons[i].button.interactable = true;
+            //    _goldButtons[i].enabled = true;
+            //}
         }
 
         for (int i = 0; i < _mainManager.allDataSave.SilverAchievements.Length; i++)
         {
             if (_mainManager.allDataSave.SilverAchievements[i] == '0')
             {
-                _silverButtons[i].button.interactable = false;
-                _silverButtons[i].enabled = false;
+                //_silverButtons[i].button.interactable = false;
+                //_silverButtons[i].enabled = false;
+
+                _silverButtons[i].AchievementClosed(true);
+                _silverButtons[i].puplicKeyForTranslate = "NoAchievemets";
+                _silverButtons[i].GetClosedAchievementSprite();
             }
             else if (_mainManager.allDataSave.SilverAchievements[i] == '1')
             {
-                _silverButtons[i].button.interactable = true;
-                _silverButtons[i].enabled = true;
+                _silverButtons[i].AchievementClosed(false);
+                _silverButtons[i].GetClosedAchievementSprite();
+                _silverButtons[i].GetCurrentAchievementSprite();
             }
+            //else if (_mainManager.allDataSave.SilverAchievements[i] == '1')
+            //{
+            //    //_silverButtons[i].button.interactable = true;
+            //    _silverButtons[i].enabled = true;
+            //}
         }
 
         _dataIsExists = true;

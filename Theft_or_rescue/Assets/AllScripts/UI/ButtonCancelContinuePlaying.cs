@@ -23,6 +23,15 @@ public class ButtonCancelContinuePlaying : AbstractButton, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         _achievementsManager.CheckAndAddAchievement(_sceneGameManager.NumberChance, _sceneGameManager.NumCurrentWins);
+
+        string typeAch = null;
+
+        if (_sceneGameManager.NumberChance == 1)
+            typeAch = "Gold_";
+        else
+            typeAch = "Silver_";
+
+        _allDataSave.SaveNameTotalLastAchievement(typeAch+_sceneGameManager.NumCurrentWins);
         _allDataSave.AddAndSaveNumberCompletedGames();
         _allDataSave.SaveTotalWins();
         _allDataSave.NullAndSaveLevelData();

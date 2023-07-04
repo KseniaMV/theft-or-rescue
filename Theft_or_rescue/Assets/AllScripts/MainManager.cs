@@ -53,13 +53,7 @@ public class MainManager : MonoBehaviour
     }
     private void CheckObtainedAchievement()
     {
-        //if (allDataSave.Answers != null)
-        //{
-        //    panels[(int)PanelsMainMenuScene.AchievementsPanel].SetActive(true);
-        //    //panels[(int)PanelsMainMenuScene.InfoObtainedAchievement].SetActive(true);
-        //}
-        //else
-            panels[((int)PanelsMainMenuScene.StartPanel)].SetActive(true);
+        panels[((int)PanelsMainMenuScene.StartPanel)].SetActive(true);
     }
     private void CheckSelectedLanguage()
     {
