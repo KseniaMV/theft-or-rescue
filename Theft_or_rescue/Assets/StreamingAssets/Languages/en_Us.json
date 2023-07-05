@@ -30,7 +30,7 @@
     },
     {
       "key": "ButtonChangeLanguage",
-      "value": "Change language"
+      "value": "English"
     },
     {
       "key": "PlayAgain",
@@ -46,7 +46,7 @@
     },
     {
       "key": "NoAchievemets",
-      "value": "No achievemets!"
+      "value": "Achievement closed!" 
     },
     {
       "key": "Gold_0",

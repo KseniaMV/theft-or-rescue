@@ -38,7 +38,7 @@ public class SceneGameManager : MonoBehaviour
     private Coroutine _timerToLose;
     private Coroutine _timerToWarning;
     private Coroutine _timerNextAnswer;
-    public bool _canNextAnswer = true;
+    [HideInInspector] public bool _canNextAnswer = true;
 
     private void Awake()
     {

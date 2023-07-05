@@ -21,7 +21,8 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
     public int NumberBackground;
     public int NumberAnswer;
     public int RemainingNumberAttempts;
-    public string LastAchievement;
+    public string LastCurrentAchievement;
+    public string NameTotalLastAchievement;
     public int NumberCompletedGames;
 
     private void Awake()
@@ -56,7 +57,8 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         savedData.numberBackground = NumberBackground;
         savedData.numberAnswer = NumberAnswer;
         savedData.remainingNumberAttempts = RemainingNumberAttempts;
-        savedData.lastAchievement = LastAchievement;
+        savedData.lastCurrentAchievement = LastCurrentAchievement;
+        savedData.nameTotalLastAchievement = NameTotalLastAchievement;
         savedData.numberCompletedGames = NumberCompletedGames;
 
         storage.Save(savedData);
@@ -109,8 +111,15 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         NumberBackground = savedData.numberBackground;
         NumberAnswer = savedData.numberAnswer;
         RemainingNumberAttempts = savedData.remainingNumberAttempts;
-        LastAchievement = savedData.lastAchievement;
+        LastCurrentAchievement = savedData.lastCurrentAchievement;
         NumberCompletedGames = savedData.numberCompletedGames;
+        NameTotalLastAchievement = savedData.nameTotalLastAchievement;
+    }
+    public void SaveNameTotalLastAchievement(string name)
+    {
+        NameTotalLastAchievement = name;
+        savedData.nameTotalLastAchievement = NameTotalLastAchievement;
+        storage.Save(savedData);
     }
     public void SaveCurrentTotalWins(int value)
     {
@@ -126,8 +135,8 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
     }
     public void SaveLastAcvievement(string lastAchiev)
     {
-        LastAchievement = lastAchiev;
-        savedData.lastAchievement = LastAchievement;
+        LastCurrentAchievement = lastAchiev;
+        savedData.lastCurrentAchievement = LastCurrentAchievement;
         storage.Save(savedData);
     }
     public void SaveRemainingNumberAttempts(int value)

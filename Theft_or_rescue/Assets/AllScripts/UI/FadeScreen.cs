@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class FadeScreen : MonoBehaviour
 {
-    [SerializeField] private Image _image;
+    [SerializeField] private Image[] _images;
     [SerializeField] private float _fadeDuration;
     [SerializeField] private Transform _holder;
 
@@ -15,7 +15,9 @@ public class FadeScreen : MonoBehaviour
     }
     private IEnumerator FadingScreen()
     {
-        _image.transform.parent.gameObject.SetActive(true);
+        foreach (var item in _images)
+            item.transform.parent.gameObject.SetActive(true);
+
         float time = 0;
         float alfa = 0;
 
@@ -23,7 +25,9 @@ public class FadeScreen : MonoBehaviour
         {
             time += Time.deltaTime;
             alfa = time / _fadeDuration;
-            _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, alfa);
+
+            foreach (var item in _images)
+                item.color = new Color(item.color.r, item.color.g, item.color.b, alfa);
             yield return null;
         }
         if (time >= _fadeDuration)

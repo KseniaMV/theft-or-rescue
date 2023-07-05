@@ -90,6 +90,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _imageAvatar: {fileID: 678546874482906233}
+  _mainManager: {fileID: 0}
+  _isMainScene: 0
 --- !u!1 &7002381626879724477
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.6509804, g: 0.654902, b: 0.105882354, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
