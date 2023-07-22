@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ToogleSoindEffects : AbstractButton, IPointerDownHandler
+public class ToogleSoundEffects : AbstractButton, IPointerDownHandler
 {
     [Header("Button Data")]
     [SerializeField] Sprite _activeSprite;
@@ -13,12 +13,14 @@ public class ToogleSoindEffects : AbstractButton, IPointerDownHandler
     {
         ChangeActiveToogle();
     }
-
-    private void Start()
+    private void Awake()
     {
         if (_image == null)
             _image = GetComponent<Image>();
+    }
 
+    private void Start()
+    {
         float valueVolumeEffects = PlayerPrefs.GetFloat("EffectsVolume");
 
         if (valueVolumeEffects == 0)

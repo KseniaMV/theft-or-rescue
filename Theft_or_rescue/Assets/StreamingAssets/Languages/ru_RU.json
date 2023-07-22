@@ -2,7 +2,7 @@
   "items": [
     {
       "key": "ButtonPlay",
-      "value": "Далее"
+      "value": "Играть"
     },
     {
       "key": "ButtonSelectAvatar",
@@ -147,6 +147,10 @@
     {
       "key": "Result",
       "value": "Результат"
+    },
+    {
+      "key": "SelectLanguage",
+      "value": "Выберите язык"
     }
   ]
 }
