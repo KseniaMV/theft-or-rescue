@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public enum PanelsMainMenuScene {LangaugePanel = 0, StartPanel, LoginPanel, InfoPanel, OptionsPanel, AchievementsPanel }
+public enum PanelsMainMenuScene {StartPanel = 0, LoginPanel, InfoPanel, OptionsPanel, AchievementsPanel }
 public class MainManager : MonoBehaviour
 {
     public static MainManager instance { get; private set; }
@@ -57,17 +57,17 @@ public class MainManager : MonoBehaviour
     }
     private void CheckSelectedLanguage()
     {
-        if (!PlayerPrefs.HasKey("Language"))
-            panels[((int)PanelsMainMenuScene.LangaugePanel)].SetActive(true);
+        if (PlayerPrefs.HasKey("Language") == false)
+            localizationManager.SelectLanguage();
     }
     public void CheckSelectedAvatar(bool isSelected)
     {
-        if(isSelected)
+        if (isSelected)
             panels[(int)PanelsMainMenuScene.InfoPanel].SetActive(true);
         else
             panels[(int)PanelsMainMenuScene.LoginPanel].SetActive(true);
     }
-    public void CreateDataLevel()
+        public void CreateDataLevel()
     {
         int[] characters = new int[10];
         int[] things = new int[10];

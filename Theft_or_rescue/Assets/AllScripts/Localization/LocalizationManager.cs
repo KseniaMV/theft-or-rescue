@@ -19,8 +19,12 @@ public class LocalizationManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        if (!PlayerPrefs.HasKey("Language"))
-        {
+        SelectLanguage();
+    }
+    public void  SelectLanguage()
+    { 
+         if (!PlayerPrefs.HasKey("Language"))
+         {
             if (Application.systemLanguage == SystemLanguage.Russian ||
                 Application.systemLanguage == SystemLanguage.Ukrainian ||
                 Application.systemLanguage == SystemLanguage.Belarusian)
@@ -28,9 +32,10 @@ public class LocalizationManager : MonoBehaviour
                 PlayerPrefs.SetString("Language", "ru_RU");
             else
                 PlayerPrefs.SetString("Language", "en_US");
-        }
-        _currentLanguage = PlayerPrefs.GetString("Language");
-        LoadLocalizedText(_currentLanguage);
+         }
+
+         _currentLanguage = PlayerPrefs.GetString("Language");
+         LoadLocalizedText(_currentLanguage);
     }
     public string CurrentLanguage
     {

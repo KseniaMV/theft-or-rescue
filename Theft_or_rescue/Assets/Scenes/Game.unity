@@ -1956,11 +1956,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8904903204207289412, guid: 616be45e16d614b408f6fd4abdfae678, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8904903204207289412, guid: 616be45e16d614b408f6fd4abdfae678, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8904903204285055452, guid: 616be45e16d614b408f6fd4abdfae678, type: 3}
       propertyPath: m_FontData.m_Font

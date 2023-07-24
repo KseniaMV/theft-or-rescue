@@ -1652,6 +1652,7 @@ MonoBehaviour:
   _winAudio: {fileID: 8300000, guid: 9f1277188e65389488f9e60e531a7103, type: 3}
   _loseAudio: {fileID: 8300000, guid: 53aba76ea691fdb489c99683b021be93, type: 3}
   _audioSource: {fileID: 779581651761442579}
+  _thingHolder: {fileID: 3533741462891353114}
 --- !u!82 &779581651761442579
 AudioSource:
   m_ObjectHideFlags: 0

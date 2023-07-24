@@ -16,6 +16,7 @@ public class Character : MonoBehaviour
     [SerializeField] private AudioClip _winAudio;
     [SerializeField] private AudioClip _loseAudio;
     [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private SpriteRenderer _thingHolder;
 
     private Vector2 _startPosition;
     private Coroutine _timerStartRunning;
@@ -41,9 +42,7 @@ public class Character : MonoBehaviour
         }
 
         if (transform.position.x >= 0)
-        {
             Coroutines.StopRoutine(_timerStartRunning);
-        }
     }
     private void PlayAudio(bool win)
     {
@@ -76,7 +75,6 @@ public class Character : MonoBehaviour
             _timerStartRunning = Coroutines.StartRoutine(StartRunning());
         else
         {
-
             switch (_disappearanceTypes)
             {
                 case DisappearanceTypes.RunLeft:
@@ -96,6 +94,10 @@ public class Character : MonoBehaviour
                     break;
             }
         }
+    }
+    public void OffThing()
+    {
+        _thingHolder.sprite = null;
     }
     private IEnumerator StopRunningLeft()
     {

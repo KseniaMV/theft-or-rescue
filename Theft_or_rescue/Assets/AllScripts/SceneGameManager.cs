@@ -130,6 +130,7 @@ public class SceneGameManager : MonoBehaviour
 
     private IEnumerator DelayNextAnswer(bool isLose)
     {
+        _character.OffThing();
         _character.Run(false);
         _canNextAnswer = false;
         _mainManager.eventManager.ButtonsActionInteractable(false);

@@ -147,6 +147,10 @@
     {
       "key": "Result",
       "value": "Result"
+    },
+    {
+      "key": "SelectLanguage",
+      "value": "Select a language"
     }
   ]
 }
