@@ -24,6 +24,7 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
     public string LastCurrentAchievement;
     public string NameTotalLastAchievement;
     public int NumberCompletedGames;
+    public bool IsOutOfGame;
 
     private void Awake()
     {
@@ -60,6 +61,7 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         savedData.lastCurrentAchievement = LastCurrentAchievement;
         savedData.nameTotalLastAchievement = NameTotalLastAchievement;
         savedData.numberCompletedGames = NumberCompletedGames;
+        savedData.isOutOfGame = IsOutOfGame;
 
         storage.Save(savedData);
     }
@@ -114,6 +116,13 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
         LastCurrentAchievement = savedData.lastCurrentAchievement;
         NumberCompletedGames = savedData.numberCompletedGames;
         NameTotalLastAchievement = savedData.nameTotalLastAchievement;
+        IsOutOfGame = savedData.isOutOfGame;
+    }
+    public void SaveIsOutOfGame(bool isOut)
+    {
+        IsOutOfGame = isOut;
+        savedData.isOutOfGame = isOut;
+        storage.Save(savedData);
     }
     public void SaveNameTotalLastAchievement(string name)
     {

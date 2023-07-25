@@ -19,4 +19,5 @@ public class SavedData
     public string lastCurrentAchievement;
     public int numberCompletedGames;
     public string nameTotalLastAchievement;
+    public bool isOutOfGame;
 }
