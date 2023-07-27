@@ -36,6 +36,7 @@ public class ButtonCancelContinuePlaying : AbstractButton, IPointerDownHandler
         _allDataSave.SaveTotalWins();
         _allDataSave.NullAndSaveLevelData();
         _allDataSave.NullAndSaveArraysData();
+        _allDataSave.SaveIsOutOfGame(true);
 
         OpenNewPanel();
 

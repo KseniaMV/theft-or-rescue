@@ -7,6 +7,7 @@ public class EventManager : MonoBehaviour
     public Action ButtonSelectAvatarPressedEvent;
     public Action<bool> ButtonActionPressedEvent;
     public Action<bool> ButtonsActionInteractableEvent;
+    public Action<bool> MoveBackgroundImageEvent;
     private void Awake()
     {
         if (instance == null)
@@ -26,4 +27,9 @@ public class EventManager : MonoBehaviour
     {
         ButtonsActionInteractableEvent?.Invoke(interactable);
     }
+    public void MovebackgroundImage(bool canMove)
+    {
+        MoveBackgroundImageEvent?.Invoke(canMove);
+    }
 }
+

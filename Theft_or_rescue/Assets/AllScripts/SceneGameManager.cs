@@ -130,15 +130,17 @@ public class SceneGameManager : MonoBehaviour
 
     private IEnumerator DelayNextAnswer(bool isLose)
     {
+        _mainManager.eventManager.MovebackgroundImage(false);
         _character.OffThing();
         _character.Run(false);
         _canNextAnswer = false;
         _mainManager.eventManager.ButtonsActionInteractable(false);
         _character.StartAnimAndAudio(isLose);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         _mainManager.eventManager.ButtonsActionInteractable(true);
         _canNextAnswer = true;
         SelectCharacter();
+        _mainManager.eventManager.MovebackgroundImage(true);
 
         Coroutines.StopRoutine(_timerNextAnswer);
     }
@@ -158,7 +160,6 @@ public class SceneGameManager : MonoBehaviour
     }
     private void SelectCharacter()
     {
-        _characterHolder.GetChild(_numAnswer - 1).gameObject.SetActive(false);
         _character = null;
 
         if (_numAnswer < _characters.Length)

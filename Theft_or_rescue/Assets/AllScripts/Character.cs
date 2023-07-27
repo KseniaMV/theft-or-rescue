@@ -5,8 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class Character : MonoBehaviour
 {
-    [Range(0f, .1f)] [SerializeField] private float _runSpeed;
-    [Range(0f, .1f)] [SerializeField] private float _stopSpeed;
+     [SerializeField] private float _runSpeed;
+     [SerializeField] private float _stopSpeed;
     [Space(5)]
     [SerializeField] private DisappearanceTypes _disappearanceTypes;
     [SerializeField] private ParticleSystem _particleSystem;
@@ -37,7 +37,7 @@ public class Character : MonoBehaviour
     {
         while (transform.position.x < 0)
         {
-            transform.Translate(Vector2.right * _runSpeed);
+            transform.Translate(Vector2.right * _runSpeed * Time.deltaTime);
             yield return null;
         }
 
@@ -103,7 +103,7 @@ public class Character : MonoBehaviour
     {
         while (transform.position.x > _startPosition.x)
         {
-            transform.Translate(Vector2.left * _stopSpeed);
+            transform.Translate(Vector2.left * _stopSpeed * Time.deltaTime);
             yield return null;
         }
 
@@ -117,7 +117,7 @@ public class Character : MonoBehaviour
     {
         while (transform.position.x < Mathf.Abs(_startPosition.x))
         {
-            transform.Translate(Vector2.right * _runSpeed);
+            transform.Translate(Vector2.right * _runSpeed * Time.deltaTime);
             yield return null;
         }
 

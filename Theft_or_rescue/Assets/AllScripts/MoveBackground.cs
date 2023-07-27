@@ -5,6 +5,7 @@ public class MoveBackground : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private RectTransform[] _bgs;
+    [SerializeField] private EventManager _eventManager;
     [SerializeField] private Image[] _images;
 
     private float[] _startPosBgsX;
@@ -19,11 +20,24 @@ public class MoveBackground : MonoBehaviour
         if (_images.Length == 0)
             _images = GetComponentsInChildren<Image>();
 
+        if (_eventManager == null)
+            _eventManager = GameObject.FindGameObjectWithTag("MainManager").transform.parent.GetComponentInChildren<EventManager>();
+
+        if (_eventManager)
+            _eventManager.MoveBackgroundImageEvent += ChangeMoveBackgorund; 
+
         _startPosBgsX = new float[_bgs.Length];
         _widthImage = _bgs[0].rect.width;
 
         for (int i = 0; i < _bgs.Length; i++)
             _startPosBgsX[i] = _bgs[i].localPosition.x;
+    }
+    private void ChangeMoveBackgorund(bool canMove)
+    {
+        if (canMove)
+            _runBackground = Coroutines.StartRoutine(Moving());
+        else
+            Coroutines.StopRoutine(_runBackground);
     }
     public void GetImagesAndStartMoving(Sprite sprite)
     {
@@ -41,6 +55,7 @@ public class MoveBackground : MonoBehaviour
         for (int i = 0; i < _bgs.Length; i++)
             _bgs[i].localPosition = new Vector2(_startPosBgsX[i], _bgs[i].localPosition.y);
     }
+
     private IEnumerator Moving()
     {
         while (true)
@@ -55,6 +70,11 @@ public class MoveBackground : MonoBehaviour
 
             yield return null;
         }
+    }
+    private void OnDisable()
+    {
+        if (_eventManager)
+            _eventManager.MoveBackgroundImageEvent -= ChangeMoveBackgorund;
     }
 }
 

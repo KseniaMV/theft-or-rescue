@@ -53,7 +53,13 @@ public class MainManager : MonoBehaviour
     }
     private void CheckObtainedAchievement()
     {
-        panels[((int)PanelsMainMenuScene.StartPanel)].SetActive(true);
+        if (allDataSave.IsOutOfGame)
+        {
+            panels[(int)PanelsMainMenuScene.InfoPanel].SetActive(true);
+            allDataSave.SaveIsOutOfGame(false);
+        }
+        else
+            panels[((int)PanelsMainMenuScene.StartPanel)].SetActive(true);
     }
     private void CheckSelectedLanguage()
     {
@@ -67,7 +73,7 @@ public class MainManager : MonoBehaviour
         else
             panels[(int)PanelsMainMenuScene.LoginPanel].SetActive(true);
     }
-        public void CreateDataLevel()
+    public void CreateDataLevel()
     {
         int[] characters = new int[10];
         int[] things = new int[10];
