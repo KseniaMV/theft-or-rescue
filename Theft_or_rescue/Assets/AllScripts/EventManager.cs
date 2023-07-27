@@ -8,6 +8,7 @@ public class EventManager : MonoBehaviour
     public Action<bool> ButtonActionPressedEvent;
     public Action<bool> ButtonsActionInteractableEvent;
     public Action<bool> MoveBackgroundImageEvent;
+    public Action<bool> ChangeOpeningAcharacterHolderEvent;
     private void Awake()
     {
         if (instance == null)
@@ -30,6 +31,10 @@ public class EventManager : MonoBehaviour
     public void MovebackgroundImage(bool canMove)
     {
         MoveBackgroundImageEvent?.Invoke(canMove);
+    }
+    public void ChangeOpeningAcharacterHolder(bool isHide)
+    {
+        ChangeOpeningAcharacterHolderEvent?.Invoke(isHide);
     }
 }
 

@@ -38,13 +38,14 @@ public class ButtonCancelContinuePlaying : AbstractButton, IPointerDownHandler
         _allDataSave.NullAndSaveArraysData();
         _allDataSave.SaveIsOutOfGame(true);
 
-        OpenNewPanel();
+        base.OpenNewPanel();
+        //OpenNewPanel();
 
         if (_nameScene != null && SceneManager.GetActiveScene().name == "Game")
             SceneManager.LoadScene(_nameScene);
     }
-    public override void OpenNewPanel()
-    {
-        base.OpenNewPanel();
-    }
+    //public override void OpenNewPanel()
+    //{
+    //    base.OpenNewPanel();
+    //}
 }

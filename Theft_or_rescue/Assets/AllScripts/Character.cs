@@ -95,6 +95,10 @@ public class Character : MonoBehaviour
             }
         }
     }
+    public void GetPosition()
+    {
+        transform.localPosition =  Vector3.zero;
+    }
     public void OffThing()
     {
         _thingHolder.sprite = null;
