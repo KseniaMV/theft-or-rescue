@@ -53,6 +53,7 @@ public class SceneGameManager : MonoBehaviour
     {
         _canNextAnswer = true;
         _mainManager.eventManager.ButtonActionPressedEvent += SelectAction;
+        _mainManager.eventManager.ChangeOpeningAcharacterHolderEvent += ChangeZPostionCharacter;
 
         NumCurrentWins = _mainManager.allDataSave.NumberCurrentWins;
 
@@ -71,6 +72,13 @@ public class SceneGameManager : MonoBehaviour
         _timerToWarning = Coroutines.StartRoutine(TimeToWarning());
 
         GetDataLevel();
+    }
+    public void ChangeZPostionCharacter(bool hide)
+    {
+        if (hide)
+            _characterHolder.transform.position = new Vector3(0f, .5f, -10f);
+        else
+            _characterHolder.transform.position = new Vector3(0f, .5f, 0f);
     }
     private int GetNumberCurrentTotalWins()
     {
@@ -232,6 +240,7 @@ public class SceneGameManager : MonoBehaviour
             StopTimers();
             _timerToWarning = Coroutines.StartRoutine(TimeToWarning());
             _remainingTimeBeforeWarning = _timeToWarning;
+            _character.GetPosition();
 
             if (_remainingNumberAttempts > 0 && NumCurrentWins < 10)
             {
@@ -243,6 +252,7 @@ public class SceneGameManager : MonoBehaviour
                 _remainingNumberAttempts--;
                 _numAnswer++;
             }
+
             if (_remainingNumberAttempts == 0)
                 PlayAgain();
         }
@@ -269,6 +279,7 @@ public class SceneGameManager : MonoBehaviour
     private void OnDestroy()
     {
         _mainManager.eventManager.ButtonActionPressedEvent -= SelectAction;
+        _mainManager.eventManager.ChangeOpeningAcharacterHolderEvent -= ChangeZPostionCharacter;
     }
     private void OnApplicationQuit()//сохранение данных при отключении
     {
