@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InfoObtainedAchievement : MonoBehaviour
+public class InfoObtainedAchievement : MonoBehaviour// окно продолжить/нет в игре
 {
     [SerializeField] private AllDataSave _allDataSave;
 
@@ -36,22 +36,23 @@ public class InfoObtainedAchievement : MonoBehaviour
     }
     public void CheckLastAchievement(int numChance, int numWins)
     {
-        ButtonAchievement buttonAchievement = null;
+        InfoAchievement achievement = null;
         LocalizedText localText = _phrase.gameObject.AddComponent<LocalizedText>();
 
         if (_allDataSave.LastCurrentAchievement == null)
         {
             if (numChance == 1)
-                buttonAchievement = Resources.Load<ButtonAchievement>($"Achievements/Gold/GoldAchievement_{1}");
+                achievement = Resources.Load<InfoAchievement>($"Achievements/Gold/GoldAchievement_{numWins}");
             else if (numChance == 2)
-                buttonAchievement = Resources.Load<ButtonAchievement>($"Achievements/Silver/SilverAchievement_{1}");
+                achievement = Resources.Load<InfoAchievement>($"Achievements/Silver/SilverAchievement_{numWins}");
 
             if(_textValueResult != null)
                 _textValueResult.text = $"{numWins} / 10";
 
             _textValueLevel.text = $"{_allDataSave.NumberCompletedGames + 1}";
-            localText.key = buttonAchievement.puplicKeyForTranslate;
-            _imageAchievement.sprite = buttonAchievement.publicSpriteAchievement;
+
+            localText.key = achievement.KeyForTranslate;
+            _imageAchievement.sprite = achievement.Sprite;
         }
         else
             localText.key = "NoAchievemets";

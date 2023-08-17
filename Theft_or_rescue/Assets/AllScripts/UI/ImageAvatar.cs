@@ -19,7 +19,7 @@ public class ImageAvatar : MonoBehaviour
     }
     private void Start()
     {
-        if(!_isMainScene)
+        if (!_isMainScene)
             _imageAvatar.sprite = Resources.Load<SpriteRenderer>($"Avatars/Avatar_{_mainManager.allDataSave.NumberAvatar}").sprite;
     }
 }

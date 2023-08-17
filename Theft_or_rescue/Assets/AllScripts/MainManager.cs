@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 public enum PanelsMainMenuScene {StartPanel = 0, LoginPanel, InfoPanel, OptionsPanel, AchievementsPanel }
 public class MainManager : MonoBehaviour
 {
-    public static MainManager instance { get; private set; }
+    public static MainManager Instance { get; private set; }
 
     public Options options;
     public EventManager eventManager;
@@ -17,8 +17,8 @@ public class MainManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
-            instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Destroy(gameObject);
 

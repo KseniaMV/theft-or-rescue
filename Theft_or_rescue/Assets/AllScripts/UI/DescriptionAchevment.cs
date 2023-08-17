@@ -29,97 +29,53 @@ public class DescriptionAchevment : MonoBehaviour
 
         if (_textBigPanel == null)
             _textBigPanel = transform.Find("Big Modal Panel").GetComponentInChildren<Text>();
-
-        ButtonAchievement[] buttonAchievements = null; 
-
-        if (_goldButtons.Length == 0)
-        {
-            _goldButtons = new ButtonAchievement[Resources.LoadAll<ButtonAchievement>("Achievements/Gold").Length];
-            buttonAchievements = transform.Find("Scroll View/Viewport/Content/Achievements Holder").GetComponentsInChildren<ButtonAchievement>();
-
-            int j = 0;
-            for (int i = 0; i < buttonAchievements.Length; i++)
-            {
-                if (buttonAchievements[i].type == TypeAchievement.Gold)
-                {
-                    _goldButtons[j] = buttonAchievements[i];
-                    j++;
-                }
-            }
-        }
-
-        if (_silverButtons.Length == 0)
-        {
-            _silverButtons = new ButtonAchievement[Resources.LoadAll<ButtonAchievement>("Achievements/Silver").Length];
-            buttonAchievements = transform.Find("Scroll View/Viewport/Content/Achievements Holder").GetComponentsInChildren<ButtonAchievement>();
-
-            int j = 0;
-            for (int i = 0; i < buttonAchievements.Length; i++)
-            {
-                if (buttonAchievements[i].type == TypeAchievement.Silver)
-                {
-                    _silverButtons[j] = buttonAchievements[i];
-                    j++;
-                }
-            }
-        }
     }
     private void Start()
     {
-        CheckOpenedAchievements();
+        Invoke("CheckOpenedAchievements", .1f);
     }
     private void OnEnable()
     {
         if (_dataIsExists)
             CheckOpenedAchievements();
     }
-    private void CheckOpenedAchievements()
+    /// <summary>
+    /// Проверка всех достижений и выбор действия по данныйм allDataSave.GoldenUnconfirmedAchievements[i]
+    /// </summary>
+    public void CheckOpenedAchievements()
     {
-        for (int i = 0; i < _mainManager.allDataSave.GoldenAchievements.Length; i++)
+        for (int i = 0; i < _goldButtons.Length; i++)
         {
             if (_mainManager.allDataSave.GoldenAchievements[i] == '0')
             {
-                //_goldButtons[i].button.interactable = false;
-                //_goldButtons[i].enabled = false;
-                _goldButtons[i].AchievementClosed(true);
-                _goldButtons[i].puplicKeyForTranslate = "NoAchievemets";
-                _goldButtons[i].GetClosedAchievementSprite();
+                _goldButtons[i].UpdateUIAchievement('0');
+                _goldButtons[i].NumberOpenedAchievement(-1);
             }
             else if (_mainManager.allDataSave.GoldenAchievements[i] == '1')
             {
-                _goldButtons[i].AchievementClosed(false);
-                _goldButtons[i].GetClosedAchievementSprite();
-                _goldButtons[i].GetCurrentAchievementSprite();
+                _goldButtons[i].UpdateUIAchievement('1');
+                _goldButtons[i].NumberOpenedAchievement(i);
             }
-            //else if (_mainManager.allDataSave.GoldenAchievements[i] == '1')
-            //{
-            //    //_goldButtons[i].button.interactable = true;
-            //    _goldButtons[i].enabled = true;
-            //}
+            else if (_mainManager.allDataSave.GoldenAchievements[i] == '2')
+            {
+                _goldButtons[i].UpdateUIAchievement('2');
+            }
         }
-
-        for (int i = 0; i < _mainManager.allDataSave.SilverAchievements.Length; i++)
+        for (int i = 0; i < _silverButtons.Length; i++)
         {
             if (_mainManager.allDataSave.SilverAchievements[i] == '0')
             {
-                //_silverButtons[i].button.interactable = false;
-                //_silverButtons[i].enabled = false;
-
-                _silverButtons[i].AchievementClosed(true);
-                _silverButtons[i].puplicKeyForTranslate = "NoAchievemets";
-                _silverButtons[i].GetClosedAchievementSprite();
+                _silverButtons[i].UpdateUIAchievement('0');
             }
             else if (_mainManager.allDataSave.SilverAchievements[i] == '1')
             {
-                _silverButtons[i].AchievementClosed(false);
-                _silverButtons[i].GetClosedAchievementSprite();
-                _silverButtons[i].GetCurrentAchievementSprite();
+                _silverButtons[i].UpdateUIAchievement('1');
+                _silverButtons[i].NumberOpenedAchievement(i);
             }
-            //else if (_mainManager.allDataSave.SilverAchievements[i] == '1')
-            //{
-            //    //_silverButtons[i].button.interactable = true;
-            //    _silverButtons[i].enabled = true;
-            //}
+            else if (_mainManager.allDataSave.SilverAchievements[i] == '2')
+            {
+                _silverButtons[i].UpdateUIAchievement('2');
+            }
         }
 
         _dataIsExists = true;

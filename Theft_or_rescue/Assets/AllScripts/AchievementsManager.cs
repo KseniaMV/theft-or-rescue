@@ -6,17 +6,40 @@ public class AchievementsManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] _panels;
     [SerializeField] private MainManager _mainManager;
-    public DescriptionAchevment descriptionAchevment;
     private int _dataAchievement;
     private bool _dataIsExists;
     private const string NULL_ACHEVEMENT = "00000000000";//равен колву достижений 1го типа
     private string _goldenAchievements;
     private string _silverAchievements;
-   
-    public void OpenPanel(bool isOpen, AchievementPanels panel)
+
+    [Header("ModalPanel")]
+    private GameObject _selectedPanel;
+    private LocalizedText _localText;
+
+    public void OpenPanel(AchievementPanels panel, bool isOverOthers = false)
     {
-        if(_panels != null)
-            _panels[(int)panel].SetActive(isOpen);
+        if (_panels != null)
+        {
+            _selectedPanel = _panels[(int)panel];
+            _selectedPanel.SetActive(true);
+
+            if (isOverOthers)
+            {
+                int maxIndex = _selectedPanel.transform.parent.childCount;
+                _selectedPanel.transform.SetSiblingIndex(maxIndex);
+            }
+        }
+    }
+    public void TranslateTextPanel(string key)
+    {
+        _localText = _selectedPanel.GetComponentInChildren<LocalizedText>();
+
+        if (key != null)
+            _localText.key = key;
+        else
+            _localText.key = "NoAchievemets";
+
+        _localText.UpdateText();
     }
     private void Start()
     {
