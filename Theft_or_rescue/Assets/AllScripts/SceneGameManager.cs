@@ -262,6 +262,7 @@ public class SceneGameManager : MonoBehaviour
         StopTimers();
 
         _obtainedAchievement.CheckLastAchievement(NumberChance, NumCurrentWins);
+        _mainManager.panels[(int)PanelsGameScene.OprionsPanel].SetActive(false);
         _mainManager.panels[(int)PanelsGameScene.CharacterPanel].SetActive(false);
         _mainManager.panels[(int)PanelsGameScene.LosePanel].SetActive(true);
     }
@@ -289,8 +290,8 @@ public class SceneGameManager : MonoBehaviour
     {
         _mainManager.allDataSave.SaveSecondChance(NumberChance);
         _mainManager.allDataSave.SaveRemainingTimeBeforeWarning(_remainingTimeBeforeWarning);
-        _mainManager.allDataSave.SaveNumberAnswer(_numAnswer);
         _mainManager.allDataSave.SaveCurrentTotalWins(_numberCurrentTotalWins);
+        _mainManager.allDataSave.SaveNumberAnswer(_numAnswer);
         _mainManager.allDataSave.SaveRemainingNumberAttempts(_remainingNumberAttempts);
     }
 }

@@ -2,34 +2,34 @@
 
 public class AllDataSave : MonoBehaviour//в awake копирует данные из серил файла
 {
-    public static AllDataSave instance { get; private set; }
+    public static AllDataSave Instance { get; private set; }
 
     private Storage storage;
     private SavedData savedData;
 
-    public int NumberAvatar;
-    public int NumberCurrentWins;
-    public int NumberTotalWins;
-    public int NumberCurrentTotalWins;
-    public int RemainingTimeBeforeWarning;
-    public int NumberChance;
+    public int NumberAvatar;//номер аватара
+    public int NumberCurrentWins;//колво правельных ответов в текущей игре
+    public int NumberTotalWins;//колво правельных ответов в общем
+    public int NumberCurrentTotalWins;//колво правельных ответов в общем, для сохранения
+    public int RemainingTimeBeforeWarning;//оставшееся время для ответа
+    public int NumberChance;//номер попытки
     public string GoldenAchievements;
     public string SilverAchievements;
     public int[] Characters;
     public int[] Things;
     public bool[] Answers;
     public int NumberBackground;
-    public int NumberAnswer;
-    public int RemainingNumberAttempts;
-    public string LastCurrentAchievement;
-    public string NameTotalLastAchievement;
-    public int NumberCompletedGames;
+    public int NumberAnswer;//номер текущего ответа
+    public int RemainingNumberAttempts;//осталось ответов
+    public string LastCurrentAchievement;//последнее достижение в текущей игре
+    public string NameTotalLastAchievement;//последне достижение
+    public int NumberCompletedGames;//колво пройденных игр
     public bool IsOutOfGame;
 
     private void Awake()
     {
-        if (instance == null)
-            instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Destroy(gameObject);
 
@@ -44,24 +44,24 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
     }
     public void SaveAll()
     {
-        savedData.numberAvatart = NumberAvatar;
-        savedData.numberCurrentWins = NumberCurrentWins;
-        savedData.numberTotalWins = NumberTotalWins;
-        savedData.numberCurrentTotalWins = NumberCurrentTotalWins;
-        savedData.remainingTimeBeforeWarning = RemainingTimeBeforeWarning;
-        savedData.numberChance = NumberChance;
-        savedData.goldenAchievements = GoldenAchievements;
-        savedData.silverAchievements = SilverAchievements;
-        savedData.characters = Characters;
-        savedData.answers = Answers;
-        savedData.things = Things;
-        savedData.numberBackground = NumberBackground;
-        savedData.numberAnswer = NumberAnswer;
-        savedData.remainingNumberAttempts = RemainingNumberAttempts;
-        savedData.lastCurrentAchievement = LastCurrentAchievement;
-        savedData.nameTotalLastAchievement = NameTotalLastAchievement;
-        savedData.numberCompletedGames = NumberCompletedGames;
-        savedData.isOutOfGame = IsOutOfGame;
+        savedData.NumberAvatart = NumberAvatar;
+        savedData.NumberCurrentWins = NumberCurrentWins;
+        savedData.NumberTotalWins = NumberTotalWins;
+        savedData.NumberCurrentTotalWins = NumberCurrentTotalWins;
+        savedData.RemainingTimeBeforeWarning = RemainingTimeBeforeWarning;
+        savedData.NumberChance = NumberChance;
+        savedData.GoldenAchievements = GoldenAchievements;
+        savedData.SilverAchievements = SilverAchievements;
+        savedData.Characters = Characters;
+        savedData.Answers = Answers;
+        savedData.Things = Things;
+        savedData.NumberBackground = NumberBackground;
+        savedData.NumberAnswer = NumberAnswer;
+        savedData.RemainingNumberAttempts = RemainingNumberAttempts;
+        savedData.LastCurrentAchievement = LastCurrentAchievement;
+        savedData.NameTotalLastAchievement = NameTotalLastAchievement;
+        savedData.NumberCompletedGames = NumberCompletedGames;
+        savedData.IsOutOfGame = IsOutOfGame;
 
         storage.Save(savedData);
     }
@@ -86,10 +86,7 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
     }
     public void NullAndSaveLevelData()
     {
-        SaveCurrentTotalWins(0);
         SaveLastAcvievement(null);
-        SaveCurrentWins(0);
-        SaveCurrentWins(0);
         RemainingNumberAttempts = 0;
         NumberChance = 0;
         RemainingTimeBeforeWarning = 0;
@@ -98,121 +95,122 @@ public class AllDataSave : MonoBehaviour//в awake копирует данные
     {
         savedData = (SavedData)storage.Load(new SavedData());
 
-        NumberAvatar = savedData.numberAvatart;
-        NumberCurrentWins = savedData.numberCurrentWins;
-        NumberTotalWins = savedData.numberTotalWins;
-        NumberCurrentTotalWins = savedData.numberCurrentTotalWins;
-        RemainingTimeBeforeWarning = savedData.remainingTimeBeforeWarning;
-        NumberChance = savedData.numberChance;
-        GoldenAchievements = savedData.goldenAchievements;
-        SilverAchievements = savedData.silverAchievements;
+        NumberAvatar = savedData.NumberAvatart;
+        NumberCurrentWins = savedData.NumberCurrentWins;
+        NumberTotalWins = savedData.NumberTotalWins;
+        NumberCurrentTotalWins = savedData.NumberCurrentTotalWins;
+        RemainingTimeBeforeWarning = savedData.RemainingTimeBeforeWarning;
+        NumberChance = savedData.NumberChance;
+        GoldenAchievements = savedData.GoldenAchievements;
+        SilverAchievements = savedData.SilverAchievements;
 
-        Characters = savedData.characters;
-        Answers = savedData.answers;
-        Things = savedData.things;
-        NumberBackground = savedData.numberBackground;
-        NumberAnswer = savedData.numberAnswer;
-        RemainingNumberAttempts = savedData.remainingNumberAttempts;
-        LastCurrentAchievement = savedData.lastCurrentAchievement;
-        NumberCompletedGames = savedData.numberCompletedGames;
-        NameTotalLastAchievement = savedData.nameTotalLastAchievement;
-        IsOutOfGame = savedData.isOutOfGame;
+        Characters = savedData.Characters;
+        Answers = savedData.Answers;
+        Things = savedData.Things;
+        NumberBackground = savedData.NumberBackground;
+        NumberAnswer = savedData.NumberAnswer;
+        RemainingNumberAttempts = savedData.RemainingNumberAttempts;
+        LastCurrentAchievement = savedData.LastCurrentAchievement;
+        NumberCompletedGames = savedData.NumberCompletedGames;
+        NameTotalLastAchievement = savedData.NameTotalLastAchievement;
+        IsOutOfGame = savedData.IsOutOfGame;
     }
     public void SaveIsOutOfGame(bool isOut)
     {
         IsOutOfGame = isOut;
-        savedData.isOutOfGame = isOut;
+        savedData.IsOutOfGame = isOut;
         storage.Save(savedData);
     }
     public void SaveNameTotalLastAchievement(string name)
     {
         NameTotalLastAchievement = name;
-        savedData.nameTotalLastAchievement = NameTotalLastAchievement;
+        savedData.NameTotalLastAchievement = NameTotalLastAchievement;
         storage.Save(savedData);
     }
     public void SaveCurrentTotalWins(int value)
     {
         NumberCurrentTotalWins = value;
-        savedData.numberCurrentTotalWins = NumberCurrentTotalWins;
+        savedData.NumberCurrentTotalWins = NumberCurrentTotalWins;
         storage.Save(savedData);
     }
     public void AddAndSaveNumberCompletedGames()
     {
         NumberCompletedGames++;
-        savedData.numberCompletedGames = NumberCompletedGames;
+        savedData.NumberCompletedGames = NumberCompletedGames;
         storage.Save(savedData);
     }
     public void SaveLastAcvievement(string lastAchiev)
     {
         LastCurrentAchievement = lastAchiev;
-        savedData.lastCurrentAchievement = LastCurrentAchievement;
+        savedData.LastCurrentAchievement = LastCurrentAchievement;
         storage.Save(savedData);
     }
     public void SaveRemainingNumberAttempts(int value)
     {
         RemainingNumberAttempts = value;
-        savedData.remainingNumberAttempts = RemainingNumberAttempts;
+        savedData.RemainingNumberAttempts = RemainingNumberAttempts;
         storage.Save(savedData);
     }
     public void SaveNumberAnswer(int num)
     {
         NumberAnswer = num;
-        savedData.numberAnswer = num;
+        savedData.NumberAnswer = num;
         storage.Save(savedData);
     }
     public void SaveDataLevel(int[] chars, int[] thins, bool[] answers, int numBackground)
     {
         Characters = chars;
-        savedData.characters = Characters;
+        savedData.Characters = Characters;
         Things = thins;
-        savedData.things = Things;
+        savedData.Things = Things;
         Answers = answers;
-        savedData.answers = answers;
+        savedData.Answers = answers;
         NumberBackground = numBackground;
-        savedData.numberBackground = numBackground;
+        savedData.NumberBackground = numBackground;
 
         storage.Save(savedData);
     }
-    public void ConfirmSelectedNumberAvatar(int number)
+    public void SaveSelectedNumberAvatar(int number)
     {
         NumberAvatar = number;
-        savedData.numberAvatart = NumberAvatar;
+        savedData.NumberAvatart = NumberAvatar;
         storage.Save(savedData);
     }
     public void SaveCurrentWins(int number)
     {
         NumberCurrentWins = number;
-        savedData.numberCurrentWins = NumberCurrentWins;
+        savedData.NumberCurrentWins = NumberCurrentWins;
         storage.Save(savedData);
     }
     public void SaveTotalWins()
     {
-        NumberTotalWins += NumberCurrentTotalWins;
-        savedData.numberTotalWins = NumberTotalWins;
+        NumberTotalWins += NumberCurrentWins;//NumberCurrentTotalWins;
+        SaveCurrentWins(0);
+        savedData.NumberTotalWins = NumberTotalWins;
         storage.Save(savedData);
     }
     public void SaveRemainingTimeBeforeWarning(int value)
     {
         RemainingTimeBeforeWarning = value;
-        savedData.remainingTimeBeforeWarning = RemainingTimeBeforeWarning;
+        savedData.RemainingTimeBeforeWarning = RemainingTimeBeforeWarning;
         storage.Save(savedData);
     }
     public void SaveSecondChance(int chance )
     {
         NumberChance = chance;
-        savedData.numberChance = NumberChance;
+        savedData.NumberChance = NumberChance;
         storage.Save(savedData);
     }
     public void SaveGoldenAchievement(string achievement)
     {
         GoldenAchievements = achievement;
-        savedData.goldenAchievements = GoldenAchievements;
+        savedData.GoldenAchievements = GoldenAchievements;
         storage.Save(savedData);
     }
     public void SaveSilverAchievement(string achievement)
     {
         SilverAchievements = achievement;
-        savedData.silverAchievements = SilverAchievements;
+        savedData.SilverAchievements = SilverAchievements;
         storage.Save(savedData);
     }
 }

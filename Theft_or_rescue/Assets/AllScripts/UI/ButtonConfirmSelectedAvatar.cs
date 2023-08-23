@@ -25,7 +25,7 @@ public class ButtonConfirmSelectedAvatar : AbstractButton, IPointerDownHandler
     }
     private void ConfirmSelectedAvatar()
     {
-        mainManager.allDataSave.ConfirmSelectedNumberAvatar(_numberSelectedAvatar);
+        mainManager.allDataSave.SaveSelectedNumberAvatar(_numberSelectedAvatar);
         _button.interactable = false;
     }
 
@@ -35,7 +35,7 @@ public class ButtonConfirmSelectedAvatar : AbstractButton, IPointerDownHandler
         {
             mainManager.options.ClickAudio();
             ConfirmSelectedAvatar();
-            base.OpenNewPanel();
+            OpenNewPanel();
         }
     }
 }

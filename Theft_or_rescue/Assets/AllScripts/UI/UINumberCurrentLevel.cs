@@ -13,6 +13,6 @@ public class UINumberCurrentLevel : MonoBehaviour
         if (_text == null)
             _text = GetComponent<Text>();
 
-        _text.text = _allDataSave.NumberCompletedGames.ToString();
+        _text.text = _allDataSave.NumberTotalWins/*NumberCompletedGames*/.ToString();
     }
 }

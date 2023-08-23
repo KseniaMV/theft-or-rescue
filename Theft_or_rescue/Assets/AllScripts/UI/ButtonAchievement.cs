@@ -1,82 +1,146 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using DG.Tweening;
 
 [RequireComponent(typeof(Button))]
 public class ButtonAchievement : AbstractButton, IPointerDownHandler
 {
     [Header("Button Data")]
-    public Button button;
-    public TypeAchievement type;
-    public string puplicKeyForTranslate;//текущий общий
-    public Sprite publicSpriteAchievement;
-
-    [SerializeField] private Sprite _currentAchievementSprite;
-    [SerializeField] private Sprite _closedSpriteAchievement;
+    [SerializeField] private Button button;
+    [SerializeField] private TypeAchievement _type;
     [SerializeField] private AchievementPanels _openPanel;
-    [SerializeField] private Image _imageAchievement;
-    //[SerializeField] private Image _imageOpenedAchievement;
-    
-    private string closedKeyForTranslate;
-    private bool _achievementClosed;
+    [SerializeField] private Sprite _spriteClosedMedal;
+    [SerializeField] private Sprite _spriteOpenedMedal;
+    [SerializeField] private Image _imageMedal;
+    [SerializeField] private Text _textName;
+    [SerializeField] private RectTransform _rectImage;
+    [SerializeField] private float _time;
+    [SerializeField] private InfoAchievement _infoAchievement;
+
+    private Vector2 _startPos;
+    private float _endPos;
+    private bool _isShining;
+    private int _numberOpenedAchievement;
+
     private void Awake()
     {
         if (button == null)
             button = GetComponent<Button>();
 
-        closedKeyForTranslate = puplicKeyForTranslate;
-        publicSpriteAchievement = _currentAchievementSprite;
+        if (_rectImage == null)
+            _rectImage = transform.Find("Image Glow").GetComponent<RectTransform>();
 
-        if (_imageAchievement == null)
-            _imageAchievement = GetComponent<Image>();
+        if (_imageMedal == null)
+            _imageMedal = transform.Find("Image medal").GetComponent<Image>();
 
-        _imageAchievement.sprite = publicSpriteAchievement;
+        if (_textName == null)
+            _textName = transform.Find("Text name").GetComponent<Text>();
 
-        //if (_imageOpenedAchievement == null)
-        //    _imageOpenedAchievement = GetComponentInChildren<Image>();
+        _startPos = _rectImage.transform.localPosition;
+        _endPos = -_startPos.x;
+        _rectImage.gameObject.SetActive(false);
     }
-    /// <summary>
-    /// для выбора типа панели, если true, то малый тип
-    /// </summary>
-    /// <param name="isClosed"></param>
-    public void AchievementClosed(bool isClosed)
+    private void OnEnable()
     {
-        _achievementClosed = isClosed;
+        if (_isShining)
+            Shining(true);
     }
-    /// <summary>
-    /// публичный спрайт = закрытому
-    /// </summary>
-    public void GetClosedAchievementSprite()
+    private void OnDisable()
     {
-        publicSpriteAchievement = _closedSpriteAchievement;
-        _imageAchievement.sprite = publicSpriteAchievement;
-    }
-    /// <summary>
-    ///  публичный спрайт = изначальному
-    /// </summary>
-    public void GetCurrentAchievementSprite()
-    {
-        publicSpriteAchievement = _currentAchievementSprite;
-        _imageAchievement.sprite = publicSpriteAchievement;
-    }
-    /// <summary>
-    /// публичный ключ = изначальному
-    /// </summary>
-    public void GetCurrentKeyAChievement()
-    {
-        puplicKeyForTranslate = closedKeyForTranslate;
+        if (!_isShining)
+            Shining(false);
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        AchievementPanels achievementPanels;
+        mainManager.achievementsManager.OpenPanel(_openPanel, true);
 
-        if (_achievementClosed)
-            achievementPanels = AchievementPanels.LittlePanel;
+        if (_numberOpenedAchievement >= 0)
+        {
+            _isShining = false;
+            Shining(false);
+            mainManager.achievementsManager.TranslateTextPanel(_infoAchievement.KeyForTranslate);
+
+            AcceptAchievement();
+        }
         else
-            achievementPanels = _openPanel;
+        {
+            UpdateUIAchievement('0');
+            mainManager.achievementsManager.TranslateTextPanel(null);
+        }
+    }
 
-        mainManager.achievementsManager.OpenPanel(true, achievementPanels);
-        mainManager.achievementsManager.descriptionAchevment.UpdateText(achievementPanels, puplicKeyForTranslate);
-        base.OpenNewPanel();
+    public void Shining(bool play)
+    {
+        if (play)
+        {
+            _isShining = true;
+            _rectImage.gameObject.SetActive(true);
+            _rectImage.transform.localPosition = _startPos;
+            _rectImage.DOAnchorPosX(_endPos, _time, true);
+
+            DOVirtual.DelayedCall(_time, () =>
+             {
+                 _rectImage.DOAnchorPosX(_startPos.x, _time, true);
+             });
+            DOVirtual.DelayedCall(_time * 2, () =>
+            {
+                Shining(true);
+            });
+        }
+        else if (!_isShining && !play)
+        {
+            DOTween.Kill(gameObject);
+            _rectImage.gameObject.SetActive(false);
+            _rectImage.transform.localPosition = _startPos;
+        }
+    }
+    public void UpdateUIAchievement(char type)
+    {
+        switch (type)
+        {
+            case '0':
+                _textName.text = "**********";
+                _imageMedal.sprite = _spriteClosedMedal;
+                break;
+
+            case '1':
+                Shining(true);
+                _textName.text = "**********";
+                _imageMedal.sprite = _spriteOpenedMedal;
+                break;
+
+            case '2':
+                _textName.text = transform.name;
+                _imageMedal.sprite = _spriteOpenedMedal;
+                break;
+
+            default:
+                break;
+        }
+    }
+    private void AcceptAchievement()
+    {
+        if (_type == TypeAchievement.Gold)
+        {
+            string golden = mainManager.allDataSave.GoldenAchievements;
+            golden = golden.Remove(_numberOpenedAchievement, 1).Insert(_numberOpenedAchievement, "2");
+
+            mainManager.allDataSave.SaveGoldenAchievement(golden);
+        }
+        else if (_type == TypeAchievement.Silver)
+        {
+            string silver = mainManager.allDataSave.SilverAchievements;
+            silver = silver.Remove(_numberOpenedAchievement, 1).Insert(_numberOpenedAchievement, "2");
+
+            mainManager.allDataSave.SaveSilverAchievement(silver);
+        }
+
+        UpdateUIAchievement('2');
+    }
+
+    public void NumberOpenedAchievement(int number)
+    {
+        _numberOpenedAchievement = number;
     }
 }
