@@ -151,6 +151,50 @@
     {
       "key": "SelectLanguage",
       "value": "Выберите язык"
+    },
+    {
+      "key": "NameGold_0",
+      "value": "---"
+    },
+    {
+      "key": "NameGold_1",
+      "value": "Два это не один!"
+    },
+    {
+      "key": "NameGold_2",
+      "value": "Бог любит троицу"
+    },
+    {
+      "key": "NameGold_3",
+      "value": "Так себе…"
+    },
+    {
+      "key": "NameGold_4",
+      "value": "Выберите язык"
+    },
+    {
+      "key": "NameGold_5",
+      "value": "Посредственное"
+    },
+    {
+      "key": "NameGold_6",
+      "value": "Фу!"
+    },
+    {
+      "key": "NameGold_7",
+      "value": "Везунчик???"
+    },
+    {
+      "key": "NameGold_8",
+      "value": "Может кусочек тортика?"
+    },
+    {
+      "key": "NameGold_9",
+      "value": "Олимп близко…"
+    },
+    {
+      "key": "NameGold_10",
+      "value": "Неужели???"
     }
   ]
 }

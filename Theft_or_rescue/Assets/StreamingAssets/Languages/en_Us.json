@@ -46,7 +46,7 @@
     },
     {
       "key": "NoAchievemets",
-      "value": "Achievement closed!" 
+      "value": "Achievement closed!"
     },
     {
       "key": "Gold_0",
@@ -151,6 +151,50 @@
     {
       "key": "SelectLanguage",
       "value": "Select a language"
+    },
+    {
+      "key": "NameGold_0",
+      "value": "---"
+    },
+    {
+      "key": "NameGold_1",
+      "value": "Accidents are not accidental"
+    },
+    {
+      "key": "NameGold_2",
+      "value": "Two is not one!"
+    },
+    {
+      "key": "NameGold_3",
+      "value": "Okay, third time's a charm"
+    },
+    {
+      "key": "NameGold_4",
+      "value": "So-so…"
+    },
+    {
+      "key": "NameGold_5",
+      "value": "Mediocrity"
+    },
+    {
+      "key": "NameGold_6",
+      "value": "Ugh!"
+    },
+    {
+      "key": "NameGold_7",
+      "value": "Are you lucky???"
+    },
+    {
+      "key": "NameGold_8",
+      "value": "Just a piece of cake"
+    },
+    {
+      "key": "NameGold_9",
+      "value": "Olympus is close..."
+    },
+    {
+      "key": "NameGold_10",
+      "value": "REALLY?!?"
     }
   ]
 }
