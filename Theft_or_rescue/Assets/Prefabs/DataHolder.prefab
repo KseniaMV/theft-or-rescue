@@ -417,8 +417,10 @@ MonoBehaviour:
   NumberBackground: 0
   NumberAnswer: 0
   RemainingNumberAttempts: 0
-  LastAchievement: 
+  LastCurrentAchievement: 
+  NameTotalLastAchievement: 
   NumberCompletedGames: 0
+  IsOutOfGame: 0
 --- !u!1 &6346974514438765894
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,6 +551,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ffa4eeaf1869824abfd5d6a377630ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _panels: []
+  _panels:
+  - {fileID: 0}
+  - {fileID: 0}
   _mainManager: {fileID: 6346974513419941706}
-  descriptionAchevment: {fileID: 0}
+  type: 0

@@ -154,7 +154,7 @@
     },
     {
       "key": "NameGold_0",
-      "value": "---"
+      "value": "Вау…"
     },
     {
       "key": "NameGold_1",
@@ -195,6 +195,58 @@
     {
       "key": "NameGold_10",
       "value": "Неужели???"
+    },
+    {
+      "key": "NameSilver_0",
+      "value": "Все или ничего!"
+    },
+    {
+      "key": "NameSilver_1",
+      "value": "Помощь нужна?"
+    },
+    {
+      "key": "NameSilver_2",
+      "value": "Попытка номер…?"
+    },
+    {
+      "key": "NameSilver_3",
+      "value": "Нажми на кнопку!"
+    },
+    {
+      "key": "NameSilver_4",
+      "value": "Под другим углом"
+    },
+    {
+      "key": "NameSilver_5",
+      "value": "Какая умница!"
+    },
+    {
+      "key": "NameSilver_6",
+      "value": "Великий труд!"
+    },
+    {
+      "key": "NameSilver_7",
+      "value": "Да, но нет…"
+    },
+    {
+      "key": "NameSilver_8",
+      "value": "Это стоит того!"
+    },
+    {
+      "key": "NameSilver_9",
+      "value": "Мы не считали…"
+    },
+    {
+      "key": "NameSilver_10",
+      "value": "Наконец-то!!!"
+    },
+    {
+      "key": "GoldenAchievements",
+      "value": "Золотые достижения"
+    },
+    {
+      "key": "SilverAchievements",
+      "value": "Серебрянные достижения"
     }
   ]
 }

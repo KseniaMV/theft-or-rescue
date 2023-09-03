@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fcaee0ba27220e4895b0fec983fd749, type: 3}
   m_Name: SilverAchievement_4
   m_EditorClassIdentifier: 
-  _keyForTranslate: Silver_4
+  _keyForTranslateDescription: Silver_4
   _sprite: {fileID: -776223673, guid: 4e9f5b0eb65107445bbd660abce803e4, type: 3}

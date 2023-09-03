@@ -74,7 +74,10 @@ public class LocalizationManager : MonoBehaviour
 
             CurrentLanguage = langName;
 
-            ChangeLangTextEvent?.Invoke();
+            if (langName != null)
+                ChangeLangTextEvent?.Invoke();
+            else
+                Debug.Log($"ключ для перевода отсутствует на {transform.parent.gameObject.name}");
         }
         else
         {

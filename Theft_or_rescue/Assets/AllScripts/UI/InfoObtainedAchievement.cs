@@ -51,7 +51,7 @@ public class InfoObtainedAchievement : MonoBehaviour// окно продолжить/нет в игр
 
             _textValueLevel.text = $"{_allDataSave.NumberCompletedGames + 1}";
 
-            localText.key = achievement.KeyForTranslate;
+            localText.key = achievement.KeyForTranslateDescription;
             _imageAchievement.sprite = achievement.Sprite;
         }
         else

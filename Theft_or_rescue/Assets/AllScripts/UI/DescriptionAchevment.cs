@@ -3,11 +3,11 @@ using UnityEngine.UI;
 
 public class DescriptionAchevment : MonoBehaviour
 {
-    [SerializeField] private LocalizedText _localizedTextLittlePanel;
-    [SerializeField] private LocalizedText _localizedTextBigPanel;
+    [SerializeField] private LocalizedText _localizedTextSilverPanel;
+    [SerializeField] private LocalizedText _localizedTextGoldenPanel;
 
-    [SerializeField] private Text _textLittlePanel;
-    [SerializeField] private Text _textBigPanel;
+    [SerializeField] private Text _texSilverPanel;
+    [SerializeField] private Text _textGoldenPanel;
 
     [SerializeField] private ButtonAchievement[] _goldButtons;
     [SerializeField] private ButtonAchievement[] _silverButtons;
@@ -18,21 +18,21 @@ public class DescriptionAchevment : MonoBehaviour
 
     private void Awake()
     {
-        if (_localizedTextLittlePanel == null)
-            _localizedTextLittlePanel = transform.Find("Litle Modal Panel").GetComponentInChildren<LocalizedText>();
+        if (_localizedTextSilverPanel == null)
+            _localizedTextSilverPanel = transform.Find("Silver Modal Panel").GetComponentInChildren<LocalizedText>();
 
-        if (_localizedTextBigPanel == null)
-            _localizedTextBigPanel = transform.Find("Big Modal Panel").GetComponentInChildren<LocalizedText>();
+        if (_localizedTextGoldenPanel == null)
+            _localizedTextGoldenPanel = transform.Find("Golden Modal Panel").GetComponentInChildren<LocalizedText>();
         
-        if (_textLittlePanel == null)
-            _textLittlePanel = transform.Find("Litle Modal Panel").GetComponentInChildren<Text>();
+        if (_texSilverPanel == null)
+            _texSilverPanel = transform.Find("Silver Modal Panel").GetComponentInChildren<Text>();
 
-        if (_textBigPanel == null)
-            _textBigPanel = transform.Find("Big Modal Panel").GetComponentInChildren<Text>();
+        if (_textGoldenPanel == null)
+            _textGoldenPanel = transform.Find("Golden Modal Panel").GetComponentInChildren<Text>();
     }
     private void Start()
     {
-        Invoke("CheckOpenedAchievements", .1f);
+        Invoke("CheckOpenedAchievements", .05f);
     }
     private void OnEnable()
     {
@@ -82,17 +82,17 @@ public class DescriptionAchevment : MonoBehaviour
     }
     public void UpdateText(AchievementPanels typePanel, string key)
     {
-        if (typePanel == AchievementPanels.LittlePanel)
+        if (typePanel == AchievementPanels.SilverPanel)
         {
-            _localizedTextLittlePanel.key = key;
-            _localizedTextLittlePanel.UpdateText();
-            _textLittlePanel = _localizedTextLittlePanel.localizedText;
+            _localizedTextSilverPanel.key = key;
+            _localizedTextSilverPanel.UpdateText();
+            _texSilverPanel = _localizedTextSilverPanel.localizedText;
         }
-        else if (typePanel == AchievementPanels.BigPanel)
+        else if (typePanel == AchievementPanels.GoldenPanel)
         {
-            _localizedTextBigPanel.key = key;
-            _localizedTextBigPanel.UpdateText();
-            _textBigPanel = _localizedTextBigPanel.localizedText;
+            _localizedTextGoldenPanel.key = key;
+            _localizedTextGoldenPanel.UpdateText();
+            _textGoldenPanel = _localizedTextGoldenPanel.localizedText;
         }
     }
 }
