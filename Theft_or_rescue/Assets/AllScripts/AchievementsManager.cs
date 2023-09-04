@@ -1,7 +1,6 @@
 using UnityEngine;
-
 public enum TypeAchievement { Null, Gold, Silver }
-public enum AchievementPanels { LittlePanel, BigPanel}
+public enum AchievementPanels { SilverPanel, GoldenPanel}
 public class AchievementsManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] _panels;
@@ -21,6 +20,7 @@ public class AchievementsManager : MonoBehaviour
         if (_panels != null)
         {
             _selectedPanel = _panels[(int)panel];
+
             _selectedPanel.SetActive(true);
 
             if (isOverOthers)
@@ -35,11 +35,10 @@ public class AchievementsManager : MonoBehaviour
         _localText = _selectedPanel.GetComponentInChildren<LocalizedText>();
 
         if (key != null)
+        {
             _localText.key = key;
-        else
-            _localText.key = "NoAchievemets";
-
-        _localText.UpdateText();
+            _localText.UpdateText();
+        } 
     }
     private void Start()
     {

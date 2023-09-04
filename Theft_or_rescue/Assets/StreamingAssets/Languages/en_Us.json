@@ -154,7 +154,7 @@
     },
     {
       "key": "NameGold_0",
-      "value": "---"
+      "value": "Wow…"
     },
     {
       "key": "NameGold_1",
@@ -195,6 +195,58 @@
     {
       "key": "NameGold_10",
       "value": "REALLY?!?"
+    },
+    {
+      "key": "NameSilver_0",
+      "value": "All or nothing!"
+    },
+    {
+      "key": "NameSilver_1",
+      "value": "Need some help?"
+    },
+    {
+      "key": "NameSilver_2",
+      "value": "It’s not ok…"
+    },
+    {
+      "key": "NameSilver_3",
+      "value": "Push the button!"
+    },
+    {
+      "key": "NameSilver_4",
+      "value": "From a different angle"
+    },
+    {
+      "key": "NameSilver_5",
+      "value": "Such a smart cookie!"
+    },
+    {
+      "key": "NameSilver_6",
+      "value": "Great work!"
+    },
+    {
+      "key": "NameSilver_7",
+      "value": "Yes, but no…"
+    },
+    {
+      "key": "NameSilver_8",
+      "value": "It's worth it!"
+    },
+    {
+      "key": "NameSilver_9",
+      "value": "We didn’t count on.."
+    },
+    {
+      "key": "NameSilver_10",
+      "value": "Finally!!!"
+    },
+    {
+      "key": "GoldenAchievements",
+      "value": "Golden achievements"
+    },
+    {
+      "key": "SilverAchievements",
+      "value": "Silver achievements"
     }
   ]
 }

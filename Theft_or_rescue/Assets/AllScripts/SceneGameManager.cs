@@ -233,7 +233,11 @@ public class SceneGameManager : MonoBehaviour
         Coroutines.StopRoutine(_timerToLose);
         _mainManager.panels[(int)PanelsGameScene.WarningPanel].SetActive(false);
     }
-    private void SelectAction(bool value)//срабатывает ивентом при выборе действия
+    /// <summary>
+    /// срабатывает ивентом при выборе действия
+    /// </summary>
+    /// <param name="value"></param>
+    private void SelectAction(bool value)
     {
         if (_canNextAnswer)
         {
@@ -266,12 +270,20 @@ public class SceneGameManager : MonoBehaviour
         _mainManager.panels[(int)PanelsGameScene.CharacterPanel].SetActive(false);
         _mainManager.panels[(int)PanelsGameScene.LosePanel].SetActive(true);
     }
+    /// <summary>
+    /// даёт 2 шанс при повторе игры
+    /// </summary>
     public void AddChance()
     {
         NumberChance = 2;
+        NumCurrentWins = 0;
+        _mainManager.allDataSave.SaveCurrentWins(0);
         _mainManager.allDataSave.SaveSecondChance(NumberChance);
     }
-    private void CorrectAnswer()//при верном ответе
+    /// <summary>
+    /// при верном ответе
+    /// </summary>
+    private void CorrectAnswer()
     {
         _timerNextAnswer = Coroutines.StartRoutine((DelayNextAnswer(true)));
         AddCurrentWin();
@@ -282,7 +294,10 @@ public class SceneGameManager : MonoBehaviour
         _mainManager.eventManager.ButtonActionPressedEvent -= SelectAction;
         _mainManager.eventManager.ChangeOpeningAcharacterHolderEvent -= ChangeZPostionCharacter;
     }
-    private void OnApplicationQuit()//сохранение данных при отключении
+    /// <summary>
+    /// сохранение данных при отключении
+    /// </summary>
+    private void OnApplicationQuit()
     {
         SaveData();
     }

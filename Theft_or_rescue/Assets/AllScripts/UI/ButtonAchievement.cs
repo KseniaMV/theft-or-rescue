@@ -1,10 +1,11 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Collections;
 
 [RequireComponent(typeof(Button))]
-public class ButtonAchievement : AbstractButton, IPointerDownHandler
+[RequireComponent(typeof(BoxCollider2D))]
+public class ButtonAchievement : AbstractButton
 {
     [Header("Button Data")]
     [SerializeField] private Button button;
@@ -22,6 +23,8 @@ public class ButtonAchievement : AbstractButton, IPointerDownHandler
     private float _endPos;
     private bool _isShining;
     private int _numberOpenedAchievement;
+    private bool _buttonIsPressed;
+    private Tweener _tweener;
 
     private void Awake()
     {
@@ -51,23 +54,47 @@ public class ButtonAchievement : AbstractButton, IPointerDownHandler
         if (!_isShining)
             Shining(false);
     }
-    public void OnPointerDown(PointerEventData eventData)
+    private void OnMouseDown()
     {
-        mainManager.achievementsManager.OpenPanel(_openPanel, true);
+        _buttonIsPressed = true;
 
+        StartCoroutine(TapTimer());
+    }
+    private void OnMouseUp()
+    {
+        _buttonIsPressed = false;
+    }
+    private IEnumerator TapTimer()
+    {
+        float timer = 0;
+
+        while (_buttonIsPressed)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        if (!_buttonIsPressed)
+        {
+            if (timer < .1f)
+                OnPressButton();
+
+            StopCoroutine(TapTimer());
+        }
+    }
+    private void OnPressButton()
+    {
         if (_numberOpenedAchievement >= 0)
         {
+            mainManager.achievementsManager.OpenPanel(_openPanel, true);
             _isShining = false;
             Shining(false);
-            mainManager.achievementsManager.TranslateTextPanel(_infoAchievement.KeyForTranslate);
+            mainManager.achievementsManager.TranslateTextPanel(_infoAchievement.KeyForTranslateDescription);
 
             AcceptAchievement();
         }
         else
-        {
             UpdateUIAchievement('0');
-            mainManager.achievementsManager.TranslateTextPanel(null);
-        }
     }
 
     public void Shining(bool play)
@@ -77,16 +104,23 @@ public class ButtonAchievement : AbstractButton, IPointerDownHandler
             _isShining = true;
             _rectImage.gameObject.SetActive(true);
             _rectImage.transform.localPosition = _startPos;
-            _rectImage.DOAnchorPosX(_endPos, _time, true);
+            _tweener = _rectImage.DOAnchorPosX(_endPos, _time, true);
 
             DOVirtual.DelayedCall(_time, () =>
-             {
-                 _rectImage.DOAnchorPosX(_startPos.x, _time, true);
-             });
+            {
+                if (_tweener != null)
+                    _tweener = _rectImage.DOAnchorPosX(_startPos.x, _time, true);
+                else
+                    DOTween.Kill(_tweener);
+            });
             DOVirtual.DelayedCall(_time * 2, () =>
             {
-                Shining(true);
+                if (_tweener != null)
+                    Shining(true);
+                else
+                    DOTween.Kill(_tweener);
             });
+            
         }
         else if (!_isShining && !play)
         {
